@@ -23,7 +23,7 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     }
     public override void OnJoinedRoom()
     {
-        PhotonNetwork.LoadLevel("Arnav_NetworkTest");
+        PhotonNetwork.LoadLevel("Arnav_CameraTest");
     }
     // Update is called once per frame
     void Update()
