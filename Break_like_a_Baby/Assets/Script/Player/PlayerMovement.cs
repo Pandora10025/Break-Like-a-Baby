@@ -4,89 +4,47 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     Rigidbody rb;
-    [SerializeField] public int mode = 0;
-    [SerializeField] public Vector3 w;   
-    Vector3 startPos;
+    [SerializeField] public float moveSpeed = 5f;
+    [SerializeField] public float rotationSpeed = 10f;
+    [SerializeField] private Vector3 moveDirection;
     private void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        w = new Vector3(5f, 5f, 5f);
-        startPos = this.transform.position;
     }
     private void Update()
     {
-        if (mode == 0)
-        {
-            if (Input.GetKey(KeyCode.D))
-            {
-                transform.position = new Vector3(transform.position.x + 0.1f, transform.position.y, transform.position.z);
-            }
-            if (Input.GetKey(KeyCode.A))
-            {
-                transform.position = new Vector3(transform.position.x - 0.1f, transform.position.y, transform.position.z);
-            }
-            if (Input.GetKey(KeyCode.W))
-            {
-                transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 0.1f);
-            }
-            if (Input.GetKey(KeyCode.S))
-            {
-                transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.1f);
-            }
-        }
-        if(mode == 1)
-        {
-            if (Input.GetKey(KeyCode.W))
-            {
-                rb.AddForce(w, ForceMode.Acceleration);
-                Debug.Log("accel");
-            }
-        }
-        if(mode == 2)
-        {
-            if (Input.GetKey(KeyCode.W))
-            {
-                rb.AddForce(w, ForceMode.Impulse);
-                Debug.Log("impulse");
-            }
-        }
-        if(mode == 3)
-        {
-            if (Input.GetKey(KeyCode.W))
-            {
-                rb.AddForce(w, ForceMode.Force);
-                Debug.Log("force");
-            }
-        }
-        if(mode == 4)
-        {
-            if (Input.GetKey(KeyCode.W))
-            {
-                rb.AddForce(w, ForceMode.VelocityChange);
-                Debug.Log("veloc");
-            }
-        }
-        if(mode == 5)
-        {
-            if (Input.GetKey(KeyCode.W))
-            {
-                rb.AddForce(transform.forward * 5.0f);
-                Debug.Log("forward");
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            rb.linearVelocity = new Vector3(0, 0, 0);
-            transform.position = startPos;
-        }
+        float moveX = Input.GetAxisRaw("Horizontal");
+        float moveZ = Input.GetAxisRaw("Vertical");
+        moveDirection = new Vector3(moveX, 0, moveZ).normalized;
 
+        // Rotate to face movement direction
+        if (moveDirection != Vector3.zero)
+        {
+            Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, Time.deltaTime * rotationSpeed);
+        }
     }
 
-    private void Physics_ContactEvent()
+    void FixedUpdate()
+        {
+            // Move the baby
+            rb.linearVelocity = moveDirection * moveSpeed + new Vector3(0, rb.linearVelocity.y, 0);
+        }
+
+    private void OnCollisionEnter(Collision collision)
     {
-
+        Debug.Log("Initial: " + collision.gameObject.name);
     }
 
-    
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "Breakable" && Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("pressed space");
+            other.gameObject.GetComponent<BreakableObject>().takeDamage();
+
+        }
+    }
+
 
 }
