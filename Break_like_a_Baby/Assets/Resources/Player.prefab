@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 9165534376823823889}
   - component: {fileID: 3076814208553451868}
   - component: {fileID: 9172181088915061876}
-  - component: {fileID: 5712225643960710506}
   - component: {fileID: 3912390581411081507}
+  - component: {fileID: -2515995776581241726}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -134,7 +134,6 @@ MonoBehaviour:
   moveSpeed: 20
   rotationSpeed: 10
   view: {fileID: 0}
-  camera: {fileID: 0}
 --- !u!114 &9172181088915061876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,45 +151,12 @@ MonoBehaviour:
   prefixField: -1
   Synchronization: 3
   OwnershipTransfer: 1
-  observableSearch: 2
+  observableSearch: 1
   ObservedComponents:
-  - {fileID: 5712225643960710506}
+  - {fileID: -2515995776581241726}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &5712225643960710506
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2707442557391572037}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8efc6b1d64977384eb3405357896c656, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_PositionModel:
-    SynchronizeEnabled: 1
-    TeleportEnabled: 1
-    TeleportIfDistanceGreaterThan: 3
-    InterpolateOption: 2
-    InterpolateMoveTowardsSpeed: 1
-    InterpolateLerpSpeed: 1
-    ExtrapolateOption: 0
-    ExtrapolateSpeed: 1
-    ExtrapolateIncludingRoundTripTime: 1
-    ExtrapolateNumberOfStoredPositions: 1
-  m_RotationModel:
-    SynchronizeEnabled: 1
-    InterpolateOption: 1
-    InterpolateRotateTowardsSpeed: 180
-    InterpolateLerpSpeed: 5
-  m_ScaleModel:
-    SynchronizeEnabled: 0
-    InterpolateOption: 0
-    InterpolateMoveTowardsSpeed: 1
-    InterpolateLerpSpeed: 0
 --- !u!65 &3912390581411081507
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -212,6 +178,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.547882, y: 5.729065, z: 7.6831055}
   m_Center: {x: -0, y: 2.26, z: 0.37}
+--- !u!114 &-2515995776581241726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2707442557391572037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fd7929522eba4e5187d8becf6e0f2e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  positionLerpSpeed: 10
+  rotationLerpSpeed: 20
 --- !u!1001 &4719801871036179834
 PrefabInstance:
   m_ObjectHideFlags: 0
