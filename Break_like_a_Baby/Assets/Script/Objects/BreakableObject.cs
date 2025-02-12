@@ -5,7 +5,10 @@ using Photon.Pun;
 
 public class BreakableObject : MonoBehaviourPunCallbacks
 {
+    [SerializeField] public UnityEngine.UI.Slider slider;
     [SerializeField] private int health = 10;
+    [SerializeField] public Material mat1, mat2;
+    private Transform startPos;
     private MeshRenderer meshRenderer;
     private Collider objectCollider;
 
@@ -13,6 +16,12 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     
     void Start()
     {
+        //instantiate sliders and stuff
+        slider = this.transform.GetChild(0).GetChild(0).GetComponent<UnityEngine.UI.Slider>();
+        slider.maxValue = health;
+        slider.value = health;
+        slider.minValue = 0;
+
         meshRenderer = GetComponent<MeshRenderer>();
         objectCollider = GetComponent<Collider>();
 
@@ -26,6 +35,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
     public void takeDamage()
     {
+
         if (true)
         {
             photonView.RPC("DamageObject", RpcTarget.AllBuffered);
@@ -45,12 +55,16 @@ public class BreakableObject : MonoBehaviourPunCallbacks
             return;
         }
 
+        slider.value = health;
         health--;
         Debug.Log("Health: " + health);
 
-        if (health <= 0)
+        if (health <= 0)//when the object is broken
         {
-            foreach(GameObject player in playersInRange)
+            //change material to "broken"
+            this.GetComponent<MeshRenderer>().material = mat2;
+
+            foreach (GameObject player in playersInRange)
             {
                 player.GetComponent<PlayerBreak>().breakableInRange(false, gameObject);
             }
