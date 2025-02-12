@@ -284,7 +284,7 @@ MonoBehaviour:
   createInput: {fileID: 1264141867}
   joinInput: {fileID: 624997726}
   statusText: {fileID: 327764889}
-  roomJoin: Arnav_CameraTest
+  roomJoin: Arnav_ObjectsTest
 --- !u!4 &55021222
 Transform:
   m_ObjectHideFlags: 0

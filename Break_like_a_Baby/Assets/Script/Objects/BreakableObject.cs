@@ -10,15 +10,17 @@ public class BreakableObject : MonoBehaviour
 
     void Update()
     {
-        if(health <= 0)
-        {
-            Destroy(this.gameObject);
-        }
+       
     }
 
     public void takeDamage()
     {
         health--;
         Debug.Log(health);
+
+        if (health <= 0)
+        {
+            Destroy(this.gameObject);
+        }
     }
 }
