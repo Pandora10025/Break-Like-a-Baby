@@ -11,15 +11,17 @@ public class PlayerController : MonoBehaviourPun
 
     public PhotonView view;
 
-    public GameObject camera;
+    //public GameObject camera;
 
     void Start()
     {
+        PhotonNetwork.SendRate = 100;          // Default is 50, lower reduces network lag
+        PhotonNetwork.SerializationRate = 100;
         rb = GetComponent<Rigidbody>();
         view = GetComponent<PhotonView>();
         if (!view.IsMine)
         {
-            camera.SetActive(false);
+            //camera.SetActive(false);
 
         }
         // Only allow control for the local player
@@ -49,4 +51,6 @@ public class PlayerController : MonoBehaviourPun
         // Move the baby
         rb.linearVelocity = moveDirection * moveSpeed + new Vector3(0, rb.linearVelocity.y, 0);
     }
+
+
 }
