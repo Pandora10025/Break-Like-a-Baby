@@ -8,6 +8,7 @@ Shader "Custom/URPToon"
         _shadingBands ("ShadingBandsNumber", int) = 3
         _GradientSize ("GradientSize", Range(0,1)) = 0.5
         _TestingOffset("Testing Offset", float) = 0
+        _ShadowSmoothingSize("ShadowSmoothness", float) = 0
     }
 
     SubShader
@@ -44,10 +45,13 @@ Shader "Custom/URPToon"
                 float2 uv: TEXCOORD0;
                 float3 normal : TEXCOORD1;
                 float4 shadowCoords : TEXCOORD2;
+                float shadowDarkness : TEXCOORD3;
+                float3 positionWS : TEXCOORD4;
+
             };
 
             TEXTURE2D(_BaseMap);
-            SAMPLER(sampler_BaseMap);
+            SAMPLER(sampler_BaseMap); 
 
             CBUFFER_START(UnityPerMaterial)
             float4 _Color;
@@ -56,7 +60,140 @@ Shader "Custom/URPToon"
             int _shadingBands;
             float _GradientSize;
             float _TestingOffset;
+            float _ShadowSmoothingSize;
             CBUFFER_END
+
+            float3x3 boxBlurKernel = float3x3 (
+                    // box
+                    0.11, 0.11, 0.11,
+                    0.11, 0.11, 0.11,
+                    0.11, 0.11, 0.11
+                );
+
+            float3x3 gaussianBlurKernel = float3x3 (
+                // gaussian
+                0.0625, 0.125, 0.0625,
+                0.1250, 0.250, 0.1250,
+                0.0625, 0.125, 0.0625
+            );
+
+
+            float shadowConvolution(float3 positionWS, float3 normalWS, float3x3 kernel){
+                    int steps = 1;
+
+                    float3 camPos = GetCameraPositionWS();
+
+                    float3 viewdirection = normalize(camPos - positionWS);
+
+                    //Real quick, we need to get the tangent and bitangent that we want to move along, to sample the shadow coords.
+
+                    float3 bitangentVector = cross( normalWS, viewdirection);
+                    float3 tangentVector = cross( normalWS, bitangentVector);
+                    
+
+                   
+
+                    //Down here we attempt convolution, but with shadows!
+
+                    //float2 ts = _MainTex_TexelSize.xy;
+                    float result = 0;
+                
+                    // for(int x = -1; x <= 1; x++) {
+                    //     for(int y = -1; y <= 1; y++) {
+                    //         //float2 offset = float2(x, y) * ts;
+
+                    //         float3 offsetPos = x*tangentVector*_ShadowSmoothingSize + y*bitangentVector * _ShadowSmoothingSize;
+
+                    //         //float3 sample = tex2D(_MainTex, uv + offset);
+                    //         float sample = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS  )); //tex2D(_MainTex, uv + offset);
+                    //         //result += sample * kernel[x+1][y+1];
+                    //         result += sample * kernel[x+1][y+1];
+                    //     }
+                    // }
+
+                    float p1 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(-1 *tangentVector + 1 * bitangentVector) * _ShadowSmoothingSize ) );
+                    float p2 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(0 *tangentVector + 1 * bitangentVector) * _ShadowSmoothingSize  ));
+                    float p3 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(1 *tangentVector + 1 * bitangentVector) * _ShadowSmoothingSize ) );
+                    float p4 =  MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(-1 *tangentVector + 0 * bitangentVector) * _ShadowSmoothingSize ) );
+                    float p5 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS));
+                    float p6 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(1 *tangentVector + 0 * bitangentVector) * _ShadowSmoothingSize ) );
+                    float p7 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(-1 *tangentVector + -1 * bitangentVector) * _ShadowSmoothingSize ) );
+                    float p8 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(0 *tangentVector + -1 * bitangentVector) * _ShadowSmoothingSize  ));
+                    float p9 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(1 *tangentVector + -1 * bitangentVector) * _ShadowSmoothingSize ) );
+
+                    //result = abs( (p1+ (2*p2)+p3)-(p7+(2*p8)+p9) )+ abs( (p3+ (2*p6) +p9 )-(p1+ (2*p4) + p7) );
+                    result = (p1 + p2 + p3 + p4 + p5 + p6 + p7 + p8 + p9)/9;
+
+
+                    return result;
+            }
+
+
+            float shadowGaussianConvolution(float3 positionWS, float3 normalWS, float3x3 kernel){
+                    int steps = 1;
+
+                    float3 camPos = GetCameraPositionWS();
+
+                    Light mainLight = GetMainLight();
+
+                    float3 lightDirection = mainLight.direction;
+
+
+                    float3 viewDirection = normalize(camPos - positionWS);
+
+                    //Real quick, we need to get the tangent and bitangent that we want to move along, to sample the shadow coords.
+
+                    float3 bitangentVector = cross( normalWS, lightDirection);
+                    float3 tangentVector = cross( normalWS, bitangentVector);
+                    
+
+                   
+
+                    //Down here we attempt convolution, but with shadows!
+
+                    //float2 ts = _MainTex_TexelSize.xy;
+                    float result = 0;
+                
+                    // for(int x = -1; x <= 1; x++) {
+                    //     for(int y = -1; y <= 1; y++) {
+                    //         //float2 offset = float2(x, y) * ts;
+
+                    //         float3 offsetPos = x*tangentVector*_ShadowSmoothingSize + y*bitangentVector * _ShadowSmoothingSize;
+
+                    //         //float3 sample = tex2D(_MainTex, uv + offset);
+                    //         float sample = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS  )); //tex2D(_MainTex, uv + offset);
+                    //         //result += sample * kernel[x+1][y+1];
+                    //         result += sample * kernel[x+1][y+1];
+                    //     }
+                    // }
+
+                    
+                    
+            //         float3x3 gaussianBlurKernel = float3x3 (
+            //     // gaussian
+            //     0.0625, 0.125, 0.0625,
+            //     0.1250, 0.250, 0.1250,
+            //     0.0625, 0.125, 0.0625
+            // );
+
+
+                    float p1 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(-1 *tangentVector + 1 * bitangentVector) * _ShadowSmoothingSize ) ) * 0.0625;
+                    float p2 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(0 *tangentVector + 1 * bitangentVector) * _ShadowSmoothingSize  )) * 0.1250;
+                    float p3 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(1 *tangentVector + 1 * bitangentVector) * _ShadowSmoothingSize ) ) * 0.0625;
+                    float p4 =  MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(-1 *tangentVector + 0 * bitangentVector) * _ShadowSmoothingSize ) ) * 0.1250 ;
+                    float p5 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS)) * 0.250;
+                    float p6 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(1 *tangentVector + 0 * bitangentVector) * _ShadowSmoothingSize ) ) * 0.1250;
+                    float p7 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(-1 *tangentVector + -1 * bitangentVector) * _ShadowSmoothingSize ) ) * 0.0625;
+                    float p8 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(0 *tangentVector + -1 * bitangentVector) * _ShadowSmoothingSize  ) ) * 0.1250;
+                    float p9 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(1 *tangentVector + -1 * bitangentVector) * _ShadowSmoothingSize ) ) * 0.0625;
+
+                    //result = abs( (p1+ (2*p2)+p3)-(p7+(2*p8)+p9) )+ abs( (p3+ (2*p6) +p9 )-(p1+ (2*p4) + p7) );
+                    result = (p1 + p2 + p3 + p4 + p5 + p6 + p7 + p8 + p9);
+
+
+                    return result;
+            }
+
 
             Varyings vert(Attributes IN)
             {
@@ -70,19 +207,22 @@ Shader "Custom/URPToon"
                 VertexPositionInputs positions = GetVertexPositionInputs(IN.positionOS.xyz);
 
                 // Convert the vertex position to a position on the shadow map
-                float4 shadowCoordinates = GetShadowCoord(positions);
+                float4 shadowCoordinates = TransformWorldToShadowCoord(positions.positionWS.xyz);
 
                 // Pass the shadow coordinates to the fragment shader
                 OUT.shadowCoords = shadowCoordinates;
 
+                
 
-
+                OUT.positionWS = positions.positionWS.xyz;
                 
                 //OUT.normal = UnityObjectToWorldNormal(IN.normal);
                 OUT.normal = normalize(mul(IN.normal.xyz, (float3x3)unity_WorldToObject));
                 //OUT.normal = mul(unity_ObjectToWorld, IN.normal) - IN.positionOS ; //UnityObjectToWorldNormal(IN.normal);
                 //OUT.normal = normalize(OUT.normal);
 
+
+                OUT.shadowDarkness = shadowConvolution(positions.positionWS.xyz, OUT.normal, gaussianBlurKernel);
 
 
                 return OUT;
@@ -113,7 +253,8 @@ Shader "Custom/URPToon"
                // float3 viewdirection = normalize(_worldspacecamerapos.xyz - in.posworld);
                 //float3 halfdirection = normalize(viewdirection + lightdirection);
 
-                half shadowAmount = MainLightRealtimeShadow(IN.shadowCoords);
+                //half shadowAmount = MainLightRealtimeShadow(IN.shadowCoords);
+                half shadowAmount = shadowGaussianConvolution( IN.positionWS, IN.normal, boxBlurKernel);
 
 
                 float ndotl = (dot(normal, lightdirection)+1)/2;
@@ -205,6 +346,7 @@ Shader "Custom/URPToon"
                 //return float4(diffusefalloff.rrr, 1);
                 //return float4(diffusefalloffOffset.rrr, 1);
                 return float4(color, 1);
+                //return float4( shadowConvolution( IN.positionWS, IN.normal, boxBlurKernel).rrr, 1);
 
             }
             ENDHLSL
@@ -238,26 +380,27 @@ Shader "Custom/URPToon"
         };
 
 
-        float4 GetShadowPositionHClip(Attributes input){
-            
-            VertexPositionInputs positions = GetVertexPositionInputs(input.positionLS);
-            VertexNormalInputs normals = GetVertexNormalInputs(input.normalLS);
+        float4 GetShadowPositionHClip(Attributes input)
+{
+    float3 positionWS = TransformObjectToWorld(input.positionLS.xyz);
+    float3 normalWS = TransformObjectToWorldDir(input.normalLS);
 
+    float invNdotL = 1.0 - saturate(dot(_LightDirection, normalWS));
+    float scale = invNdotL * _ShadowBias.y;
 
-            float4 positionCS = TransformWorldToHClip( ApplyShadowBias( positions.positionWS , normals.normalWS, _LightDirection) );
+    // normal bias is negative since we want to apply an inset normal offset
+    positionWS = _LightDirection * _ShadowBias.xxx + positionWS;
+    positionWS = normalWS * scale.xxx + positionWS;
+    float4 positionCS = TransformWorldToHClip(positionWS);
 
-            #if UNITY_REVERSED_Z
-                positionCS.z = min(positionCS.z, UNITY_NEAR_CLIP_VALUE);
-            #else
-                positionCS.z = max(positionCS.z, UNITY_NEAR_CLIP_VALUE);
-            #endif
+#if UNITY_REVERSED_Z
+    positionCS.z = min(positionCS.z, positionCS.w * UNITY_NEAR_CLIP_VALUE);
+#else
+    positionCS.z = max(positionCS.z, positionCS.w * UNITY_NEAR_CLIP_VALUE);
+#endif
 
-
-            positionCS = ApplyShadowClamping(positionCS);
-            
-            return positionCS;
-        
-        }
+    return positionCS;
+}
 
         Varyings Vertex(Attributes input){
             
