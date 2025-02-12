@@ -55,8 +55,9 @@ public class BreakableObject : MonoBehaviourPunCallbacks
             return;
         }
 
-        slider.value = health;
+       
         health--;
+        slider.value = health;
         Debug.Log("Health: " + health);
 
         if (health <= 0)//when the object is broken
@@ -69,9 +70,9 @@ public class BreakableObject : MonoBehaviourPunCallbacks
                 player.GetComponent<PlayerBreak>().breakableInRange(false, gameObject);
             }
             playersInRange.Clear();
-            meshRenderer.enabled = false;
+            //meshRenderer.enabled = false;
             objectCollider.enabled = false;
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
         }
     }
 

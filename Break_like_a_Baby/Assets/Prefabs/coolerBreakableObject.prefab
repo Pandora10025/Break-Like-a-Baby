@@ -54,10 +54,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32163ff01bd9f4744acc3559a2657f27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 0}
   health: 10
-  mat1: {fileID: 2100000, guid: 5fa38a89ee257415ebdee359e2b14b21, type: 2}
-  mat2: {fileID: 2100000, guid: 43f39e8b7a15d3b4392d0a4d7e03af20, type: 2}
 --- !u!33 &7076234194076819779
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -539,7 +536,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &7322514468625424076
 MonoBehaviour:
   m_ObjectHideFlags: 0
