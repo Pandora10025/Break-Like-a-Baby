@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: URPToon
+  m_Name: Plant
   m_Shader: {fileID: 4800000, guid: 512218cd4952983409af57059508c8a7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -115,14 +115,14 @@ Material:
     - _Glossiness: 0
     - _GlossinessSource: 0
     - _GlossyReflections: 0
-    - _GradientSize: 0.25
+    - _GradientSize: 0.5
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _SampleGI: 0
-    - _ShadowSmoothingSize: 0.03
+    - _ShadowSmoothingSize: 0.1
     - _Shininess: 0
     - _Smoothness: 0.5
     - _SmoothnessSource: 0
@@ -135,12 +135,12 @@ Material:
     - _TestingOffset: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _shadingBands: 4
+    - _shadingBands: 2
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.32819757, g: 0.6320754, b: 0.28920433, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _ShadowColor: {r: 0.42352942, g: 0.14274894, b: 0.13725494, a: 1}
+    - _ShadowColor: {r: 0.23429155, g: 0.3679245, b: 0.22387859, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
