@@ -96,7 +96,8 @@ public class PlayerControllerr   : MonoBehaviour
         //isInteracting = inputActions.Player.Interact.ReadValue<float>() > 0f; // Check if interacting
 
         // Storing previous player angle
-        previousAngle = transform.eulerAngles.z;
+        previousAngle = transform.eulerAngles.y;
+
 
         MovePlayer();
         RotatePlayerToMovementDirection();
@@ -165,7 +166,7 @@ public class PlayerControllerr   : MonoBehaviour
         }
 
         // Calculate the movement direction 
-        Vector3 targetMovement = new Vector3(-moveInput.x, 0f, -moveInput.y).normalized;
+        Vector3 targetMovement = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
 
         // If the movement input is over a threshold, similar to (if keyPressed)
         if (targetMovement.magnitude >= 0.1f)
@@ -193,8 +194,8 @@ public class PlayerControllerr   : MonoBehaviour
         if (moveInput != Vector2.zero)
         {
 
-            Vector3 direction = new Vector3(-moveInput.x, 0f, -moveInput.y).normalized;
-            currentAngle = Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg;
+            Vector3 direction = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
+            currentAngle = Mathf.Atan2(direction.z,direction.x) * Mathf.Rad2Deg;
 
             float angleDif = Mathf.Abs(Mathf.DeltaAngle(previousAngle, currentAngle));
 
@@ -210,7 +211,7 @@ public class PlayerControllerr   : MonoBehaviour
             }
             */
 
-            Quaternion targetRotation = Quaternion.Euler(new Vector3(0f, currentAngle, 0f));
+            Quaternion targetRotation = Quaternion.Euler(new Vector3(90f, 0f, currentAngle));
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
 

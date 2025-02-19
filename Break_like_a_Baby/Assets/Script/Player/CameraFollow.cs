@@ -18,6 +18,7 @@ public class CameraFollow : MonoBehaviour
     {
         FollowPlayer();
         RotateCamera();
+        
     }
 
     // Smoothly move the camera to the player's position
@@ -52,6 +53,7 @@ public class CameraFollow : MonoBehaviour
         // Get the player's forward direction 
         Vector3 playerForward = player.forward;
 
+
         // Depending on the direction the player is facing, adjust the offset
         // Example: if player is facing forward, the camera stays behind; if player faces right, the camera moves to the side
         if (Vector3.Dot(playerForward, Vector3.forward) > 0.5f)  // Player is facing forward
@@ -72,5 +74,8 @@ public class CameraFollow : MonoBehaviour
         }
 
         return offset;  // Default if none of the above directions match
+        
     }
+
+  
 }
