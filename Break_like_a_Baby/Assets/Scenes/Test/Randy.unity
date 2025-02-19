@@ -2162,13 +2162,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 287dc724bee0058439df9bdbdc9d16f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   camDist: 10
   offsetDirection: {x: 1, y: 1, z: 0}
+  followTarget: {fileID: 1420060862}
 --- !u!114 &963194231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2235,7 +2236,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5cb6b8e4d1bf7934796f5e5ab16861ce, type: 3}
   m_Name: 

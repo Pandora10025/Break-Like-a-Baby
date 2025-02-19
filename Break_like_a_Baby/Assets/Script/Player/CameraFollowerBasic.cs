@@ -9,7 +9,7 @@ public class CameraFollowerBasic : MonoBehaviour
 
     public Vector3 offsetDirection = Vector3.up;
 
-    Transform followTarget;
+   public Transform followTarget;
 
     
 
