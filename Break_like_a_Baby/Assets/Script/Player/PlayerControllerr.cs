@@ -193,7 +193,7 @@ public class PlayerControllerr   : MonoBehaviour
         if (moveInput != Vector2.zero)
         {
 
-            Vector3 direction = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
+            Vector3 direction = new Vector3(-moveInput.x, 0f, -moveInput.y).normalized;
             currentAngle = Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg;
 
             float angleDif = Mathf.Abs(Mathf.DeltaAngle(previousAngle, currentAngle));
@@ -202,14 +202,15 @@ public class PlayerControllerr   : MonoBehaviour
             Vector3 targetPos = playerTransform.position + new Vector3(moveInput.x, 0f, moveInput.y) + new Vector3(0, swayOffset, 0f);
             isRotating = angleDif > maxAngleDistance;
 
+            /*
             if (isRotating)
             {
                 spineIKTarget.position = Vector3.Lerp(spineIKTarget.position, targetPos, Time.deltaTime * rlerpSpeed);
                 //anim.SetBool("isRotating", true);
             }
+            */
 
-
-            Quaternion targetRotation = Quaternion.Euler(new Vector3(90f, 0f, currentAngle));
+            Quaternion targetRotation = Quaternion.Euler(new Vector3(0f, currentAngle, 0f));
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
 
