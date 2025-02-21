@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
+using System;
 
 public class BreakableObject : MonoBehaviourPunCallbacks
 {
@@ -10,7 +11,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     [SerializeField] public Material mat1, mat2;
     private Transform startPos;
     private MeshRenderer meshRenderer;
-    private Collider objectCollider;
+    [SerializeField] private Collider objectCollider;
 
    List<GameObject> playersInRange = new List<GameObject>();
     
@@ -33,7 +34,16 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         }
     }
 
-    public void takeDamage()
+    /// <summary>
+    /// Method <c>SetCollider</c> toggles the outer collider of the Breakable Object
+    /// </summary>
+    /// <param name="b"></param> takes a boolean :)
+    public void SetCollider(Boolean b)
+    {
+        objectCollider.enabled = b;
+        Debug.Log(this.name + " changed to " + b);
+    }
+    public void TakeDamage()
     {
 
         if (true)
@@ -55,24 +65,30 @@ public class BreakableObject : MonoBehaviourPunCallbacks
             return;
         }
 
-       
+
         health--;
         slider.value = health;
         Debug.Log("Health: " + health);
 
         if (health <= 0)//when the object is broken
         {
+            //adjust list
+            ObjectManager.instance.Break(this.GetComponent<GameObject>());
+
+            //set child.animState
+            //set child MeshRenderer
+
             //change material to "broken"
             this.GetComponent<MeshRenderer>().material = mat2;
 
+            //
             foreach (GameObject player in playersInRange)
             {
                 player.GetComponent<PlayerBreak>().breakableInRange(false, gameObject);
             }
             playersInRange.Clear();
-            //meshRenderer.enabled = false;
-            objectCollider.enabled = false;
-            //gameObject.SetActive(false);
+
+            SetCollider(false);
         }
     }
 
