@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class CameraFollow : MonoBehaviour
 {
     [Header("CAMERA FOLLOW")]
     [Space]
-    public Transform player;  // Reference to the player
+    private Transform player;  // Reference to the player
     private PlayerController playerController;
     public Vector3 offset = new Vector3(-0.3f, 0.3f, -20f);  // Base offset from the player (distance behind and above)
     public float smoothSpeed = 0.125f;  // How quickly the camera moves to follow the player
@@ -17,9 +18,15 @@ public class CameraFollow : MonoBehaviour
 
     void Update()
     {
-        FollowPlayer();
-        RotateCamera();
-        
+        if (player != null)
+        {
+            FollowPlayer();
+            RotateCamera();
+        }
+        else
+        {
+            player = FindLocalPlayer().transform;
+        }
     }
 
     // Smoothly move the camera to the player's position
@@ -51,6 +58,7 @@ public class CameraFollow : MonoBehaviour
     // Get an offset based on the direction the player is facing
     Vector3 GetOffsetBasedOnDirection()
     {
+
         // Get the player's forward direction 
         Vector3 playerForward = player.forward;
 
@@ -77,5 +85,20 @@ public class CameraFollow : MonoBehaviour
         
     }
 
-  
+    GameObject FindLocalPlayer()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        GameObject localPlayer = null;
+        foreach (GameObject player in players)
+        {
+            PhotonView pv = player.GetComponent<PhotonView>();
+            if (pv != null && pv.IsMine)
+            {
+                localPlayer = player;
+                break;
+            }
+        }
+        return localPlayer;
+    }
+
 }
