@@ -4,8 +4,9 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Haptics;
+using Photon.Pun;
 
-public class PlayerControllerr   : MonoBehaviour
+public class PlayerControllerr : MonoBehaviourPun
 {
     //private AudioManager audioSearch;
     //private OutlineManager itemOutline;
@@ -52,6 +53,9 @@ public class PlayerControllerr   : MonoBehaviour
     private bool isInteracting;
     public bool isRotating;
 
+    public PhotonView view;
+
+
     void Awake()
     {
         inputActions = new PlayerControls();
@@ -84,24 +88,28 @@ public class PlayerControllerr   : MonoBehaviour
         mainCamera = Camera.main;
         //cameraFollow = GetComponent<CameraFollow>();
         anim = GetComponent<Animator>();
+        view = GetComponent<PhotonView>();
 
-       
+
     }
 
     void Update()
     {
-        // Fetch input data from the input system
-        moveInput = inputActions.Player.Move.ReadValue<Vector2>();  // Get the movement direction
-        isSprinting = inputActions.Player.Sprint.ReadValue<float>() > 0.5f;  // Check if sprinting
-        //isInteracting = inputActions.Player.Interact.ReadValue<float>() > 0f; // Check if interacting
+        if (view.IsMine)
+        {
+            // Fetch input data from the input system
+            moveInput = inputActions.Player.Move.ReadValue<Vector2>();  // Get the movement direction
+            isSprinting = inputActions.Player.Sprint.ReadValue<float>() > 0.5f;  // Check if sprinting
+                                                                                 //isInteracting = inputActions.Player.Interact.ReadValue<float>() > 0f; // Check if interacting
 
-        // Storing previous player angle
-        previousAngle = transform.eulerAngles.y;
+            // Storing previous player angle
+            previousAngle = transform.eulerAngles.y;
+        }
 
+            MovePlayer();
+            RotatePlayerToMovementDirection();
 
-        MovePlayer();
-        RotatePlayerToMovementDirection();
-
+        
         /*
         if (!timerManager.timesUp)
         {
