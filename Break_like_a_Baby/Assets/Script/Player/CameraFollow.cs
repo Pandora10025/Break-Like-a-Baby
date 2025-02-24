@@ -62,15 +62,15 @@ public class CameraFollow : MonoBehaviour
         }
         else if (Vector3.Dot(playerForward, Vector3.back) > 0.5f)  // Player is facing backward
         {
-            return new Vector3(0f, 40f, 40f);  // Camera moves in front of the player
+            return new Vector3(0f, 40f, 0f);  // Camera moves in front of the player
         }
         else if (Vector3.Dot(playerForward, Vector3.right) > 0.5f)  // Player is facing right
         {
-            return new Vector3(40f, 40f, 0f);  // Camera moves to the right of the player
+            return new Vector3(10f, 40f, 0f);  // Camera moves to the right of the player
         }
         else if (Vector3.Dot(playerForward, Vector3.left) > 0.5f)  // Player is facing left
         {
-            return new Vector3(-40f, 40f, 0f);  // Camera moves to the left of the player
+            return new Vector3(-10f, 40f, 0f);  // Camera moves to the left of the player
         }
 
         return offset;  // Default if none of the above directions match
