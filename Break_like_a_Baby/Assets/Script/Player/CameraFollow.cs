@@ -11,6 +11,7 @@ public class CameraFollow : MonoBehaviour
     public Vector3 offset = new Vector3(-0.3f, 0.3f, -20f);  // Base offset from the player (distance behind and above)
     public float smoothSpeed = 0.125f;  // How quickly the camera moves to follow the player
     public float rotationSpeed = 5f;  // Speed at which the camera rotates to follow the player
+    
 
     private Vector3 velocity = Vector3.zero;  // For storing the velocity in SmoothDamp method
 
@@ -53,7 +54,6 @@ public class CameraFollow : MonoBehaviour
         // Get the player's forward direction 
         Vector3 playerForward = player.forward;
 
-
         // Depending on the direction the player is facing, adjust the offset
         // Example: if player is facing forward, the camera stays behind; if player faces right, the camera moves to the side
         if (Vector3.Dot(playerForward, Vector3.forward) > 0.5f)  // Player is facing forward
@@ -62,15 +62,15 @@ public class CameraFollow : MonoBehaviour
         }
         else if (Vector3.Dot(playerForward, Vector3.back) > 0.5f)  // Player is facing backward
         {
-            return new Vector3(0f, 40f, 40f);  // Camera moves in front of the player
+            return new Vector3(0f, 40f, 0f);  // Camera moves in front of the player
         }
         else if (Vector3.Dot(playerForward, Vector3.right) > 0.5f)  // Player is facing right
         {
-            return new Vector3(40f, 40f, 0f);  // Camera moves to the right of the player
+            return new Vector3(10f, 40f, 0f);  // Camera moves to the right of the player
         }
         else if (Vector3.Dot(playerForward, Vector3.left) > 0.5f)  // Player is facing left
         {
-            return new Vector3(-40f, 40f, 0f);  // Camera moves to the left of the player
+            return new Vector3(-10f, 40f, 0f);  // Camera moves to the left of the player
         }
 
         return offset;  // Default if none of the above directions match

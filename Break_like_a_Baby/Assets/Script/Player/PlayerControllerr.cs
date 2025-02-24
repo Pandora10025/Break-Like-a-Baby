@@ -47,7 +47,7 @@ public class PlayerControllerr   : MonoBehaviour
 
     // Input Action variables
     private PlayerControls inputActions;  // Reference to input actions
-    private Vector2 moveInput;
+    public Vector2 moveInput;
     public bool isSprinting;
     private bool isInteracting;
     public bool isRotating;
@@ -181,7 +181,7 @@ public class PlayerControllerr   : MonoBehaviour
         else
         {
             // Stop player movement
-            rb.linearVelocity = new Vector3(0f, 0f, rb.linearVelocity.z);
+            rb.linearVelocity = Vector3.zero;
             // Stop movement animation
             anim.SetFloat("Velocity", 0f);
         }
