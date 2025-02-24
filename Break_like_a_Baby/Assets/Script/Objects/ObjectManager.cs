@@ -28,7 +28,7 @@ public class ObjectManager : MonoBehaviour
 
         foreach(GameObject g in GameObject.FindGameObjectsWithTag("Breakable"))
         {
-            bObjects.Add(g);
+            bObjects.Add(g.transform.GetChild(0).gameObject);
         }
         numOfStartObjects = bObjects.Count / 2;
         numOfActiveObjects = bObjects.Count / 2;

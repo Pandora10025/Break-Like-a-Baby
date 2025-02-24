@@ -13,20 +13,20 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
     GameObject breakable;
     private void Start()
     {
-        /*rb = this.GetComponent<Rigidbody>();*/
+        rb = this.GetComponent<Rigidbody>();
     }
     private void Update()
     {
-        /*float moveX = Input.GetAxisRaw("Horizontal");
+        float moveX = Input.GetAxisRaw("Horizontal");
         float moveZ = Input.GetAxisRaw("Vertical");
-        moveDirection = new Vector3(moveX, 0, moveZ).normalized;*/
+        moveDirection = new Vector3(moveX, 0, moveZ).normalized;
 
         // Rotate to face movement direction
-        /*if (moveDirection != Vector3.zero)
+        if (moveDirection != Vector3.zero)
         {
             Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, Time.deltaTime * rotationSpeed);
-        }*/
+        }
         if (inRange && Input.GetKeyDown(KeyCode.Space) && photonView.IsMine)
         {
            
@@ -41,12 +41,12 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
     void FixedUpdate()
      {
         // Move the baby
-        /*rb.linearVelocity = moveDirection * moveSpeed + new Vector3(0, rb.linearVelocity.y, 0);*/
+        rb.linearVelocity = moveDirection * moveSpeed + new Vector3(0, rb.linearVelocity.y, 0);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Initial: " + collision.gameObject.name);
+        //Debug.Log("Initial: " + collision.gameObject.name);
 
     }
 
