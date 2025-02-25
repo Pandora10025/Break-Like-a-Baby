@@ -104,10 +104,11 @@ public class PlayerControllerr : MonoBehaviourPun
 
             // Storing previous player angle
             previousAngle = transform.eulerAngles.y;
-        }
-
             MovePlayer();
             RotatePlayerToMovementDirection();
+        }
+
+           
 
         
         /*
@@ -184,7 +185,10 @@ public class PlayerControllerr : MonoBehaviourPun
             // Smoothly transition to the desired velocity 
             rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, desiredVelocity, 0.15f);
             // Play movement animation.
+
+            
             anim.SetFloat("Velocity", currentVelocity);
+           
         }
         else
         {
@@ -192,6 +196,7 @@ public class PlayerControllerr : MonoBehaviourPun
             rb.linearVelocity = Vector3.zero;
             // Stop movement animation
             anim.SetFloat("Velocity", 0f);
+            
         }
 
     }
@@ -256,11 +261,13 @@ public class PlayerControllerr : MonoBehaviourPun
         Gamepad.current.SetMotorSpeeds(0f, 0f);  // Stop vibration after the delay
     }
 
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.CompareTag("interact"))
-        {
-            Debug.Log("This is an item");
-        }
-    }
+    //private void OnCollisionEnter(Collision other)
+    //{
+    //    if (other.gameObject.CompareTag("interact"))
+    //    {
+    //        Debug.Log("This is an item");
+    //    }
+    //}
+
+ 
 }
