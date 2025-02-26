@@ -81,7 +81,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         if (health <= 0)//when the object is broken
         {
             //adjust list
-            ObjectManager.instance.Break(this.GetComponent<GameObject>());
+            ObjectManager.instance.Break(this.gameObject);
 
             //set child.animState
             //set child MeshRenderer

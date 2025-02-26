@@ -7,12 +7,14 @@ using System;
 using UnityEngine.UI;
 using TMPro;
 
+//this script references getChild(0) for the TMP text on the canvas
 public class ObjectManager : MonoBehaviour
 {
     //private vars
     //place all BreakableObjects in the scene will be put in here through code
     private List<GameObject> bObjects = new List<GameObject>();
     private List<GameObject> activeObjects = new List<GameObject>();
+    
 
     //public vars
     public static ObjectManager instance { get; private set; }
@@ -20,11 +22,16 @@ public class ObjectManager : MonoBehaviour
     //serialized fields
     [SerializeField] private int numOfStartObjects;
     [SerializeField] private int numOfActiveObjects;
-    [SerializeField] private TextMeshProUGUI tmp;
+    [SerializeField] private static TextMeshProUGUI tmp;
+
+    ///make sure to initialize this in-scene!
+    [SerializeField] private Canvas canvas;
     
     private void Start()
     {
         instance = this;
+        //least jank behaviour
+        tmp = canvas.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
         foreach(GameObject g in GameObject.FindGameObjectsWithTag("Breakable"))
         {
@@ -41,11 +48,6 @@ public class ObjectManager : MonoBehaviour
         Activate(bObjects, false);
         Activate(activeObjects, true);
         UpdateString();
-    }
-
-    private void Update()
-    {
-        
     }
 
 
@@ -87,7 +89,7 @@ public class ObjectManager : MonoBehaviour
     public void Break(GameObject child)
     {
         activeObjects.Remove(child);
-        Debug.Log("Broken Object: " + activeObjects.ToString());
+        Debug.Log("Broken Object: " + child.transform.parent.name);
         numOfActiveObjects--;
         UpdateString();
     }
@@ -103,10 +105,34 @@ public class ObjectManager : MonoBehaviour
         s += "Objects remaining: " + numOfActiveObjects + "\n";
         foreach(GameObject g in activeObjects)
         {
-            s += g.name + "\n";
+            s += g.transform.parent.name + "\n";
         }
 
         tmp.text = s;
         Debug.Log("Currently active: " + s);
+    }
+
+    /// <summary>
+    /// Method <c>GetCanvas</c> return the canvas on ObjectManager
+    /// </summary>
+    public Canvas GetCanvas()
+    {
+        return canvas;
+    }
+
+    /// <summary>
+    /// Method <c>GetText</c> return the text on the canvas in ObjectManager
+    /// </summary>
+    public static TextMeshProUGUI GetText()
+    {
+        return tmp;
+    }
+
+    ///<summary>
+    ///Method <c>ToggleText</c> set ObjectManager text to true or false
+    /// </summary>
+    public static void ToggleText(Boolean b)
+    {
+        tmp.enabled = b;
     }
 }
