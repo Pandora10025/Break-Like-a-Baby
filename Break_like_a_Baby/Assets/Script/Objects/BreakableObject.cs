@@ -72,6 +72,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
         if (health <= 0)//when the object is broken
         {
+            SetCollider(false);
             //adjust list
             ObjectManager.instance.Break(this.GetComponent<GameObject>());
 
@@ -79,16 +80,18 @@ public class BreakableObject : MonoBehaviourPunCallbacks
             //set child MeshRenderer
 
             //change material to "broken"
+
             this.GetComponent<MeshRenderer>().material = mat2;
 
-            //
+        
             foreach (GameObject player in playersInRange)
             {
                 player.GetComponent<PlayerBreak>().breakableInRange(false, gameObject);
             }
+
             playersInRange.Clear();
 
-            SetCollider(false);
+            
         }
     }
 

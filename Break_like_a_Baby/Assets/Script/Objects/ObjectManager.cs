@@ -21,7 +21,7 @@ public class ObjectManager : MonoBehaviour
     [SerializeField] private int numOfStartObjects;
     [SerializeField] private int numOfActiveObjects;
     [SerializeField] private TextMeshProUGUI tmp;
-    
+    [SerializeField] private float breakablePercentage=0.5f;
     private void Start()
     {
         instance = this;
@@ -30,8 +30,8 @@ public class ObjectManager : MonoBehaviour
         {
             bObjects.Add(g);
         }
-        numOfStartObjects = bObjects.Count / 2;
-        numOfActiveObjects = bObjects.Count / 2;
+        numOfStartObjects = (int)(bObjects.Count *breakablePercentage);
+        numOfActiveObjects = numOfStartObjects; 
         Debug.Log("NumOfStartObjects: " + numOfStartObjects);
 
         activeObjects = Randomize();
