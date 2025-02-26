@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using System;
+using UnityEditor.SearchService;
+using UnityEngine.SceneManagement;
 
 public class BreakableObject : MonoBehaviourPunCallbacks
 {
@@ -18,51 +20,57 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     void Start()
     {
         //instantiate sliders and stuff
-        slider = this.transform.GetChild(0).GetChild(0).GetComponent<UnityEngine.UI.Slider>();
+        slider = this.transform.parent.GetChild(1).GetChild(0).GetComponent<UnityEngine.UI.Slider>();
         slider.maxValue = health;
         slider.value = health;
         slider.minValue = 0;
 
         meshRenderer = GetComponent<MeshRenderer>();
-        objectCollider = GetComponent<Collider>();
+        //objectCollider = GetComponent<Collider>();
 
         // Ensure the MasterClient owns the object
         //|| photonView.Owner != PhotonNetwork.MasterClient
-        if (photonView.Owner == null)
+        if (SceneManager.GetActiveScene().name != "ObjectInfrastructure")
         {
-            photonView.TransferOwnership(PhotonNetwork.MasterClient);
+            if (photonView.Owner == null)
+            {
+                photonView.TransferOwnership(PhotonNetwork.MasterClient);
+            }
         }
     }
 
     /// <summary>
-    /// Method <c>SetCollider</c> toggles the outer collider of the Breakable Object
+    /// Method <c>SetCollider</c> toggles the outer collider and slider of the Breakable Object
     /// </summary>
     /// <param name="b"></param> takes a boolean :)
     public void SetCollider(Boolean b)
     {
         objectCollider.enabled = b;
         Debug.Log(this.name + " changed to " + b);
+        
     }
     public void TakeDamage()
     {
-
-        if (true)
+        if (SceneManager.GetActiveScene().name != "ObjectInfrastructure")
         {
             photonView.RPC("DamageObject", RpcTarget.AllBuffered);
         }
         else
         {
-            Debug.Log("takeDamage called but photonView is not owned by this client.");
+            DamageObject();
         }
     }
 
     [PunRPC]
     public void DamageObject()
     {
-        if (photonView == null)
+        if (SceneManager.GetActiveScene().name != "ObjectInfrastructure")
         {
-            Debug.LogWarning("photonView is null in DamageObject");
-            return;
+            if (photonView == null)
+            {
+                Debug.LogWarning("photonView is null in DamageObject");
+                return;
+            }
         }
 
 
@@ -74,7 +82,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         {
             SetCollider(false);
             //adjust list
-            ObjectManager.instance.Break(this.GetComponent<GameObject>());
+            ObjectManager.instance.Break(this.gameObject);
 
             //set child.animState
             //set child MeshRenderer
