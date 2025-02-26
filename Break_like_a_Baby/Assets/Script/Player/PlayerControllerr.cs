@@ -4,8 +4,9 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Haptics;
+using Photon.Pun;
 
-public class PlayerControllerr   : MonoBehaviour
+public class PlayerControllerr : MonoBehaviourPun
 {
     //private AudioManager audioSearch;
     //private OutlineManager itemOutline;
@@ -47,10 +48,13 @@ public class PlayerControllerr   : MonoBehaviour
 
     // Input Action variables
     private PlayerControls inputActions;  // Reference to input actions
-    private Vector2 moveInput;
+    public Vector2 moveInput;
     public bool isSprinting;
     private bool isInteracting;
     public bool isRotating;
+
+    public PhotonView view;
+
 
     void Awake()
     {
@@ -84,23 +88,29 @@ public class PlayerControllerr   : MonoBehaviour
         mainCamera = Camera.main;
         //cameraFollow = GetComponent<CameraFollow>();
         anim = GetComponent<Animator>();
+        view = GetComponent<PhotonView>();
 
-       
+
     }
 
     void Update()
     {
-        // Fetch input data from the input system
-        moveInput = inputActions.Player.Move.ReadValue<Vector2>();  // Get the movement direction
-        isSprinting = inputActions.Player.Sprint.ReadValue<float>() > 0.5f;  // Check if sprinting
-        //isInteracting = inputActions.Player.Interact.ReadValue<float>() > 0f; // Check if interacting
+        if (view.IsMine)
+        {
+            // Fetch input data from the input system
+            moveInput = inputActions.Player.Move.ReadValue<Vector2>();  // Get the movement direction
+            isSprinting = inputActions.Player.Sprint.ReadValue<float>() > 0.5f;  // Check if sprinting
+                                                                                 //isInteracting = inputActions.Player.Interact.ReadValue<float>() > 0f; // Check if interacting
 
-        // Storing previous player angle
-        previousAngle = transform.eulerAngles.z;
+            // Storing previous player angle
+            previousAngle = transform.eulerAngles.y;
+            MovePlayer();
+            RotatePlayerToMovementDirection();
+        }
 
-        MovePlayer();
-        RotatePlayerToMovementDirection();
+           
 
+        
         /*
         if (!timerManager.timesUp)
         {
@@ -165,7 +175,7 @@ public class PlayerControllerr   : MonoBehaviour
         }
 
         // Calculate the movement direction 
-        Vector3 targetMovement = new Vector3(-moveInput.x, 0f, -moveInput.y).normalized;
+        Vector3 targetMovement = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
 
         // If the movement input is over a threshold, similar to (if keyPressed)
         if (targetMovement.magnitude >= 0.1f)
@@ -175,14 +185,18 @@ public class PlayerControllerr   : MonoBehaviour
             // Smoothly transition to the desired velocity 
             rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, desiredVelocity, 0.15f);
             // Play movement animation.
+
+            
             anim.SetFloat("Velocity", currentVelocity);
+           
         }
         else
         {
             // Stop player movement
-            rb.linearVelocity = new Vector3(0f, 0f, rb.linearVelocity.z);
+            rb.linearVelocity = Vector3.zero;
             // Stop movement animation
             anim.SetFloat("Velocity", 0f);
+            
         }
 
     }
@@ -193,8 +207,8 @@ public class PlayerControllerr   : MonoBehaviour
         if (moveInput != Vector2.zero)
         {
 
-            Vector3 direction = new Vector3(-moveInput.x, 0f, -moveInput.y).normalized;
-            currentAngle = Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg;
+            Vector3 direction = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
+            currentAngle = Mathf.Atan2(direction.z,direction.x) * Mathf.Rad2Deg;
 
             float angleDif = Mathf.Abs(Mathf.DeltaAngle(previousAngle, currentAngle));
 
@@ -210,7 +224,7 @@ public class PlayerControllerr   : MonoBehaviour
             }
             */
 
-            Quaternion targetRotation = Quaternion.Euler(new Vector3(0f, currentAngle, 0f));
+            Quaternion targetRotation = Quaternion.Euler(new Vector3(90f, 0f, currentAngle));
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
 
@@ -247,11 +261,13 @@ public class PlayerControllerr   : MonoBehaviour
         Gamepad.current.SetMotorSpeeds(0f, 0f);  // Stop vibration after the delay
     }
 
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.CompareTag("interact"))
-        {
-            Debug.Log("This is an item");
-        }
-    }
+    //private void OnCollisionEnter(Collision other)
+    //{
+    //    if (other.gameObject.CompareTag("interact"))
+    //    {
+    //        Debug.Log("This is an item");
+    //    }
+    //}
+
+ 
 }

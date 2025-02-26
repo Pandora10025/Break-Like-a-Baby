@@ -22,11 +22,10 @@ public class ObjectManager : MonoBehaviour
     //serialized fields
     [SerializeField] private int numOfStartObjects;
     [SerializeField] private int numOfActiveObjects;
-    [SerializeField] private static TextMeshProUGUI tmp;
-
     ///make sure to initialize this in-scene!
     [SerializeField] private Canvas canvas;
-    
+    [SerializeField] private TextMeshProUGUI tmp;
+    [SerializeField] private float breakablePercentage=0.5f;
     private void Start()
     {
         instance = this;
@@ -37,8 +36,9 @@ public class ObjectManager : MonoBehaviour
         {
             bObjects.Add(g.transform.GetChild(0).gameObject);
         }
-        numOfStartObjects = bObjects.Count;
-        numOfActiveObjects = bObjects.Count;
+        
+        numOfStartObjects = (int)(bObjects.Count *breakablePercentage);
+        numOfActiveObjects = numOfStartObjects; 
         Debug.Log("NumOfStartObjects: " + numOfStartObjects);
 
         activeObjects = Randomize();
