@@ -27,7 +27,7 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
             Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, Time.deltaTime * rotationSpeed);
         }
-        if (inRange && Input.GetKeyDown(KeyCode.Space) && photonView.IsMine)
+        if (inRange && Input.GetKeyDown(KeyCode.Space) /*&& photonView.IsMine*/)
         {
            
                 Debug.Log("pressed space");
@@ -54,13 +54,13 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
     {
         if (isInRange)
         {
-            Debug.Log(gameObject.name + isInRange);
+            //Debug.Log(gameObject.name + isInRange);
             inRange = true;
             breakable = breakableObj;
         }
         if( !isInRange && breakable == breakableObj)
         {
-            Debug.Log(gameObject.name + isInRange);
+            //Debug.Log(gameObject.name + isInRange);
             inRange = false;
         }
     }

@@ -30,8 +30,8 @@ public class ObjectManager : MonoBehaviour
         {
             bObjects.Add(g.transform.GetChild(0).gameObject);
         }
-        numOfStartObjects = bObjects.Count / 2;
-        numOfActiveObjects = bObjects.Count / 2;
+        numOfStartObjects = bObjects.Count;
+        numOfActiveObjects = bObjects.Count;
         Debug.Log("NumOfStartObjects: " + numOfStartObjects);
 
         activeObjects = Randomize();
@@ -43,7 +43,12 @@ public class ObjectManager : MonoBehaviour
         UpdateString();
     }
 
-   
+    private void Update()
+    {
+        
+    }
+
+
 
     /// <summary>
     /// Method <c>Randomize</c> picks numOfStartObjects amount of 
@@ -92,6 +97,8 @@ public class ObjectManager : MonoBehaviour
     /// </summary>
     private void UpdateString()
     {
+        //reset string
+        tmp.text = "";
         String s = "";
         s += "Objects remaining: " + numOfActiveObjects + "\n";
         foreach(GameObject g in activeObjects)
@@ -100,5 +107,6 @@ public class ObjectManager : MonoBehaviour
         }
 
         tmp.text = s;
+        Debug.Log("Currently active: " + s);
     }
 }
