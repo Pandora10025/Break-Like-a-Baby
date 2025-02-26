@@ -11,6 +11,8 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
 
     public bool inRange = false;
     GameObject breakable;
+
+    
     private void Start()
     {
         /*rb = this.GetComponent<Rigidbody>();*/
