@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] float totalTime;
     [SerializeField] bool gameStarted;
 
+    [SerializeField] TextMeshProUGUI timerText;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -38,7 +40,7 @@ public class GameManager : MonoBehaviour
 
         timerUItext = string.Format("{0:00}:{1:00}", minutes, seconds);
 
-
+        timerText.text = timerUItext;
     }
 
     public void GameOver(bool timer)
@@ -46,9 +48,13 @@ public class GameManager : MonoBehaviour
         gameOver = true;
     }
 
+    public void ToggleText(bool b)
+    {
+        timerText.enabled = b;
+    }
 
 
-    
+
 
 
 

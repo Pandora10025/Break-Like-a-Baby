@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3623552065662644530}
   - component: {fileID: 573844923914009964}
+  - component: {fileID: 9001542386223744027}
   m_Layer: 0
   m_Name: ObjectManager
   m_TagString: Untagged
@@ -46,4 +47,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numOfStartObjects: 0
   numOfActiveObjects: 0
+  canvas: {fileID: 0}
   tmp: {fileID: 0}
+  breakablePercentage: 0.5
+--- !u!114 &9001542386223744027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6490807039269669104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a123805ab384722b74d2b50a603961, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerUItext: 
+  totalTime: 200
+  gameStarted: 0
+  timerText: {fileID: 0}

@@ -2,7 +2,6 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using UnityEngine.WSA;
 using System;
 using UnityEngine.UI;
 using TMPro;
@@ -123,7 +122,7 @@ public class ObjectManager : MonoBehaviour
     /// <summary>
     /// Method <c>GetText</c> return the text on the canvas in ObjectManager
     /// </summary>
-    public static TextMeshProUGUI GetText()
+    public  TextMeshProUGUI GetText()
     {
         return tmp;
     }
@@ -131,7 +130,7 @@ public class ObjectManager : MonoBehaviour
     ///<summary>
     ///Method <c>ToggleText</c> set ObjectManager text to true or false
     /// </summary>
-    public static void ToggleText(Boolean b)
+    public  void ToggleText(Boolean b)
     {
         tmp.enabled = b;
     }

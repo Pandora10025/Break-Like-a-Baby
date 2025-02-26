@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using System;
-using UnityEditor.SearchService;
+using UnityEditor;
 using UnityEngine.SceneManagement;
 
 public class BreakableObject : MonoBehaviourPunCallbacks

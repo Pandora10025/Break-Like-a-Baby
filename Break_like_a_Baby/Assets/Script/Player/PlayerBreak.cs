@@ -46,11 +46,12 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
 
             if (Input.GetKey(KeyCode.Tab))
             {
-                ObjectManager.ToggleText(true);
+                ObjectManager.instance.ToggleText(true);
+
             }
             else
             {
-                ObjectManager.ToggleText(false);
+                ObjectManager.instance.ToggleText(false);
             }
         }
         else//THIS IS FOR EVERYTHING NORMAL-- WILL BE REMOVED LATER
@@ -66,11 +67,13 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
             //check to show the tablist
             if(Input.GetKey(KeyCode.Tab) && photonView.IsMine)
             {
-                ObjectManager.ToggleText(true);
+                ObjectManager.instance.ToggleText(true);
+                GameManager.instance.ToggleText(true);
             }
             else
             {
-                ObjectManager.ToggleText(false);
+                ObjectManager.instance.ToggleText(false);
+                GameManager.instance.ToggleText(false);
             }
         }
 
