@@ -6,7 +6,7 @@ using System;
 using UnityEngine.UI;
 using TMPro;
 
-public class ObjectManager : MonoBehaviour
+public class ObjectManager : MonoBehaviourPun
 {
     //private vars
     //place all BreakableObjects in the scene will be put in here through code
@@ -23,6 +23,11 @@ public class ObjectManager : MonoBehaviour
     [SerializeField] private float breakablePercentage=0.5f;
     private void Start()
     {
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            Debug.Log("break");
+        }
+        Debug.Log("break Start");
         instance = this;
 
         foreach(GameObject g in GameObject.FindGameObjectsWithTag("Breakable"))
@@ -30,16 +35,19 @@ public class ObjectManager : MonoBehaviour
             bObjects.Add(g);
         }
         numOfStartObjects = bObjects.Count;
-        numOfActiveObjects = (int)MathF.Ceiling(breakablePercentage * numOfStartObjects); 
+        //numOfActiveObjects = (int)MathF.Ceiling(breakablePercentage * numOfStartObjects);
+        numOfActiveObjects = numOfStartObjects;
         Debug.Log("NumOfStartObjects: " + numOfStartObjects);
 
         activeObjects = Randomize();
         Debug.Log("Num of actual activeObjects: " + activeObjects.Count);
 
         //deactivate all objects, then activate the ones we want
-        Activate(bObjects, false);
-        Activate(activeObjects, true);
+        Activate(bObjects, true);
+        //Activate(activeObjects, true);
         UpdateString();
+
+        ToggleText(true);
     }
 
    
@@ -91,6 +99,7 @@ public class ObjectManager : MonoBehaviour
     /// </summary>
     private void UpdateString()
     {
+        tmp.text = "";
         String s = "";
         s += "Objects remaining: " + numOfActiveObjects + "\n";
         foreach(GameObject g in activeObjects)
@@ -106,7 +115,7 @@ public class ObjectManager : MonoBehaviour
     /// </summary>
     public void ToggleText(bool b)
     {
-        tmp.enabled = b;
+        tmp.enabled = true;
     }
 
 
