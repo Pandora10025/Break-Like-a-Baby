@@ -92,7 +92,7 @@ public class ObjectManager : MonoBehaviourPun
     [PunRPC]
     private void ReceiveActiveObjects(int[] activeObjectIndexes)
     {
-        Debug.Log("aaaa");
+       
         Activate(bObjects, false);
         activeObjects.Clear();
         foreach (int index in activeObjectIndexes)
