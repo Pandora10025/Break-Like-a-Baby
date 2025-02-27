@@ -148,6 +148,9 @@ public class ObjectManager : MonoBehaviourPun
         tmp.text = s;
     }
 
+    /// <summary>
+    /// Method <c>ToggleText</c> toggles the text to the boolean input
+    /// </summary>
     public void ToggleText(bool b)
     {
         tmp.enabled = b;
