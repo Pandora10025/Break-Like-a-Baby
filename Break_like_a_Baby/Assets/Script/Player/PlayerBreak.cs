@@ -18,6 +18,7 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
     {
         rb = this.GetComponent<Rigidbody>();
     }
+
     private void Update()
     {
         float moveX = Input.GetAxisRaw("Horizontal");

@@ -34,20 +34,26 @@ public class ObjectManager : MonoBehaviourPun
         {
             bObjects.Add(g);
         }
-        numOfStartObjects = bObjects.Count;
-        //numOfActiveObjects = (int)MathF.Ceiling(breakablePercentage * numOfStartObjects);
+        numOfStartObjects = (int)MathF.Ceiling(breakablePercentage * bObjects.Count);
         numOfActiveObjects = numOfStartObjects;
+
+        //numOfActiveObjects = numOfStartObjects;
         Debug.Log("NumOfStartObjects: " + numOfStartObjects);
 
-        activeObjects = Randomize();
-        Debug.Log("Num of actual activeObjects: " + activeObjects.Count);
+        
 
+        if (PhotonNetwork.IsMasterClient)
+        {
+            activeObjects = Randomize();
+            SyncActiveObjects();
+            Debug.Log("Num of actual activeObjects: " + activeObjects.Count);
+        }
         //deactivate all objects, then activate the ones we want
-        Activate(bObjects, true);
+       
         //Activate(activeObjects, true);
-        UpdateString();
+    
 
-        ToggleText(true);
+        
     }
 
    
@@ -64,9 +70,41 @@ public class ObjectManager : MonoBehaviourPun
         {
             int j = UnityEngine.Random.Range(0, bObjects.Count);
             g.Add(bObjects[j]);
+            Debug.Log("aa");
         }
         return g;
         
+    }
+
+    private void SyncActiveObjects()
+    {
+        
+        int[] activeObjectIndexes = new int[activeObjects.Count];
+        for (int i = 0; i < activeObjects.Count; i++)
+        {
+            activeObjectIndexes[i] = bObjects.IndexOf(activeObjects[i]);
+        }
+
+       
+        photonView.RPC("ReceiveActiveObjects", RpcTarget.AllBuffered, activeObjectIndexes);
+    }
+
+    [PunRPC]
+    private void ReceiveActiveObjects(int[] activeObjectIndexes)
+    {
+        Debug.Log("aaaa");
+        Activate(bObjects, false);
+        activeObjects.Clear();
+        foreach (int index in activeObjectIndexes)
+        {
+            if (index >= 0 && index < bObjects.Count)
+            {
+                activeObjects.Add(bObjects[index]);
+            }
+        }
+
+        Activate(activeObjects, true);
+        UpdateString();
     }
 
     /// <summary>
@@ -88,7 +126,7 @@ public class ObjectManager : MonoBehaviourPun
 
     public void Break(GameObject child)
     {
-        activeObjects.Remove(child);
+        activeObjects.Remove(child.transform.parent.gameObject);
         Debug.Log("Broken Object: " + activeObjects.ToString());
         numOfActiveObjects--;
         UpdateString();
@@ -99,7 +137,7 @@ public class ObjectManager : MonoBehaviourPun
     /// </summary>
     private void UpdateString()
     {
-        tmp.text = "";
+        
         String s = "";
         s += "Objects remaining: " + numOfActiveObjects + "\n";
         foreach(GameObject g in activeObjects)
@@ -112,7 +150,7 @@ public class ObjectManager : MonoBehaviourPun
 
     public void ToggleText(bool b)
     {
-        tmp.enabled = true;
+        tmp.enabled = b;
     }
 
 
