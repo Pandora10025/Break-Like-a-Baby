@@ -6,14 +6,12 @@ using System;
 using UnityEngine.UI;
 using TMPro;
 
-//this script references getChild(0) for the TMP text on the canvas
 public class ObjectManager : MonoBehaviour
 {
     //private vars
     //place all BreakableObjects in the scene will be put in here through code
     private List<GameObject> bObjects = new List<GameObject>();
     private List<GameObject> activeObjects = new List<GameObject>();
-    
 
     //public vars
     public static ObjectManager instance { get; private set; }
@@ -21,23 +19,18 @@ public class ObjectManager : MonoBehaviour
     //serialized fields
     [SerializeField] private int numOfStartObjects;
     [SerializeField] private int numOfActiveObjects;
-    ///make sure to initialize this in-scene!
-    [SerializeField] private Canvas canvas;
     [SerializeField] private TextMeshProUGUI tmp;
     [SerializeField] private float breakablePercentage=0.5f;
     private void Start()
     {
         instance = this;
-        //least jank behaviour
-        tmp = canvas.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
         foreach(GameObject g in GameObject.FindGameObjectsWithTag("Breakable"))
         {
-            bObjects.Add(g.transform.GetChild(0).gameObject);
+            bObjects.Add(g);
         }
-        
-        numOfStartObjects = (int)(bObjects.Count *breakablePercentage);
-        numOfActiveObjects = numOfStartObjects; 
+        numOfStartObjects = bObjects.Count;
+        numOfActiveObjects = (int)MathF.Ceiling(breakablePercentage * numOfStartObjects); 
         Debug.Log("NumOfStartObjects: " + numOfStartObjects);
 
         activeObjects = Randomize();
@@ -49,7 +42,7 @@ public class ObjectManager : MonoBehaviour
         UpdateString();
     }
 
-
+   
 
     /// <summary>
     /// Method <c>Randomize</c> picks numOfStartObjects amount of 
@@ -75,7 +68,7 @@ public class ObjectManager : MonoBehaviour
     {
         foreach(GameObject g in gObjects)
         {
-            g.GetComponent<BreakableObject>().SetCollider(b);
+            g.transform.GetChild(0).GetComponent<BreakableObject>().SetCollider(b);
         }
     }
 
@@ -88,7 +81,7 @@ public class ObjectManager : MonoBehaviour
     public void Break(GameObject child)
     {
         activeObjects.Remove(child);
-        Debug.Log("Broken Object: " + child.transform.parent.name);
+        Debug.Log("Broken Object: " + activeObjects.ToString());
         numOfActiveObjects--;
         UpdateString();
     }
@@ -98,40 +91,20 @@ public class ObjectManager : MonoBehaviour
     /// </summary>
     private void UpdateString()
     {
-        //reset string
-        tmp.text = "";
         String s = "";
         s += "Objects remaining: " + numOfActiveObjects + "\n";
         foreach(GameObject g in activeObjects)
         {
-            s += g.transform.parent.name + "\n";
+            s += g.name + "\n";
         }
 
         tmp.text = s;
-        Debug.Log("Currently active: " + s);
     }
 
-    /// <summary>
-    /// Method <c>GetCanvas</c> return the canvas on ObjectManager
-    /// </summary>
-    public Canvas GetCanvas()
-    {
-        return canvas;
-    }
-
-    /// <summary>
-    /// Method <c>GetText</c> return the text on the canvas in ObjectManager
-    /// </summary>
-    public  TextMeshProUGUI GetText()
-    {
-        return tmp;
-    }
-
-    ///<summary>
-    ///Method <c>ToggleText</c> set ObjectManager text to true or false
-    /// </summary>
-    public  void ToggleText(Boolean b)
+    public void ToggleText(bool b)
     {
         tmp.enabled = b;
     }
+
+
 }

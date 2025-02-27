@@ -14,6 +14,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     private Transform startPos;
     private MeshRenderer meshRenderer;
     [SerializeField] private Collider objectCollider;
+    PhotonView pv;
 
    List<GameObject> playersInRange = new List<GameObject>();
     
@@ -24,7 +25,8 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         slider.maxValue = health;
         slider.value = health;
         slider.minValue = 0;
-
+        pv = GetComponent<PhotonView>();
+        Debug.Log((pv==null) + gameObject.transform.parent.name);
         meshRenderer = GetComponent<MeshRenderer>();
         //objectCollider = GetComponent<Collider>();
 

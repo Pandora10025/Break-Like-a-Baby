@@ -35,7 +35,7 @@ public class NetworkedPlayer : MonoBehaviourPun, IPunObservable
             rb.rotation = Quaternion.Slerp(rb.rotation, networkRotation, Time.deltaTime * rotationLerpSpeed);
             anim.SetFloat("Velocity", networkedVelocity);
 
-            Debug.Log(anim.GetFloat("Velocity"));
+            //Debug.Log(anim.GetFloat("Velocity"));
 
         }
       

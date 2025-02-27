@@ -61,7 +61,7 @@ public class PlayerControllerr : MonoBehaviourPun
         inputActions = new PlayerControls();
         inputActions.Enable();
         // Subscribe to the interaction event
-        inputActions.Player.Interact.performed += OnInteract; // Detect when the button is pressed
+        //inputActions.Player.Interact.performed += OnInteract; // Detect when the button is pressed
         inputActions.Player.Tasks.performed += OnTask;
         //inputActions.Player.Tasks.performed += OnSpam;
     }
@@ -129,12 +129,12 @@ public class PlayerControllerr : MonoBehaviourPun
         */
     }
 
-    private void OnInteract(InputAction.CallbackContext context)
-    {
+    //private void OnInteract(InputAction.CallbackContext context)
+    //{
         // Called when the "Interact" action is performed (button press)
         //itemOutline.ToggleOutline();  // Trigger the outline toggle
         //ScreenShake.instance.TriggerShake(0.25f, 0.5f);
-        TriggerInteractHapticFeedback();
+        //TriggerInteractHapticFeedback();
 
 
         /*
@@ -144,7 +144,7 @@ public class PlayerControllerr : MonoBehaviourPun
             timerManager.ReloadScene();
         }
         */
-    }
+    //}
 
     private void OnTask(InputAction.CallbackContext context)
     {
