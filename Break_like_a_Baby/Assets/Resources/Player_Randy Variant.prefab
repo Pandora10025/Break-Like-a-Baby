@@ -53,6 +53,10 @@ PrefabInstance:
       value: Player_Randy Variant
       objectReference: {fileID: 0}
     - target: {fileID: 3187756991287985560, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3187756991287985560, guid: 991f7f1059923462197c333a60365d1a, type: 3}
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
