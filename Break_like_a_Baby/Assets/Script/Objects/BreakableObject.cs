@@ -51,10 +51,10 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         objectCollider.enabled = b;
         Debug.Log(this.name + " changed to " + b);
 
-        if (b == false)
-            this.GetComponent<MeshRenderer>().material = mat2;
-        else if (b == true)
+        if (b)
             this.GetComponent<MeshRenderer>().material = mat1;
+        else
+            this.GetComponent<MeshRenderer>().material = mat2;
 
     }
     public void TakeDamage()
