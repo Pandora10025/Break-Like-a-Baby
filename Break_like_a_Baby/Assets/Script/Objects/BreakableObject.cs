@@ -50,8 +50,8 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     {
         objectCollider.enabled = b;
         Debug.Log(this.name + " changed to " + b);
-        slider.image.color = Color.yellow;
-        
+        this.GetComponent<MeshRenderer>().material = mat2;
+
     }
     public void TakeDamage()
     {
@@ -91,9 +91,6 @@ public class BreakableObject : MonoBehaviourPunCallbacks
             //set child.animState
             //set child MeshRenderer
 
-            //change material to "broken"
-
-            this.GetComponent<MeshRenderer>().material = mat2;
 
         
             foreach (GameObject player in playersInRange)
