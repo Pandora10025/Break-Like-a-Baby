@@ -41,6 +41,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         }
     }
 
+
     /// <summary>
     /// Method <c>SetCollider</c> toggles the outer collider and slider of the Breakable Object
     /// </summary>
@@ -49,6 +50,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     {
         objectCollider.enabled = b;
         Debug.Log(this.name + " changed to " + b);
+        slider.image.color = Color.yellow;
         
     }
     public void TakeDamage()
