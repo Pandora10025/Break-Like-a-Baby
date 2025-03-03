@@ -30,32 +30,25 @@ public class ObjectManager : MonoBehaviourPun
             Debug.Log("break");
         }
         Debug.Log("break Start");
-        
-
-        foreach(GameObject g in GameObject.FindGameObjectsWithTag("Breakable"))
-        {
-            bObjects.Add(g);
-        }
-        numOfStartObjects = (int)MathF.Ceiling(breakablePercentage * bObjects.Count);
-        numOfActiveObjects = numOfStartObjects;
-
-        //numOfActiveObjects = numOfStartObjects;
-        Debug.Log("NumOfStartObjects: " + numOfStartObjects);
-
-        
 
         if (PhotonNetwork.IsMasterClient)
         {
+            foreach (GameObject g in GameObject.FindGameObjectsWithTag("Breakable"))
+            {
+                bObjects.Add(g);
+            }
+            numOfStartObjects = (int)MathF.Ceiling(breakablePercentage * bObjects.Count);
             activeObjects = Randomize();
             SyncActiveObjects();
             Debug.Log("Num of actual activeObjects: " + activeObjects.Count);
         }
-        //deactivate all objects, then activate the ones we want
-       
-        //Activate(activeObjects, true);
-    
 
-        
+
+
+        numOfActiveObjects = numOfStartObjects;
+
+        //numOfActiveObjects = numOfStartObjects;
+        Debug.Log("NumOfStartObjects: " + numOfStartObjects);
     }
 
    
