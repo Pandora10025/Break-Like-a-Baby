@@ -23,12 +23,14 @@ public class ObjectManager : MonoBehaviourPun
     [SerializeField] private float breakablePercentage=0.5f;
     private void Start()
     {
+        instance = this;
+
         if (!PhotonNetwork.IsMasterClient)
         {
             Debug.Log("break");
         }
         Debug.Log("break Start");
-        instance = this;
+        
 
         foreach(GameObject g in GameObject.FindGameObjectsWithTag("Breakable"))
         {
@@ -69,7 +71,14 @@ public class ObjectManager : MonoBehaviourPun
         for (int i = 0; i < numOfStartObjects; i++)
         {
             int j = UnityEngine.Random.Range(0, bObjects.Count);
-            g.Add(bObjects[j]);
+            if (!g.Contains(bObjects[j]))
+            {
+                g.Add(bObjects[j]);
+            }
+            else
+            {
+                i--;
+            }
             Debug.Log("aa");
         }
         return g;
