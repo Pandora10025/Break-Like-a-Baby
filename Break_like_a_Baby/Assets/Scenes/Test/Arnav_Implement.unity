@@ -2982,6 +2982,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+--- !u!1 &932162865 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 302837905148455249, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+  m_PrefabInstance: {fileID: 932162864}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -4019,6 +4024,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+--- !u!1 &1771400364 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 302837905148455249, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+  m_PrefabInstance: {fileID: 1771400363}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1821603543
 GameObject:
   m_ObjectHideFlags: 0
@@ -4221,6 +4231,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+--- !u!1 &1837879491 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 302837905148455249, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+  m_PrefabInstance: {fileID: 1837879490}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1908855452
 GameObject:
   m_ObjectHideFlags: 0
@@ -4608,6 +4623,22 @@ PrefabInstance:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 2069217321}
+    - target: {fileID: 573844923914009964, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
+      propertyPath: bObjects.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 573844923914009964, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
+      propertyPath: 'bObjects.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1771400364}
+    - target: {fileID: 573844923914009964, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
+      propertyPath: 'bObjects.Array.data[1]'
+      value: 
+      objectReference: {fileID: 932162865}
+    - target: {fileID: 573844923914009964, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
+      propertyPath: 'bObjects.Array.data[2]'
+      value: 
+      objectReference: {fileID: 1837879491}
     - target: {fileID: 3623552065662644530, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1946.5929
