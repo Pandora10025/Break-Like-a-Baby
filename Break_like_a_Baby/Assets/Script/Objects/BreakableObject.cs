@@ -10,13 +10,22 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 {
     [SerializeField] public UnityEngine.UI.Slider slider;
     [SerializeField] private int health = 10;
-    [SerializeField] public Material mat1, mat2;
+    [SerializeField] public Material activeMat, inactiveMat, boykissedMaterialSponsoredByJayVik;
     private Transform startPos;
     private MeshRenderer meshRenderer;
     [SerializeField] private Collider objectCollider;
     PhotonView pv;
+    List<GameObject> playersInRange = new List<GameObject>();
 
-   List<GameObject> playersInRange = new List<GameObject>();
+    //enum and state manager
+    private enum objectState
+    {
+        inactive,
+        active,
+        broken
+    }
+    private int myState = (int) objectState.inactive;
+
     
     void Start()
     {
@@ -28,83 +37,69 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         pv = GetComponent<PhotonView>();
         Debug.Log((pv==null) + gameObject.transform.parent.name);
         meshRenderer = GetComponent<MeshRenderer>();
-        //objectCollider = GetComponent<Collider>();
-
-        // Ensure the MasterClient owns the object
-        //|| photonView.Owner != PhotonNetwork.MasterClient
-        if (SceneManager.GetActiveScene().name != "ObjectInfrastructure")
+        //this.GetComponent<MeshRenderer>().material = inactiveMat;
+        if (photonView.Owner == null)
         {
-            if (photonView.Owner == null)
-            {
-                photonView.TransferOwnership(PhotonNetwork.MasterClient);
-            }
+            photonView.TransferOwnership(PhotonNetwork.MasterClient);
         }
+        Inactive();
     }
-
 
     /// <summary>
-    /// Method <c>SetCollider</c> toggles the outer collider and slider of the Breakable Object
+    /// 
     /// </summary>
-    /// <param name="b"></param> takes a boolean :)
-    public void SetCollider(Boolean b)
+    public void Inactive()
     {
-        objectCollider.enabled = b;
-        Debug.Log(this.name + " changed to " + b);
-
-        if (b)
-            this.GetComponent<MeshRenderer>().material = mat1;
-        else
-            this.GetComponent<MeshRenderer>().material = mat2;
-
+        this.GetComponent<MeshRenderer>().material = inactiveMat;
+        myState = (int)objectState.inactive;
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void Active()
+    {
+        this.GetComponent<MeshRenderer>().material = activeMat;
+        myState = (int)objectState.active;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public void Break()
+    {
+        this.GetComponent<MeshRenderer>().material = boykissedMaterialSponsoredByJayVik;
+        myState = (int)objectState.broken;
+    }
+
     public void TakeDamage()
     {
-        if (SceneManager.GetActiveScene().name != "ObjectInfrastructure")
-        {
-            photonView.RPC("DamageObject", RpcTarget.AllBuffered);
-        }
-        else
-        {
-            DamageObject();
-        }
+        photonView.RPC("DamageObject", RpcTarget.AllBuffered);
     }
 
     [PunRPC]
     public void DamageObject()
     {
-        if (SceneManager.GetActiveScene().name != "ObjectInfrastructure")
+        if (myState == (int)objectState.active)
         {
             if (photonView == null)
             {
                 Debug.LogWarning("photonView is null in DamageObject");
                 return;
             }
-        }
+            health--;
+            slider.value = health;
+            Debug.Log("Health: " + health);
 
-
-        health--;
-        slider.value = health;
-        Debug.Log("Health: " + health);
-
-        if (health <= 0)//when the object is broken
-        {
-            SetCollider(false);
-            //adjust list
-            ObjectManager.instance.Break(this.gameObject);
-
-            //set child.animState
-            //set child MeshRenderer
-
-
-        
-            foreach (GameObject player in playersInRange)
+            if (health <= 0)//when the object is broken
             {
-                player.GetComponent<PlayerBreak>().breakableInRange(false, gameObject);
+                ObjectManager.instance.Break(this.gameObject);
+                foreach (GameObject player in playersInRange)
+                {
+                    player.GetComponent<PlayerBreak>().breakableInRange(false, gameObject);
+                }
+                playersInRange.Clear();
             }
-
-            playersInRange.Clear();
-
-            
         }
     }
 
