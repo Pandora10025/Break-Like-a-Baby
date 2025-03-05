@@ -25,20 +25,25 @@ public class GameManager : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        int minutes = Mathf.FloorToInt(totalTime / 60);
-        int seconds = Mathf.FloorToInt(totalTime % 60);
-        if (gameStarted)
+        if (PhotonNetwork.IsMasterClient)
         {
-            totalTime -= Time.deltaTime;
-            
-            if (totalTime <= 0)
+            if (gameStarted)
             {
-                totalTime = 0;
-                GameOver(true);
+                totalTime -= Time.deltaTime;
+
+                if (totalTime <= 0)
+                {
+                    totalTime = 0;
+                    GameOver(true);
+
+                }
 
             }
-           
         }
+        int minutes = Mathf.FloorToInt(totalTime / 60);
+        int seconds = Mathf.FloorToInt(totalTime % 60);
+
+       
 
         timerUItext = string.Format("{0:00}:{1:00}", minutes, seconds);
 
@@ -55,6 +60,20 @@ public class GameManager : MonoBehaviourPunCallbacks
         timerText.enabled = b;
     }
 
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC("SyncTimer", newPlayer, totalTime);
+        }
+    }
+
+   
+    [PunRPC]
+    void SyncTimer(float time)
+    {
+        totalTime = time;
+    }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -64,7 +83,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            totalTime = (int)stream.ReceiveNext();
+            totalTime = (float)stream.ReceiveNext();
         }
     }
 
