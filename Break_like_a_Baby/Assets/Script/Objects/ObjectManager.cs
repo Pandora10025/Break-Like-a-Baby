@@ -10,7 +10,7 @@ public class ObjectManager : MonoBehaviourPun
 {
     //private vars
     //place all BreakableObjects in the scene will be put in here through code
-    private List<GameObject> bObjects = new List<GameObject>();
+    [SerializeField] private List<GameObject> bObjects = new List<GameObject>();
     private List<GameObject> activeObjects = new List<GameObject>();
 
     //public vars
@@ -31,10 +31,6 @@ public class ObjectManager : MonoBehaviourPun
         }
         Debug.Log("break Start");
 
-        foreach (GameObject g in GameObject.FindGameObjectsWithTag("Breakable"))
-        {
-            bObjects.Add(g);
-        }
 
         numOfStartObjects = (int)MathF.Ceiling(breakablePercentage * bObjects.Count);
         numOfActiveObjects = numOfStartObjects;
@@ -84,30 +80,29 @@ public class ObjectManager : MonoBehaviourPun
 
     private void SyncActiveObjects()
     {
-
-        GameObject[] activeObjectsCopy= new GameObject[activeObjects.Count];
+        
+        int[] activeObjectIndexes = new int[activeObjects.Count];
         for (int i = 0; i < activeObjects.Count; i++)
         {
-            activeObjectsCopy[i] = activeObjects[i];
+            activeObjectIndexes[i] = bObjects.IndexOf(activeObjects[i]);
         }
 
        
-        photonView.RPC("ReceiveActiveObjects", RpcTarget.AllBuffered);
+        photonView.RPC("ReceiveActiveObjects", RpcTarget.AllBuffered, activeObjectIndexes);
     }
 
     [PunRPC]
-    private void ReceiveActiveObjects()
+    private void ReceiveActiveObjects(int[] activeObjectIndexes)
     {
-        GameObject[] activeObjectsCopy = new GameObject[activeObjects.Count];
-
+       
         Activate(bObjects, false);
         activeObjects.Clear();
-        foreach (GameObject index in activeObjectsCopy)
+        foreach (int index in activeObjectIndexes)
         {
-            
-         
-                activeObjects.Add(index);
-            
+            if (index >= 0 && index < bObjects.Count)
+            {
+                activeObjects.Add(bObjects[index]);
+            }
         }
 
         Activate(activeObjects, true);

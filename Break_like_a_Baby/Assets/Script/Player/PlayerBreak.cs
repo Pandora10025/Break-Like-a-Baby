@@ -66,16 +66,20 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
 
             }
             //check to show the tablist
-            if(Input.GetKey(KeyCode.Tab) && photonView.IsMine)
+            if (photonView.IsMine)
             {
-                ObjectManager.instance.ToggleText(true);
-                GameManager.instance.ToggleText(true);
+                if (Input.GetKey(KeyCode.Tab))
+                {
+                    ObjectManager.instance.ToggleText(true);
+                    GameManager.instance.ToggleText(true);
+                }
+                else
+                {
+                    ObjectManager.instance.ToggleText(false);
+                    GameManager.instance.ToggleText(false);
+                }
             }
-            else
-            {
-                ObjectManager.instance.ToggleText(false);
-                GameManager.instance.ToggleText(false);
-            }
+           
         }
 
 
