@@ -31,13 +31,17 @@ public class ObjectManager : MonoBehaviourPun
         }
         Debug.Log("break Start");
 
+        foreach (GameObject g in GameObject.FindGameObjectsWithTag("Breakable"))
+        {
+            bObjects.Add(g);
+        }
+
+        numOfStartObjects = (int)MathF.Ceiling(breakablePercentage * bObjects.Count);
+        numOfActiveObjects = numOfStartObjects;
+
         if (PhotonNetwork.IsMasterClient)
         {
-            foreach (GameObject g in GameObject.FindGameObjectsWithTag("Breakable"))
-            {
-                bObjects.Add(g);
-            }
-            numOfStartObjects = (int)MathF.Ceiling(breakablePercentage * bObjects.Count);
+          
             activeObjects = Randomize();
             SyncActiveObjects();
             Debug.Log("Num of actual activeObjects: " + activeObjects.Count);
@@ -45,7 +49,7 @@ public class ObjectManager : MonoBehaviourPun
 
 
 
-        numOfActiveObjects = numOfStartObjects;
+       
 
         //numOfActiveObjects = numOfStartObjects;
         Debug.Log("NumOfStartObjects: " + numOfStartObjects);
@@ -80,29 +84,29 @@ public class ObjectManager : MonoBehaviourPun
 
     private void SyncActiveObjects()
     {
-        
-        int[] activeObjectIndexes = new int[activeObjects.Count];
+
+        GameObject[] activeObjectsCopy= new GameObject[activeObjects.Count];
         for (int i = 0; i < activeObjects.Count; i++)
         {
-            activeObjectIndexes[i] = bObjects.IndexOf(activeObjects[i]);
+            activeObjectsCopy[i] = activeObjects[i];
         }
 
        
-        photonView.RPC("ReceiveActiveObjects", RpcTarget.AllBuffered, activeObjectIndexes);
+        photonView.RPC("ReceiveActiveObjects", RpcTarget.AllBuffered, activeObjectsCopy);
     }
 
     [PunRPC]
-    private void ReceiveActiveObjects(int[] activeObjectIndexes)
+    private void ReceiveActiveObjects(GameObject[] activeObjectsCopy)
     {
        
         Activate(bObjects, false);
         activeObjects.Clear();
-        foreach (int index in activeObjectIndexes)
+        foreach (GameObject index in activeObjectsCopy)
         {
-            if (index >= 0 && index < bObjects.Count)
-            {
-                activeObjects.Add(bObjects[index]);
-            }
+            
+         
+                activeObjects.Add(index);
+            
         }
 
         Activate(activeObjects, true);
