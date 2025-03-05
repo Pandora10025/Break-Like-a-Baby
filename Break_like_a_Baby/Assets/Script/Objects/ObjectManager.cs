@@ -86,8 +86,7 @@ public class ObjectManager : MonoBehaviourPun
         {
             activeObjectIndexes[i] = bObjects.IndexOf(activeObjects[i]);
         }
-
-       
+     
         photonView.RPC("ReceiveActiveObjects", RpcTarget.AllBuffered, activeObjectIndexes);
     }
 
@@ -116,7 +115,7 @@ public class ObjectManager : MonoBehaviourPun
     {
         foreach(GameObject g in gObjects)
         {
-            g.transform.GetChild(0).GetComponent<BreakableObject>().SetCollider(b);
+            g.transform.GetChild(0).GetComponent<BreakableObject>().Active();
         }
     }
 
@@ -128,6 +127,7 @@ public class ObjectManager : MonoBehaviourPun
 
     public void Break(GameObject child)
     {
+        child.GetComponent<BreakableObject>().Break();
         activeObjects.Remove(child.transform.parent.gameObject);
         Debug.Log("Broken Object: " + activeObjects.ToString());
         numOfActiveObjects--;

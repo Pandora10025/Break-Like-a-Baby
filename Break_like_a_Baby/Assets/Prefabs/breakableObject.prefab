@@ -289,8 +289,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slider: {fileID: 1999359390677421420}
   health: 10
-  mat1: {fileID: 2100000, guid: 5fa38a89ee257415ebdee359e2b14b21, type: 2}
-  mat2: {fileID: 2100000, guid: baa92b047d05844b981b133671f4b650, type: 2}
+  activeMat: {fileID: 2100000, guid: 5fa38a89ee257415ebdee359e2b14b21, type: 2}
+  inactiveMat: {fileID: 2100000, guid: a7bd7b375565f437896ceca71f8d560d, type: 2}
+  boykissedMaterialSponsoredByJayVik: {fileID: 2100000, guid: baa92b047d05844b981b133671f4b650, type: 2}
   objectCollider: {fileID: 4391924149289610512}
 --- !u!33 &7860786660121336853
 MeshFilter:
