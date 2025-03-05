@@ -1,7 +1,9 @@
 using UnityEngine;
+using Photon.Pun;
 using TMPro;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPunCallbacks
+
 {
     public static GameManager instance { get; private set; }
 
@@ -54,6 +56,17 @@ public class GameManager : MonoBehaviour
     }
 
 
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(totalTime);
+        }
+        else
+        {
+            totalTime = (int)stream.ReceiveNext();
+        }
+    }
 
 
 
