@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (true)
         {
             if (gameStarted)
             {
@@ -84,6 +84,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         else
         {
             totalTime = (float)stream.ReceiveNext();
+            Debug.Log("a");
         }
     }
 
