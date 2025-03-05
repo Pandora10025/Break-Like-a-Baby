@@ -92,13 +92,14 @@ public class ObjectManager : MonoBehaviourPun
         }
 
        
-        photonView.RPC("ReceiveActiveObjects", RpcTarget.AllBuffered, activeObjectsCopy);
+        photonView.RPC("ReceiveActiveObjects", RpcTarget.AllBuffered);
     }
 
     [PunRPC]
-    private void ReceiveActiveObjects(GameObject[] activeObjectsCopy)
+    private void ReceiveActiveObjects()
     {
-       
+        GameObject[] activeObjectsCopy = new GameObject[activeObjects.Count];
+
         Activate(bObjects, false);
         activeObjects.Clear();
         foreach (GameObject index in activeObjectsCopy)
