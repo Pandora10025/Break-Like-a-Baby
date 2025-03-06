@@ -2,15 +2,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
+using ExitGames.Client.Photon;
 
 public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
 {
     public TMP_InputField createInput;
     public TMP_InputField joinInput;
+    public TMP_InputField playerInput;
     public TMP_Text statusText;
     [SerializeField]
     string roomJoin;
-
+    bool characterSet;
     void Start()
     {
         UpdateStatus("Waiting for input...");
@@ -43,6 +45,10 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         UpdateStatus($"Joined room: {PhotonNetwork.CurrentRoom.Name}");
+        if (!characterSet)
+        {
+            SelectCharacter(0);
+        }
         PhotonNetwork.LoadLevel(roomJoin);
     }
 
@@ -73,5 +79,37 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
         {
             statusText.text = message;
         }
+    }
+
+    public void SelectCharacter(int characterID)
+    {
+        characterSet = true;
+        ExitGames.Client.Photon.Hashtable playerProperties = new ExitGames.Client.Photon.Hashtable();
+        playerProperties["CharacterID"] = characterID;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperties);
+        Debug.Log($"CharacterID set to: {characterID} for {PhotonNetwork.LocalPlayer.NickName}");
+
+        if (string.IsNullOrEmpty(playerInput.text))
+        {
+            PhotonNetwork.NickName = "Player_" + Random.Range(1000, 9999);
+        }
+        else
+        {
+            PhotonNetwork.NickName = playerInput.text;
+        }
+        PhotonNetwork.NickName = "Player_" + Random.Range(1000, 9999);
+    }
+
+    public void characterA()
+    {
+        SelectCharacter(0);
+        
+        
+    }
+
+    public void characterB()
+    {
+        SelectCharacter(1);
+        
     }
 }

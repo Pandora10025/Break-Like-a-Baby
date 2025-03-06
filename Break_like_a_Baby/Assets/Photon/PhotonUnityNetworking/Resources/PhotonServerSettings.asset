@@ -45,6 +45,7 @@ MonoBehaviour:
   - SyncAnimation
   - ReceiveActiveObjects
   - SyncTimer
+  - RPC_SetAnimator
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

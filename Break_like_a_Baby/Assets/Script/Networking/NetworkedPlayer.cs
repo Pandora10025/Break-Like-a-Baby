@@ -9,10 +9,10 @@ public class NetworkedPlayer : MonoBehaviourPun, IPunObservable
     public float positionLerpSpeed = 10f;  // Smooth position updates
     public float rotationLerpSpeed = 20f; // Adjust for smoothness
     Quaternion networkRotation;
-    Animator anim;
+    public Animator anim;
     public float networkedVelocity;
 
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();

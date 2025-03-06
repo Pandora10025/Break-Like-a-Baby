@@ -5,8 +5,11 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Haptics;
 using Photon.Pun;
+using Photon.Realtime;
+using ExitGames.Client.Photon;
+using TMPro;
 
-public class PlayerControllerr : MonoBehaviourPun
+public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
 {
     //private AudioManager audioSearch;
     //private OutlineManager itemOutline;
@@ -42,6 +45,8 @@ public class PlayerControllerr : MonoBehaviourPun
     private Rigidbody rb;
     private Camera mainCamera;
     private Animator anim;
+    [SerializeField] RuntimeAnimatorController[] animatorControllers;
+
 
     // Store the target rotation angle
     private float targetAngle = 0f;
@@ -54,6 +59,8 @@ public class PlayerControllerr : MonoBehaviourPun
     public bool isRotating;
 
     public PhotonView view;
+
+    [SerializeField] TextMeshProUGUI nameTag;
 
 
     void Awake()
@@ -87,10 +94,75 @@ public class PlayerControllerr : MonoBehaviourPun
         //tasks = FindAnyObjectByType<TaskList>();
         mainCamera = Camera.main;
         //cameraFollow = GetComponent<CameraFollow>();
-        anim = GetComponent<Animator>();
+      
+           anim = GetComponent<Animator>();
+
+        if (photonView.IsMine)
+        {
+            nameTag.gameObject.SetActive(false);
+            StartCoroutine(SetAnimatorDelayed());
+       
+        }
+
         view = GetComponent<PhotonView>();
 
 
+    }
+
+    IEnumerator SetAnimatorDelayed()
+    {
+        yield return new WaitForSeconds(0.1f); // Small delay to ensure all components are initialized
+
+        if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("CharacterID", out object characterID))
+        {
+            int id = (int)characterID;
+            Debug.Log(id);
+            photonView.RPC("RPC_SetAnimator", RpcTarget.AllBuffered, id);
+        }
+        
+    }
+
+    [PunRPC]
+    void RPC_SetAnimator(int characterID)
+    {
+        nameTag.text = photonView.Owner.NickName;
+        if (anim == null)
+        {
+            anim = GetComponent<Animator>();  // Ensure anim is assigned
+            if (anim == null)
+            {
+                Debug.LogError("Animator component is missing on " + gameObject.name);
+                return;
+            }
+
+        }
+
+        Debug.Log($"RPC_SetAnimator called on {photonView.Owner.NickName} with CharacterID {characterID}");
+
+        if (characterID >= 0 && characterID < animatorControllers.Length)
+        {
+            anim.runtimeAnimatorController = animatorControllers[characterID];
+            GetComponent<NetworkedPlayer>().anim.runtimeAnimatorController= animatorControllers[characterID];
+            Debug.Log($"{photonView.Owner.NickName} now using Animator {characterID}");
+        }
+        else
+        {
+            Debug.LogWarning("Invalid CharacterID received!");
+        }
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        if (changedProps.ContainsKey("CharacterID"))
+        {
+            int characterID = (int)changedProps["CharacterID"];
+            Debug.Log($"OnPlayerPropertiesUpdate called for {targetPlayer.NickName} with CharacterID: {characterID}");
+
+            if (targetPlayer == photonView.Owner)
+            {
+                photonView.RPC("RPC_SetAnimator", RpcTarget.AllBuffered, characterID);
+            }
+        }
     }
 
     void Update()

@@ -115,7 +115,15 @@ public class ObjectManager : MonoBehaviourPun
     {
         foreach(GameObject g in gObjects)
         {
-            g.transform.GetChild(0).GetComponent<BreakableObject>().Active();
+            if (b)
+            {
+                g.transform.GetChild(0).GetComponent<BreakableObject>().Active();
+            }
+            else
+            {
+
+                g.transform.GetChild(0).GetComponent<BreakableObject>().Inactive();
+            }
         }
     }
 
