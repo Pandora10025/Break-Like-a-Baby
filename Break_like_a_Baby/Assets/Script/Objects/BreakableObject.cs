@@ -10,8 +10,9 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 {
     [SerializeField] public UnityEngine.UI.Slider slider;
     [SerializeField] public Canvas canvas;
-    [SerializeField] private int health = 10;
+    [SerializeField] private float maxHealth = 10f;
     [SerializeField] public Material activeMat, inactiveMat, boykissedMaterialSponsoredByJayVik;
+    private float health;
     private Transform startPos;
     private MeshRenderer meshRenderer;
     [SerializeField] private Collider objectCollider;
@@ -32,9 +33,10 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     {
         //instantiate sliders and stuff
         slider = this.transform.parent.GetChild(1).GetChild(0).GetComponent<UnityEngine.UI.Slider>();
-        slider.maxValue = health;
-        slider.value = health;
+        slider.maxValue = maxHealth;
+        slider.value = maxHealth;
         slider.minValue = 0;
+        health = maxHealth;
         pv = GetComponent<PhotonView>();
         Debug.Log((pv==null) + gameObject.transform.parent.name);
         meshRenderer = GetComponent<MeshRenderer>();
@@ -45,36 +47,34 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         }
         
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
+    #region state changer
     public void Inactive()
     {
         this.GetComponent<MeshRenderer>().material = inactiveMat;
         myState = (int)objectState.inactive;
         canvas.enabled = false;
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
     public void Active()
     {
         this.GetComponent<MeshRenderer>().material = activeMat;
         myState = (int)objectState.active;
         canvas.enabled = true;
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
     public void Break()
     {
         this.GetComponent<MeshRenderer>().material = boykissedMaterialSponsoredByJayVik;
         myState = (int)objectState.broken;
     }
 
+    #endregion
+
+    void FixedUpdate()
+    {//all slider adjustments will be here
+        if(health <= maxHealth && health > 0)
+            health += 0.05f;
+        slider.value = health;
+
+    }
     public void TakeDamage()
     {
         photonView.RPC("DamageObject", RpcTarget.AllBuffered);
@@ -90,8 +90,8 @@ public class BreakableObject : MonoBehaviourPunCallbacks
                 Debug.LogWarning("photonView is null in DamageObject");
                 return;
             }
+
             health--;
-            slider.value = health;
             Debug.Log("Health: " + health);
 
             if (health <= 0)//when the object is broken
