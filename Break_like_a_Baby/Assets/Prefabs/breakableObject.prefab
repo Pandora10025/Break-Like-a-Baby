@@ -288,6 +288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 1999359390677421420}
+  canvas: {fileID: 8016773059894238209}
   health: 10
   activeMat: {fileID: 2100000, guid: 5fa38a89ee257415ebdee359e2b14b21, type: 2}
   inactiveMat: {fileID: 2100000, guid: a7bd7b375565f437896ceca71f8d560d, type: 2}

@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class BreakableObject : MonoBehaviourPunCallbacks
 {
     [SerializeField] public UnityEngine.UI.Slider slider;
+    [SerializeField] public Canvas canvas;
     [SerializeField] private int health = 10;
     [SerializeField] public Material activeMat, inactiveMat, boykissedMaterialSponsoredByJayVik;
     private Transform startPos;
@@ -52,6 +53,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     {
         this.GetComponent<MeshRenderer>().material = inactiveMat;
         myState = (int)objectState.inactive;
+        canvas.enabled = false;
     }
 
     /// <summary>
@@ -61,6 +63,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     {
         this.GetComponent<MeshRenderer>().material = activeMat;
         myState = (int)objectState.active;
+        canvas.enabled = true;
     }
 
     /// <summary>
