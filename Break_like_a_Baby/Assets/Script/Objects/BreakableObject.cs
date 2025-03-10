@@ -42,7 +42,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         {
             photonView.TransferOwnership(PhotonNetwork.MasterClient);
         }
-        Inactive();
+        
     }
 
     /// <summary>
