@@ -54,8 +54,10 @@ public class BabySitterAI : MonoBehaviour
 
     public LayerMask LayersWeCanSee;
 
+    // ANIMATION
 
-
+    private Animator anim;
+    private float velocity;
 
 
 
@@ -64,6 +66,7 @@ public class BabySitterAI : MonoBehaviour
     void Start()
     {
         nav = GetComponent<NavMeshAgent>();
+        anim = GetComponent<Animator>();
 
         currentState = BabysitterAIState.PREIDLE;
 
@@ -73,12 +76,14 @@ public class BabySitterAI : MonoBehaviour
     void Update()
     {
 
+        Debug.Log(nav.velocity);
         //Code for when we spot a player
         Transform spottedPlayer = ScanForPlayers();
 
 
 
-        switch (currentState) {
+        switch (currentState)
+        {
 
             case BabysitterAIState.PREIDLE:
 
@@ -102,12 +107,12 @@ public class BabySitterAI : MonoBehaviour
                 if (waitTimer > 0)
                 {
 
-                    
+
                     waitTimer -= Time.deltaTime;
 
 
 
-                    
+
                     if (spottedPlayer)
                     {
                         currentState = BabysitterAIState.CHASE;
@@ -133,7 +138,7 @@ public class BabySitterAI : MonoBehaviour
 
             case BabysitterAIState.PREPATROL:
 
-                
+
 
 
                 //Pre-patrol behavior:
@@ -150,7 +155,7 @@ public class BabySitterAI : MonoBehaviour
 
 
                 //Code for when we spot a player
-                
+
                 if (spottedPlayer)
                 {
                     currentState = BabysitterAIState.CHASE;
@@ -175,7 +180,7 @@ public class BabySitterAI : MonoBehaviour
                     {
                         if (!nav.hasPath || nav.velocity.sqrMagnitude == 0f)
                         {
-                             
+
 
                             //The patrol function is mean to keep going based on how many spots are lef to visit. 
                             //We should only keep visiting more spots if we have more move left!
@@ -186,7 +191,7 @@ public class BabySitterAI : MonoBehaviour
                                 //We're going another point!
 
                                 calculatedPatrolPointsToVisit--;
-
+                                anim.SetBool("chasing", true);
 
                                 //First we find the closest patrol point! (the one we are at)
                                 //Then the destination will be the one after that.
@@ -216,17 +221,19 @@ public class BabySitterAI : MonoBehaviour
 
 
                             }
-                            else {
+                            else
+                            {
                                 //We're done patrolling for now!
 
                                 currentState = BabysitterAIState.PREIDLE;
+                                anim.SetBool("chasing", false);
 
 
-                            
+
                             }
 
 
-                            
+
                         }
                     }
                 }
@@ -234,7 +241,7 @@ public class BabySitterAI : MonoBehaviour
 
                 //if ( !nav.hasPath || !nav.pathPending)
                 //{
-                    
+
                 //}
 
 
@@ -249,6 +256,7 @@ public class BabySitterAI : MonoBehaviour
             case BabysitterAIState.CHASE:
 
                 float playerDist = Vector3.Distance(playerWeAreCurrentlyChasing.position, transform.position);
+                anim.SetBool("chasing", true);
 
                 if (playerDist > escapeDistance)
                 {
@@ -262,10 +270,10 @@ public class BabySitterAI : MonoBehaviour
                 else
                 {
 
-                    float angleToPlayer = Vector3.Angle( transform.forward , ( playerWeAreCurrentlyChasing.position - transform.position ).normalized );
+                    float angleToPlayer = Vector3.Angle(transform.forward, (playerWeAreCurrentlyChasing.position - transform.position).normalized);
 
 
-                    if (playerDist < catchingDistance && angleToPlayer < fieldOfViewDegrees/2)
+                    if (playerDist < catchingDistance && angleToPlayer < fieldOfViewDegrees / 2)
                     {
 
                         Debug.Log("GOTCHA GOTCHA GOTCHA, " + playerWeAreCurrentlyChasing.name + "!");
@@ -276,12 +284,13 @@ public class BabySitterAI : MonoBehaviour
 
 
                     }
-                    else {
-                        nav.SetDestination(playerWeAreCurrentlyChasing.position); 
+                    else
+                    {
+                        nav.SetDestination(playerWeAreCurrentlyChasing.position);
                     }
 
 
-                   
+
 
                 }
 
@@ -314,12 +323,14 @@ public class BabySitterAI : MonoBehaviour
     {
         nav.isStopped = true;
         nav.ResetPath();
+        anim.SetBool("chasing", false);
     }
 
 
-    void RandomAmountOfPointsToPatrol() {
+    void RandomAmountOfPointsToPatrol()
+    {
 
-        float randomPercent = UnityEngine.Random.Range( patrolPercentEachPatrolMinAndMax.x , patrolPercentEachPatrolMinAndMax.y );
+        float randomPercent = UnityEngine.Random.Range(patrolPercentEachPatrolMinAndMax.x, patrolPercentEachPatrolMinAndMax.y);
 
 
         float roundedPercent = Mathf.Ceil(randomPercent * patrolPoints.Count);
@@ -333,7 +344,8 @@ public class BabySitterAI : MonoBehaviour
     }
 
 
-    Transform ScanForPlayers() {
+    Transform ScanForPlayers()
+    {
         Transform playerReturnVariable = null;
 
 
@@ -349,7 +361,7 @@ public class BabySitterAI : MonoBehaviour
             GameObject currentPlayer = players[i];
             Vector3 lookDirection = currentPlayer.transform.position - transform.position;
 
-            float currentDist = Vector3.Magnitude( lookDirection);
+            float currentDist = Vector3.Magnitude(lookDirection);
 
             float angleDifference = Vector3.Angle(transform.forward, lookDirection);
 
@@ -358,7 +370,7 @@ public class BabySitterAI : MonoBehaviour
             RaycastHit hit;
 
 
-            if ( Mathf.Abs(angleDifference) <= fieldOfViewDegrees/2f)
+            if (Mathf.Abs(angleDifference) <= fieldOfViewDegrees / 2f)
             {
                 if (Physics.Raycast(transform.position, lookDirection.normalized * currentDist, out hit, 888, LayersWeCanSee))
                 {
@@ -374,7 +386,7 @@ public class BabySitterAI : MonoBehaviour
 
                         //Debug.Log("The closest player..." + playerReturnVariable.name + "!");
 
-                          
+
 
 
                     }
@@ -386,8 +398,8 @@ public class BabySitterAI : MonoBehaviour
         }
 
 
-        
-        
+
+
         return playerReturnVariable;
     }
 
@@ -398,29 +410,29 @@ public class BabySitterAI : MonoBehaviour
     private void OnDrawGizmos()
     {
 
-        Vector3 rightNormalFOV = Quaternion.Euler(0, fieldOfViewDegrees/2f, 0) * transform.forward;
-        Vector3 leftNormalFOV = Quaternion.Euler(0, -fieldOfViewDegrees/2f, 0) * transform.forward;
+        Vector3 rightNormalFOV = Quaternion.Euler(0, fieldOfViewDegrees / 2f, 0) * transform.forward;
+        Vector3 leftNormalFOV = Quaternion.Euler(0, -fieldOfViewDegrees / 2f, 0) * transform.forward;
 
         Vector3 sweepingNormalFOV = Quaternion.Euler(0, Mathf.Sin(Time.realtimeSinceStartup) * fieldOfViewDegrees / 2f, 0) * transform.forward;
 
-        Gizmos.DrawLine(transform.position, transform.position+rightNormalFOV * viewingDistance);
-        Gizmos.DrawLine(transform.position, transform.position+leftNormalFOV * viewingDistance);
-        Gizmos.DrawLine(transform.position, transform.position+sweepingNormalFOV * viewingDistance);
+        Gizmos.DrawLine(transform.position, transform.position + rightNormalFOV * viewingDistance);
+        Gizmos.DrawLine(transform.position, transform.position + leftNormalFOV * viewingDistance);
+        Gizmos.DrawLine(transform.position, transform.position + sweepingNormalFOV * viewingDistance);
 
         int arcSteps = 8;
 
         for (int i = 0; i < arcSteps; i++)
         {
-            Vector3 from = Quaternion.Euler( 0, (float)i /(float)arcSteps * fieldOfViewDegrees ,0 ) * leftNormalFOV;
-            Vector3 to = Quaternion.Euler(0, (float)(i+1) / (float)arcSteps * fieldOfViewDegrees, 0) * leftNormalFOV;
+            Vector3 from = Quaternion.Euler(0, (float)i / (float)arcSteps * fieldOfViewDegrees, 0) * leftNormalFOV;
+            Vector3 to = Quaternion.Euler(0, (float)(i + 1) / (float)arcSteps * fieldOfViewDegrees, 0) * leftNormalFOV;
 
 
-            Gizmos.DrawLine( transform.position + from * viewingDistance, transform.position + to * viewingDistance);
-            
-            
-            Gizmos.DrawLine( transform.position + from * catchingDistance, transform.position + to * catchingDistance);
+            Gizmos.DrawLine(transform.position + from * viewingDistance, transform.position + to * viewingDistance);
 
-            
+
+            Gizmos.DrawLine(transform.position + from * catchingDistance, transform.position + to * catchingDistance);
+
+
 
 
 
@@ -433,13 +445,13 @@ public class BabySitterAI : MonoBehaviour
 
             Transform currentPoint = patrolPoints[i];
 
-            Transform nextPoint = patrolPoints[ (i+1)%patrolPoints.Count];
+            Transform nextPoint = patrolPoints[(i + 1) % patrolPoints.Count];
 
             Gizmos.DrawSphere(currentPoint.position, .5f);
 
             Gizmos.DrawLine(currentPoint.position, nextPoint.position);
 
-            
+
 
         }
 
@@ -455,8 +467,8 @@ public class BabySitterAI : MonoBehaviour
         for (int i = 0; i < arcSteps; i++)
         {
 
-            Vector3 from = Quaternion.Euler(0, (float)i / (float)arcSteps * 360  +Time.realtimeSinceStartup*2, 0) * Vector3.forward;
-            Vector3 to = Quaternion.Euler(0, (float)(i + 1) / (float)arcSteps * 360 + Time.realtimeSinceStartup*2, 0) * Vector3.forward;
+            Vector3 from = Quaternion.Euler(0, (float)i / (float)arcSteps * 360 + Time.realtimeSinceStartup * 2, 0) * Vector3.forward;
+            Vector3 to = Quaternion.Euler(0, (float)(i + 1) / (float)arcSteps * 360 + Time.realtimeSinceStartup * 2, 0) * Vector3.forward;
 
 
             Gizmos.DrawLine(transform.position + from * escapeDistance, transform.position + to * viewingDistance);
