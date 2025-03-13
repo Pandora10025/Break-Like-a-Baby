@@ -13,6 +13,7 @@ public class ObjectManager : MonoBehaviourPun
 {
     //private vars
     //place all BreakableObjects in the scene will be put in here through code
+    [Tooltip("Add all breakable objects to here for them to work!")]
     [SerializeField] private List<GameObject> bObjects = new List<GameObject>();
     private List<GameObject> activeObjects = new List<GameObject>();
 
