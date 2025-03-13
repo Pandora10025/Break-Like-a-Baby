@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 if (totalTime <= 0)
                 {
                     totalTime = 0;
-                    GameOver(true);
+                    GameOver(false);
 
                 }
 
@@ -50,9 +50,23 @@ public class GameManager : MonoBehaviourPunCallbacks
         timerText.text = timerUItext;
     }
 
-    public void GameOver(bool timer)
+    public void GameOver(bool won)
     {
         gameOver = true;
+
+
+        if (PhotonNetwork.IsMasterClient) 
+        {
+            if (won)
+            {
+                PhotonNetwork.LoadLevel("GameWon");
+            }
+            else
+            {
+                PhotonNetwork.LoadLevel("GameWon");
+            }
+           
+        }
     }
 
     public void ToggleText(bool b)

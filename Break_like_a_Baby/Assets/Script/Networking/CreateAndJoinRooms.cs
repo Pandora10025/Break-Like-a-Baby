@@ -45,6 +45,7 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         UpdateStatus($"Joined room: {PhotonNetwork.CurrentRoom.Name}");
+        setName();
         if (!characterSet)
         {
             SelectCharacter(0);
@@ -88,16 +89,6 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
         playerProperties["CharacterID"] = characterID;
         PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperties);
         Debug.Log($"CharacterID set to: {characterID} for {PhotonNetwork.LocalPlayer.NickName}");
-
-        if (string.IsNullOrEmpty(playerInput.text))
-        {
-            PhotonNetwork.NickName = "Player_" + Random.Range(1000, 9999);
-        }
-        else
-        {
-            PhotonNetwork.NickName = playerInput.text;
-        }
-        PhotonNetwork.NickName = "Player_" + Random.Range(1000, 9999);
     }
 
     public void characterA()
@@ -111,5 +102,17 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     {
         SelectCharacter(1);
         
+    }
+
+    public void setName()
+    {
+        if (string.IsNullOrEmpty(playerInput.text))
+        {
+            PhotonNetwork.NickName = "Player_" + Random.Range(1000, 9999);
+        }
+        else
+        {
+            PhotonNetwork.NickName = playerInput.text;
+        }
     }
 }

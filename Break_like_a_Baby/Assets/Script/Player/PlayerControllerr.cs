@@ -61,6 +61,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public PhotonView view;
 
     [SerializeField] TextMeshProUGUI nameTag;
+    [SerializeField] Color[] shadowColors;
 
 
     void Awake()
@@ -99,7 +100,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
         if (photonView.IsMine)
         {
-            nameTag.gameObject.SetActive(false);
+           // nameTag.gameObject.SetActive(false);
             StartCoroutine(SetAnimatorDelayed());
        
         }
@@ -126,6 +127,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
     void RPC_SetAnimator(int characterID)
     {
         nameTag.text = photonView.Owner.NickName;
+        
         if (anim == null)
         {
             anim = GetComponent<Animator>();  // Ensure anim is assigned
@@ -144,6 +146,13 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
             anim.runtimeAnimatorController = animatorControllers[characterID];
             GetComponent<NetworkedPlayer>().anim.runtimeAnimatorController= animatorControllers[characterID];
             Debug.Log($"{photonView.Owner.NickName} now using Animator {characterID}");
+
+            Material mat = nameTag.fontSharedMaterial; 
+
+            if (mat.HasProperty("_UnderlayColor")) 
+            {
+                mat.SetColor("_UnderlayColor", shadowColors[characterID]);
+            }
         }
         else
         {

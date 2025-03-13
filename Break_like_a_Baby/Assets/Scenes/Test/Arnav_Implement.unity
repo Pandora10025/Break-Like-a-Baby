@@ -7466,6 +7466,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1480050531}
     - target: {fileID: 573844923914009964, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
+      propertyPath: breakablePercentage
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 573844923914009964, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: 'bObjects.Array.data[0]'
       value: 
       objectReference: {fileID: 1771400364}
