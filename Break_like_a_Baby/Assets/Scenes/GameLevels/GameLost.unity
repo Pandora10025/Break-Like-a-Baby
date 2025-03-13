@@ -650,7 +650,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Game Won
+  m_text: 'Game Lost
 
 '
   m_isRightToLeft: 0

@@ -100,7 +100,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
         if (photonView.IsMine)
         {
-           // nameTag.gameObject.SetActive(false);
+            nameTag.gameObject.SetActive(false);
             StartCoroutine(SetAnimatorDelayed());
        
         }

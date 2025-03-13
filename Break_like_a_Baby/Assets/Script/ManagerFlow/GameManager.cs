@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
             else
             {
-                PhotonNetwork.LoadLevel("GameWon");
+                PhotonNetwork.LoadLevel("GameLost");
             }
            
         }

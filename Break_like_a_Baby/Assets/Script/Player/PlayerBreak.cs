@@ -32,12 +32,12 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
             if (Input.GetKey(KeyCode.Tab))
             {
                 ObjectManager.instance.ToggleText(true);
-                GameManager.instance.ToggleText(true);
+                //GameManager.instance.ToggleText(true);
             }
             else
             {
                 ObjectManager.instance.ToggleText(false);
-                GameManager.instance.ToggleText(false);
+                //GameManager.instance.ToggleText(false);
             }
         }
     }
