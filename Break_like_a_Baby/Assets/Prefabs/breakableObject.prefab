@@ -249,6 +249,7 @@ GameObject:
   - component: {fileID: 4391924149289610512}
   - component: {fileID: 767039811180944281}
   - component: {fileID: 4670031187505825626}
+  - component: {fileID: 7362121570345541299}
   m_Layer: 0
   m_Name: breakableObject
   m_TagString: Untagged
@@ -310,7 +311,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3884651407026652434}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -439,6 +440,30 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &7362121570345541299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3884651407026652434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cdb8bfd9da74ef49826871ba97f32c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationPoint: {x: 3.51, y: -0.02000001, z: 3.32}
+  hitMaterials: []
+  hitPoint: {x: 0, y: 0, z: 0}
+  hitDirection: {x: 1, y: 0, z: 1}
+  floorRectScale: {x: 1, y: 1}
+  bouncesNumber: 2
+  bounceWeight: 0.5
+  bounceIntensity: 2
+  animProgress: 0
+  rotationAmount: 45
+  shakeSpeed: 1
+  testShake: 0
 --- !u!1 &5785540167293444795
 GameObject:
   m_ObjectHideFlags: 0
