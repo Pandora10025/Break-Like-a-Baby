@@ -30,5 +30,18 @@ public class GameOver : MonoBehaviourPunCallbacks
             
 
         }
+        else
+        {
+            photonView.RPC("RequestRestart", RpcTarget.MasterClient); 
+        }
+    }
+
+    [PunRPC]
+    void RequestRestart()
+    {
+        if (PhotonNetwork.IsMasterClient) 
+        {
+            PhotonNetwork.LoadLevel(GameRoom);
+        }
     }
 }
