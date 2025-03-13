@@ -33,6 +33,11 @@ public class BabySitterAI : MonoBehaviour
     public Vector2 idleWaitMinAndMax = new Vector2(3, 10);
     public Vector2 patrolPercentEachPatrolMinAndMax = new Vector2(.1f, 1f);
 
+    public float deathCountdownMaxTime = 1f;
+    public float deathTimer = 0f;
+
+
+
     private float calculatedWaitDelay = 0;
     private float waitTimer = 0;
 
@@ -69,6 +74,8 @@ public class BabySitterAI : MonoBehaviour
         anim = GetComponent<Animator>();
 
         currentState = BabysitterAIState.PREIDLE;
+
+        deathTimer = deathCountdownMaxTime;
 
     }
 
@@ -276,17 +283,52 @@ public class BabySitterAI : MonoBehaviour
                     if (playerDist < catchingDistance && angleToPlayer < fieldOfViewDegrees / 2)
                     {
 
-                        Debug.Log("GOTCHA GOTCHA GOTCHA, " + playerWeAreCurrentlyChasing.name + "!");
 
-                        StopMoving();
+                        if (playerDist < catchingDistance/2)
+                        {
+                            StopMoving();
+                        }
 
+
+                        //Below is only temporarily disabled so that we can add alternative behavior with a timer until we implement the really interesting game over mechanics!
                         //currentState = BabysitterAIState.PICKUP;
+
+                        if (deathTimer > 0)
+                        {
+                            Debug.Log("GOTCHA GOTCHA GOTCHA, " + playerWeAreCurrentlyChasing.name + "!");
+
+
+                            deathTimer -= Time.deltaTime;
+
+
+
+                        }
+                        else {
+
+                            //deathTimer = deathCountdownMaxTime;
+
+                            Debug.Log("GAME OVER, BROOOOOOOOOOOOOO!!!");
+
+
+                            //ARNAV, ADD THE SCENE CHANGE CODE HERE!
+
+
+                        
+                        
+                        }
+
+
+
+
+
 
 
                     }
                     else
                     {
                         nav.SetDestination(playerWeAreCurrentlyChasing.position);
+
+                        deathTimer = deathCountdownMaxTime;
                     }
 
 
@@ -321,8 +363,15 @@ public class BabySitterAI : MonoBehaviour
 
     public void StopMoving()
     {
-        nav.isStopped = true;
-        nav.ResetPath();
+
+        nav.SetDestination(transform.position);
+
+
+        //nav.isStopped = true;
+
+        //nav.ResetPath();
+        
+        
         anim.SetBool("chasing", false);
     }
 
