@@ -5950,6 +5950,8 @@ MonoBehaviour:
   currentState: 0
   idleWaitMinAndMax: {x: 3, y: 10}
   patrolPercentEachPatrolMinAndMax: {x: 0.1, y: 1}
+  deathCountdownMaxTime: 1
+  deathTimer: 0
   patrolPoints:
   - {fileID: 1052710319}
   - {fileID: 530666668}
