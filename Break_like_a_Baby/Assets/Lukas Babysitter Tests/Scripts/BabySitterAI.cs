@@ -312,6 +312,8 @@ public class BabySitterAI : MonoBehaviour
 
                             //ARNAV, ADD THE SCENE CHANGE CODE HERE!
 
+                            GameManager.instance.GameOver(false);
+
 
                         
                         
