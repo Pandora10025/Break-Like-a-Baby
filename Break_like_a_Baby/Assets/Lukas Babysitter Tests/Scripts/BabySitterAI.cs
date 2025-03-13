@@ -76,7 +76,7 @@ public class BabySitterAI : MonoBehaviour
     void Update()
     {
 
-        Debug.Log(nav.velocity);
+        //Debug.Log(nav.velocity);
         //Code for when we spot a player
         Transform spottedPlayer = ScanForPlayers();
 

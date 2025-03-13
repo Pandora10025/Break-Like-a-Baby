@@ -6,6 +6,9 @@ using System;
 using UnityEngine.UI;
 using TMPro;
 
+/// <summary>
+/// ADD ALL BREAKABLE OBJECTS MANUALLY OR ELSE WE'RE GOING TO FUCKING DIE
+/// </summary>
 public class ObjectManager : MonoBehaviourPun
 {
     //private vars
