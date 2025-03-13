@@ -19,6 +19,10 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     PhotonView pv;
     List<GameObject> playersInRange = new List<GameObject>();
     private Transform playerTransform;
+    private Vector3 playerPos;
+    private Vector3 playerRight;
+
+
 
     //enum and state manager
     private enum objectState
@@ -27,9 +31,9 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         active,
         broken
     }
-    private int myState = (int) objectState.inactive;
+    private int myState = (int)objectState.inactive;
 
-    
+
     void Start()
     {
         //instantiate sliders and stuff
@@ -39,14 +43,14 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         slider.minValue = 0;
         health = maxHealth;
         pv = GetComponent<PhotonView>();
-        Debug.Log((pv==null) + gameObject.transform.parent.name);
+        Debug.Log((pv == null) + gameObject.transform.parent.name);
         meshRenderer = GetComponent<MeshRenderer>();
         //this.GetComponent<MeshRenderer>().material = inactiveMat;
         if (photonView.Owner == null)
         {
             photonView.TransferOwnership(PhotonNetwork.MasterClient);
         }
-        
+
     }
     #region state changer
     public void Inactive()
@@ -71,7 +75,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
     void FixedUpdate()
     {//all slider adjustments will be here
-        if(health <= maxHealth && health > 0)
+        if (health <= maxHealth && health > 0)
             health += 0.05f;
         slider.value = health;
 
@@ -80,6 +84,9 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     {
         Debug.Log("taking damage!");
         playerTransform = playerT;
+        playerPos = playerT.position;
+        playerRight = playerT.right;
+
         photonView.RPC("DamageObject", RpcTarget.AllBuffered);
     }
 
@@ -95,9 +102,9 @@ public class BreakableObject : MonoBehaviourPunCallbacks
                 return;
             }
 
-            Debug.Log("player has been sent over!: " + playerTransform.name);
+            //Debug.Log("player has been sent over!: " + playerTransform.name);
             //shake it!
-            this.GetComponent<BoxRockerTest>().Shake(playerTransform);
+            this.GetComponent<BoxRockerTest>().Shake(playerPos, playerRight);
 
 
             health--;
@@ -140,7 +147,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     {
         if (other.gameObject.tag == "Player")
         {
-           
+
             other.GetComponent<PlayerBreak>().breakableInRange(false, gameObject);
             playersInRange.Remove(other.gameObject);
 
