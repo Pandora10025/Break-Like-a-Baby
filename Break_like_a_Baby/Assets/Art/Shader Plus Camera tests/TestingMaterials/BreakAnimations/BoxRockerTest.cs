@@ -220,7 +220,7 @@ public class BoxRockerTest : MonoBehaviour
 
         hitPoint = transformOfPlayer.position;
 
-        hitDirection = transformOfPlayer.forward;
+        hitDirection = transformOfPlayer.right;
 
 
 
