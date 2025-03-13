@@ -19,8 +19,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     PhotonView pv;
     List<GameObject> playersInRange = new List<GameObject>();
     private Transform playerTransform;
-    private Vector3 playerPos;
-    private Vector3 playerRight;
+  
 
 
 
@@ -80,22 +79,21 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         slider.value = health;
 
     }
-    public void TakeDamage(Transform playerT)
+    public void TakeDamage(int pvId)
     {
         Debug.Log("taking damage!");
-        playerTransform = playerT;
-        playerPos = playerT.position;
-        playerRight = playerT.right;
+        
 
-        photonView.RPC("DamageObject", RpcTarget.AllBuffered);
+        photonView.RPC("DamageObject", RpcTarget.AllBuffered, pvId);
     }
 
     [PunRPC]
-    public void DamageObject()
+    public void DamageObject(int pvId)
     {
         Debug.Log("among us");
         if (myState == (int)objectState.active)
         {
+               
             if (photonView == null)
             {
                 Debug.LogWarning("photonView is null in DamageObject");
@@ -104,8 +102,19 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
             //Debug.Log("player has been sent over!: " + playerTransform.name);
             //shake it!
-            this.GetComponent<BoxRockerTest>().Shake(playerPos, playerRight);
+            PhotonView playerPhotonView = PhotonView.Find(pvId);
+            if (playerPhotonView != null)
+            {
+                Transform playerT = playerPhotonView.transform;
+                Debug.Log("Player has been sent over!: " + playerT.name);
 
+                Vector3 playerPos = playerT.position;
+                Vector3 playerRight = playerT.right;
+
+
+
+                this.GetComponent<BoxRockerTest>().Shake(playerPos, playerRight);
+            }
 
             health--;
             Debug.Log("Health: " + health);

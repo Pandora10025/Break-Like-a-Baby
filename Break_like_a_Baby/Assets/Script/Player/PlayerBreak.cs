@@ -23,7 +23,7 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
     {
         if (inRange && Input.GetKeyDown(KeyCode.Space) && photonView.IsMine){
             Debug.Log("pressed space");
-            breakable.GetComponent<BreakableObject>().TakeDamage(this.transform);
+            breakable.GetComponent<BreakableObject>().TakeDamage(photonView.ViewID);
             
         }
         //check to show the tablist
