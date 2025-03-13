@@ -2,14 +2,14 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 
 
 public class BoxRockerTest : MonoBehaviour
 {
 
 
-    
+
 
     [SerializeField] Vector3 rotationPoint;
     public Material[] hitMaterials;
@@ -17,7 +17,7 @@ public class BoxRockerTest : MonoBehaviour
 
 
     [SerializeField] Vector3 hitPoint;
-    [SerializeField] Vector3 hitDirection = new Vector3(1,0,1);
+    [SerializeField] Vector3 hitDirection = new Vector3(1, 0, 1);
 
     [SerializeField] Vector2 floorRectScale = new Vector2(1, 1);
 
@@ -39,7 +39,7 @@ public class BoxRockerTest : MonoBehaviour
     private float animVelocity = 0;
 
     [SerializeField] float rotationAmount = 45;
-    
+
     [SerializeField] float shakeSpeed = 1;
 
 
@@ -52,7 +52,19 @@ public class BoxRockerTest : MonoBehaviour
 
     void Start()
     {
-        rotationPoint = transform.position;
+        ////Clone materials, so that we have individual instances!
+
+        //for (int i = 0; i < hitMaterials.Length; i++)
+        //{
+        //    Material cloneMaterial = new Material(hitMaterials[i]);
+
+
+        //    hitMaterials[i] = cloneMaterial;
+
+
+        //}
+
+
 
 
 
@@ -61,7 +73,7 @@ public class BoxRockerTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
 
 
         Vector3 planeCenter = transform.position - transform.up / 2 * transform.lossyScale.y;
@@ -79,7 +91,7 @@ public class BoxRockerTest : MonoBehaviour
         Vector3[] cornersToCheck = { frontRightCorner, frontLeftCorner, backRightCorner, backLeftCorner };
 
 
-        if ( Vector3.Dot( (transform.position- hitPoint).normalized, hitDirection.normalized ) < 0 )
+        if (Vector3.Dot((transform.position - hitPoint).normalized, hitDirection.normalized) < 0)
         {
             hitDirection *= -1;
         }
@@ -90,14 +102,14 @@ public class BoxRockerTest : MonoBehaviour
         float closestDist = 0;
         float closestDot = 0;
 
-        
+
         for (int i = 0; i < 4; i++)
         {
 
             Vector3 currentCorner = cornersToCheck[i];
 
             float currentDist = Vector3.Distance(currentCorner, hitPoint);
-            float currentDot = Mathf.Max( Vector3.Dot(hitDirection.normalized, (currentCorner - hitPoint).normalized),0 );
+            float currentDot = Mathf.Max(Vector3.Dot(hitDirection.normalized, (currentCorner - hitPoint).normalized), 0);
 
 
             if (currentDist * currentDot >= closestDist * closestDot)
@@ -125,7 +137,7 @@ public class BoxRockerTest : MonoBehaviour
 
             testShake = false;
 
-            Shake(transform);
+            Shake(transform.position, transform.right);
 
         }
 
@@ -206,7 +218,7 @@ public class BoxRockerTest : MonoBehaviour
         }
 
 
-        
+
 
 
 
@@ -214,17 +226,17 @@ public class BoxRockerTest : MonoBehaviour
 
     }
 
-    public void Shake( Transform transformOfPlayer )
+    public void Shake(Vector3 playerPos, Vector3 playerRightVector)
     {
         currentShaking = true;
 
-        hitPoint = transformOfPlayer.position;
+        hitPoint = playerPos;
 
-        hitDirection = transformOfPlayer.right;
+        hitDirection = playerRightVector;
 
 
 
-        if ( animVelocity == 0)
+        if (animVelocity == 0)
         {
             animVelocity = 1;
 
@@ -246,7 +258,8 @@ public class BoxRockerTest : MonoBehaviour
 
 
 
-    private float customAnimation(float progress) {
+    private float customAnimation(float progress)
+    {
         //This function is designed to output a range of 0-1, so that you can use that as a percent.
         //Keep in mind that this funciton isn't linear at all--it goes up and down quite a bit!
         //That's so that it can bounce.
@@ -262,13 +275,13 @@ public class BoxRockerTest : MonoBehaviour
 
         float sineWave = Mathf.Abs(Mathf.Sin(b * Mathf.PI * Mathf.Pow(1 - progress, bounceWeight)));
 
-        float sineScaling = Mathf.Pow( Mathf.Ceil( b * Mathf.Pow(1-progress, bounceWeight) )/b, bounceIntensity);
+        float sineScaling = Mathf.Pow(Mathf.Ceil(b * Mathf.Pow(1 - progress, bounceWeight)) / b, bounceIntensity);
 
 
 
 
         return sineWave * sineScaling;
-    
+
     }
 
 
@@ -277,19 +290,19 @@ public class BoxRockerTest : MonoBehaviour
     {
         Gizmos.color = Color.blue;
 
-        Gizmos.DrawSphere( rotationPoint, .25f);
+        Gizmos.DrawSphere(rotationPoint, .25f);
 
 
 
-        Vector3 rotationAxis = Vector3.Cross( Vector3.up,hitDirection).normalized;
-        Gizmos.DrawLine( hitPoint + hitDirection, hitPoint + hitDirection + rotationAxis);
+        Vector3 rotationAxis = Vector3.Cross(Vector3.up, hitDirection).normalized;
+        Gizmos.DrawLine(hitPoint + hitDirection, hitPoint + hitDirection + rotationAxis);
 
-        
+
         Gizmos.color = Color.black;
 
-        Gizmos.DrawSphere( hitPoint, .25f);
+        Gizmos.DrawSphere(hitPoint, .25f);
 
-        Gizmos.DrawLine( hitPoint, hitPoint + hitDirection);
+        Gizmos.DrawLine(hitPoint, hitPoint + hitDirection);
 
 
 
@@ -299,7 +312,7 @@ public class BoxRockerTest : MonoBehaviour
 
         Vector3 planeCenter = transform.position - transform.up / 2 * transform.lossyScale.y;
 
-        Gizmos.DrawWireSphere( planeCenter, .25f );
+        Gizmos.DrawWireSphere(planeCenter, .25f);
 
 
         //But the real trick here is that we're going to draw a circle, and then use trig to turn that into a square based on the rotation from the forward direction.
@@ -312,12 +325,12 @@ public class BoxRockerTest : MonoBehaviour
         for (int i = 0; i < arcSteps; i++)
         {
             float currentPercent = (float)i / (float)arcSteps;
-            float nextPercent =  (float)(i+1) / (float)arcSteps ;
+            float nextPercent = (float)(i + 1) / (float)arcSteps;
 
             //Quaternion from = transform.rotation * Quaternion.Euler(0, currentRadians, 0); 
             //Quaternion to = transform.rotation * Quaternion.Euler(0, nextRadians, 0);
 
-            Vector3 from = Quaternion.Euler(0, currentPercent * 360, 0) * Vector3.forward; 
+            Vector3 from = Quaternion.Euler(0, currentPercent * 360, 0) * Vector3.forward;
             Vector3 to = Quaternion.Euler(0, nextPercent * 360, 0) * Vector3.forward;
 
 
@@ -337,8 +350,8 @@ public class BoxRockerTest : MonoBehaviour
 
         //Now to generate the corners!
 
-        Vector3 frontRightDir = transform.rotation * new Vector3(1 * floorRectScale.x*.5f * transform.lossyScale.x , 0, 1 * floorRectScale.y*.5f * transform.lossyScale.z);
-        Vector3 frontLeftDir = transform.rotation * new Vector3(-1 * floorRectScale.x*.5f * transform.lossyScale.x, 0, 1 * floorRectScale.y * .5f * transform.lossyScale.z);
+        Vector3 frontRightDir = transform.rotation * new Vector3(1 * floorRectScale.x * .5f * transform.lossyScale.x, 0, 1 * floorRectScale.y * .5f * transform.lossyScale.z);
+        Vector3 frontLeftDir = transform.rotation * new Vector3(-1 * floorRectScale.x * .5f * transform.lossyScale.x, 0, 1 * floorRectScale.y * .5f * transform.lossyScale.z);
         Vector3 backRightDir = transform.rotation * new Vector3(1 * floorRectScale.x * .5f * transform.lossyScale.x, 0, -1 * floorRectScale.y * .5f * transform.lossyScale.z);
         Vector3 backLeftDir = transform.rotation * new Vector3(-1 * floorRectScale.x * .5f * transform.lossyScale.x, 0, -1 * floorRectScale.y * .5f * transform.lossyScale.z);
 
@@ -354,7 +367,7 @@ public class BoxRockerTest : MonoBehaviour
         Gizmos.DrawLine(backRightCorner, frontRightCorner);
 
 
-        
+
 
 
 

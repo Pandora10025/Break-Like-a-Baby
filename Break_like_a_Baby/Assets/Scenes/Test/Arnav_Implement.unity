@@ -145,37 +145,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.14833081, y: 0.16623634, z: 0}
   m_Center: {x: -0.0009029135, y: -0.0021272372, z: -9.313226e-10}
---- !u!1 &22620667 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3884651407026652434, guid: d44b21918457fdd4c9369241000e1048, type: 3}
-  m_PrefabInstance: {fileID: 1661734129}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &22620676
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 22620667}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cdb8bfd9da74ef49826871ba97f32c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationPoint: {x: -1946.5568, y: -1.3725973, z: -17.874762}
-  hitMaterials:
-  - {fileID: 2100000, guid: 7b4b5c1d5b2593749acade43edf473f4, type: 2}
-  - {fileID: 2100000, guid: 3f8d69a0bbd31534e9153c151f0fffb6, type: 2}
-  hitPoint: {x: -1946.3817, y: -0.87259734, z: -18.04976}
-  hitDirection: {x: 0, y: 0, z: 1}
-  floorRectScale: {x: 0.35, y: 0.35}
-  bouncesNumber: 2
-  bounceWeight: 0.5
-  bounceIntensity: 2
-  animProgress: 0
-  rotationAmount: 18
-  shakeSpeed: 1
-  testShake: 0
 --- !u!1001 &77985445
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6291,16 +6260,69 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: testShake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: hitPoint.x
+      value: -1946.3817
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: hitPoint.y
+      value: -0.87259734
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: hitPoint.z
+      value: -18.04976
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: hitDirection.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: rotationAmount
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: rotationPoint.x
+      value: -1946.5568
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: rotationPoint.y
+      value: -1.3725973
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: rotationPoint.z
+      value: -17.874762
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: floorRectScale.x
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: floorRectScale.y
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: hitMaterials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: 'hitMaterials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 7b4b5c1d5b2593749acade43edf473f4, type: 2}
+    - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: 'hitMaterials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 3f8d69a0bbd31534e9153c151f0fffb6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 1344713303252172504, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1668890838}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3884651407026652434, guid: d44b21918457fdd4c9369241000e1048, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 22620676}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d44b21918457fdd4c9369241000e1048, type: 3}
 --- !u!224 &1661734130 stripped
 RectTransform:

@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RockingPlant
+  m_Name: RockingRed
   m_Shader: {fileID: 4800000, guid: 147750b72804496469a7535069b55772, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -115,7 +115,7 @@ Material:
     - _Glossiness: 0
     - _GlossinessSource: 0
     - _GlossyReflections: 0
-    - _GradientSize: 0.05
+    - _GradientSize: 0.256
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -135,16 +135,16 @@ Material:
     - _TestingOffset: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _rotY: 0.0000000011924881
-    - _shadingBands: 2
+    - _rotY: 0.0000000029812202
+    - _shadingBands: 4
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Center: {r: 0.17504877, g: -0.49999988, b: 0.17499918, a: 0}
-    - _Color: {r: 0.32941177, g: 0.6313726, b: 0.2901961, a: 1}
+    - _Center: {r: 0.11269, g: -0.22491296, b: -0.32512596, a: 0}
+    - _Color: {r: 1, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _ForwardAxis: {r: 0.97304344, g: 6e-45, b: -0.23062307, a: 0}
-    - _ShadowColor: {r: 0.23529412, g: 0.36862746, b: 0.22352941, a: 1}
+    - _ForwardAxis: {r: -0.039017998, g: 4.5e-44, b: 0.9992383, a: 0}
+    - _ShadowColor: {r: 0.5471698, g: 0.051619787, b: 0.051619787, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _UpAxis: {r: 0, g: 1, b: 0, a: 0}
+    - _UpAxis: {r: -0.7435476, g: 0.16879275, b: 0.64702857, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
