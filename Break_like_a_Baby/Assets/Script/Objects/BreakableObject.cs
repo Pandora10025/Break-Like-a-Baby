@@ -18,6 +18,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     [SerializeField] private Collider objectCollider;
     PhotonView pv;
     List<GameObject> playersInRange = new List<GameObject>();
+    private Transform playerTransform;
 
     //enum and state manager
     private enum objectState
@@ -75,14 +76,17 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         slider.value = health;
 
     }
-    public void TakeDamage()
+    public void TakeDamage(Transform playerT)
     {
+        Debug.Log("taking damage!");
+        playerTransform = playerT;
         photonView.RPC("DamageObject", RpcTarget.AllBuffered);
     }
 
     [PunRPC]
     public void DamageObject()
     {
+        Debug.Log("among us");
         if (myState == (int)objectState.active)
         {
             if (photonView == null)
@@ -90,6 +94,11 @@ public class BreakableObject : MonoBehaviourPunCallbacks
                 Debug.LogWarning("photonView is null in DamageObject");
                 return;
             }
+
+            Debug.Log("player has been sent over!: " + playerTransform.name);
+            //shake it!
+            this.GetComponent<BoxRockerTest>().Shake(playerTransform);
+
 
             health--;
             Debug.Log("Health: " + health);
