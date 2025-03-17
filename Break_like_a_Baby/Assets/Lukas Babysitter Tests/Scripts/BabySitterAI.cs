@@ -87,7 +87,10 @@ public class BabySitterAI : MonoBehaviour
         //Code for when we spot a player
         Transform spottedPlayer = ScanForPlayers();
 
-
+        if (spottedPlayer != playerWeAreCurrentlyChasing)
+        {
+            deathTimer = deathCountdownMaxTime;
+        }
 
         switch (currentState)
         {
@@ -279,7 +282,7 @@ public class BabySitterAI : MonoBehaviour
 
                     float angleToPlayer = Vector3.Angle(transform.forward, (playerWeAreCurrentlyChasing.position - transform.position).normalized);
 
-
+                    
                     if (playerDist < catchingDistance && angleToPlayer < fieldOfViewDegrees / 2)
                     {
 
@@ -331,6 +334,7 @@ public class BabySitterAI : MonoBehaviour
                         nav.SetDestination(playerWeAreCurrentlyChasing.position);
 
                         deathTimer = deathCountdownMaxTime;
+
                     }
 
 
