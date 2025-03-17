@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] bool gameStarted;
 
     [SerializeField] TextMeshProUGUI timerText;
+    [SerializeField] GameObject gameOverScreen;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         instance = this;
 
         gameStarted = true;
+        gameOverScreen.SetActive(false);
     }
 
     // Update is called once per frame
@@ -54,20 +56,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void GameOver(bool won)
     {
         gameOver = true;
-
-
-        if (PhotonNetwork.IsMasterClient) 
-        {
-            if (won)
-            {
-                PhotonNetwork.LoadLevel("GameWon");
-            }
-            else
-            {
-                PhotonNetwork.LoadLevel("GameLost");
-            }
-           
-        }
+        gameOverScreen.SetActive(true);
+        gameOverScreen.GetComponent<GameOver>().GameSet(won);
     }
 
     public void ToggleText(bool b)
