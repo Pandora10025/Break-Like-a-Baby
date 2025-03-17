@@ -15,6 +15,10 @@ Shader "Custom/RockingURPToon"
         _ForwardAxis ("RotationAxis", Vector) = (0,1,0)
         _Center ("RotationCenter", Vector) = (0,0,0)
 
+        _OutlineColor ("Outline Color", Color) = (1,1,1)
+        _OutlineOpacity( "Outline Opacity", float ) = 1
+
+
 
     }
 
@@ -56,6 +60,9 @@ Shader "Custom/RockingURPToon"
                 float shadowDarkness : TEXCOORD3;
                 float3 positionWS : TEXCOORD4;
 
+                
+
+
             };
 
             TEXTURE2D(_BaseMap);
@@ -75,6 +82,8 @@ Shader "Custom/RockingURPToon"
             float3 _ForwardAxis;
             float3 _Center;
 
+            float3 _OutlineColor;
+            float _OutlineOpacity;
 
 
             CBUFFER_END

@@ -282,12 +282,12 @@ public class BabySitterAI : MonoBehaviour
 
                     float angleToPlayer = Vector3.Angle(transform.forward, (playerWeAreCurrentlyChasing.position - transform.position).normalized);
 
-                    
-                    if (playerDist < catchingDistance && angleToPlayer < fieldOfViewDegrees / 2)
+
+                    if (playerDist < catchingDistance)// && angleToPlayer < fieldOfViewDegrees / 2)
                     {
 
 
-                        if (playerDist < catchingDistance/2)
+                        if (playerDist < catchingDistance / 2)
                         {
                             StopMoving();
                         }
@@ -306,7 +306,8 @@ public class BabySitterAI : MonoBehaviour
 
 
                         }
-                        else {
+                        else
+                        {
 
                             //deathTimer = deathCountdownMaxTime;
 
@@ -318,8 +319,8 @@ public class BabySitterAI : MonoBehaviour
                             GameManager.instance.GameOver(false);
 
 
-                        
-                        
+
+
                         }
 
 
@@ -376,8 +377,8 @@ public class BabySitterAI : MonoBehaviour
         //nav.isStopped = true;
 
         //nav.ResetPath();
-        
-        
+
+
         anim.SetBool("chasing", false);
     }
 
@@ -485,7 +486,7 @@ public class BabySitterAI : MonoBehaviour
             Gizmos.DrawLine(transform.position + from * viewingDistance, transform.position + to * viewingDistance);
 
 
-            Gizmos.DrawLine(transform.position + from * catchingDistance, transform.position + to * catchingDistance);
+            //Gizmos.DrawLine(transform.position + from * catchingDistance, transform.position + to * catchingDistance);
 
 
 
@@ -517,10 +518,10 @@ public class BabySitterAI : MonoBehaviour
 
 
         arcSteps = 32;
-        Gizmos.color = Color.red;
-
         for (int i = 0; i < arcSteps; i++)
         {
+
+            Gizmos.color = Color.red;
 
             Vector3 from = Quaternion.Euler(0, (float)i / (float)arcSteps * 360 + Time.realtimeSinceStartup * 2, 0) * Vector3.forward;
             Vector3 to = Quaternion.Euler(0, (float)(i + 1) / (float)arcSteps * 360 + Time.realtimeSinceStartup * 2, 0) * Vector3.forward;
@@ -529,6 +530,12 @@ public class BabySitterAI : MonoBehaviour
             Gizmos.DrawLine(transform.position + from * escapeDistance, transform.position + to * viewingDistance);
 
             Gizmos.DrawLine(transform.position + from * escapeDistance, transform.position + to * escapeDistance);
+
+
+            Gizmos.color = Color.white;
+
+            Gizmos.DrawLine(transform.position + from * catchingDistance, transform.position + to * catchingDistance);
+
 
 
 
