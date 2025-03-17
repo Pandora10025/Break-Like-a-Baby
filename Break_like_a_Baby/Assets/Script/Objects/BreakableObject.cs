@@ -19,6 +19,9 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     PhotonView pv;
     List<GameObject> playersInRange = new List<GameObject>();
     private Transform playerTransform;
+  
+
+
 
     //enum and state manager
     private enum objectState
@@ -27,9 +30,9 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         active,
         broken
     }
-    private int myState = (int) objectState.inactive;
+    private int myState = (int)objectState.inactive;
 
-    
+
     void Start()
     {
         //instantiate sliders and stuff
@@ -39,14 +42,14 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         slider.minValue = 0;
         health = maxHealth;
         pv = GetComponent<PhotonView>();
-        Debug.Log((pv==null) + gameObject.transform.parent.name);
+        Debug.Log((pv == null) + gameObject.transform.parent.name);
         meshRenderer = GetComponent<MeshRenderer>();
         //this.GetComponent<MeshRenderer>().material = inactiveMat;
         if (photonView.Owner == null)
         {
             photonView.TransferOwnership(PhotonNetwork.MasterClient);
         }
-        
+
     }
     #region state changer
     public void Inactive()
@@ -71,34 +74,47 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
     void FixedUpdate()
     {//all slider adjustments will be here
-        if(health <= maxHealth && health > 0)
+        if (health <= maxHealth && health > 0)
             health += 0.05f;
         slider.value = health;
 
     }
-    public void TakeDamage(Transform playerT)
+    public void TakeDamage(int pvId)
     {
         Debug.Log("taking damage!");
-        playerTransform = playerT;
-        photonView.RPC("DamageObject", RpcTarget.AllBuffered);
+        
+
+        photonView.RPC("DamageObject", RpcTarget.AllBuffered, pvId);
     }
 
     [PunRPC]
-    public void DamageObject()
+    public void DamageObject(int pvId)
     {
         Debug.Log("among us");
         if (myState == (int)objectState.active)
         {
+               
             if (photonView == null)
             {
                 Debug.LogWarning("photonView is null in DamageObject");
                 return;
             }
 
-            Debug.Log("player has been sent over!: " + playerTransform.name);
+            //Debug.Log("player has been sent over!: " + playerTransform.name);
             //shake it!
-            this.GetComponent<BoxRockerTest>().Shake(playerTransform);
+            PhotonView playerPhotonView = PhotonView.Find(pvId);
+            if (playerPhotonView != null)
+            {
+                Transform playerT = playerPhotonView.transform;
+                Debug.Log("Player has been sent over!: " + playerT.name);
 
+                Vector3 playerPos = playerT.position;
+                Vector3 playerRight = playerT.right;
+
+
+
+                this.GetComponent<BoxRockerTest>().Shake(playerPos, playerRight);
+            }
 
             health--;
             Debug.Log("Health: " + health);
@@ -140,7 +156,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     {
         if (other.gameObject.tag == "Player")
         {
-           
+
             other.GetComponent<PlayerBreak>().breakableInRange(false, gameObject);
             playersInRange.Remove(other.gameObject);
 

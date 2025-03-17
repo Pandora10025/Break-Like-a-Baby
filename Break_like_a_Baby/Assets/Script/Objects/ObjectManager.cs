@@ -143,6 +143,10 @@ public class ObjectManager : MonoBehaviourPun
         activeObjects.Remove(child.transform.parent.gameObject);
         Debug.Log("Broken Object: " + activeObjects.ToString());
         numOfActiveObjects--;
+        if(numOfActiveObjects <= 0)
+        {
+            GameManager.instance.GameOver(true);
+        }
         UpdateString();
     }
 
