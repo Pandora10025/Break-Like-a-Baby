@@ -85,6 +85,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (stream.IsWriting)
         {
             stream.SendNext(totalTime);
+           
         }
         else
         {

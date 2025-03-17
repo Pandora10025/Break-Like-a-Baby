@@ -31,6 +31,12 @@ public class GameOver : MonoBehaviourPunCallbacks
     }
     public void GameSet(bool won)
     {
+        photonView.RPC("gameSetRPC", RpcTarget.All, won);
+    }
+
+    [PunRPC]
+    void gameSetRPC(bool won)
+    {
         if (won)
         {
             wonOverlay.SetActive(true);
@@ -40,6 +46,7 @@ public class GameOver : MonoBehaviourPunCallbacks
             lossOverlay.SetActive(true);
         }
     }
+
     public void GameRestart()
     {
         
