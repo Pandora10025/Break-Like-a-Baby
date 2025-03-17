@@ -43,7 +43,7 @@ public class GameOver : MonoBehaviourPunCallbacks
     public void GameRestart()
     {
         
-      photonView.RPC("RequestRestart", RpcTarget.MasterClient);
+      photonView.RPC("RequestRestart", RpcTarget.All);
      
 
     }
