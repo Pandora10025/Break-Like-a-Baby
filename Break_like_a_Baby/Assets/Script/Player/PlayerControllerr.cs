@@ -350,5 +350,9 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
     //    }
     //}
 
+    public Vector2 GetMoveInput()
+    {
+        return moveInput;
+    }
  
 }

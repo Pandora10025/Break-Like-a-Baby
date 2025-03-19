@@ -8,11 +8,11 @@ public class CameraFollow : MonoBehaviour
     [Header("CAMERA FOLLOW")]
     [Space]
     private Transform player;  // Reference to the player
-    private PlayerController playerController;
+    private PlayerControllerr playerController;
     public Vector3 offset = new Vector3(-0.3f, 0.3f, -20f);  // Base offset from the player (distance behind and above)
     public float smoothSpeed = 0.125f;  // How quickly the camera moves to follow the player
     public float rotationSpeed = 5f;  // Speed at which the camera rotates to follow the player
-    
+
 
     private Vector3 velocity = Vector3.zero;  // For storing the velocity in SmoothDamp method
 
@@ -29,7 +29,7 @@ public class CameraFollow : MonoBehaviour
         }
     }
 
-    // Smoothly move the camera to the player's position
+   
     void FollowPlayer()
     {
         // Adjust the offset based on the player's facing direction
@@ -42,47 +42,70 @@ public class CameraFollow : MonoBehaviour
         transform.position = Vector3.SmoothDamp(transform.position, desiredPosition, ref velocity, smoothSpeed);
     }
 
-    // Rotate the camera to always look at the player
+  
     void RotateCamera()
     {
-        // Get the direction from the camera to the player
-        Vector3 direction = player.position - transform.position;
+        if (playerController == null)
+        {
+            playerController = player.GetComponent<PlayerControllerr>();
+            if (playerController == null) return; // Exit if PlayerController is not found
+        }
 
-        // Calculate the desired rotation
-        Quaternion desiredRotation = Quaternion.LookRotation(direction);
+        // Get the player's movement direction (moveInput)
+        Vector2 moveInput = playerController.GetMoveInput();
 
-        // Smoothly rotate the camera towards the player
-        transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, rotationSpeed * Time.deltaTime);
+        // Calculate tilt angles based on the player's movement direction
+        float tiltAngleX = -moveInput.y * 10f; // Tilt around X-axis (forward/backward movement)
+        float tiltAngleZ = moveInput.x * 10f;  // Tilt around Z-axis (left/right movement)
+
+        // Clamp the tilt angles to prevent excessive tilting
+        tiltAngleX = Mathf.Clamp(tiltAngleX, -20f, 20f); // Limit X-axis tilt to ±15 degrees
+        tiltAngleZ = Mathf.Clamp(tiltAngleZ, -20f, 20f); // Limit Z-axis tilt to ±15 degrees
+
+        // Create a tilt rotation based on the tilt angles
+        Quaternion tiltRotation = Quaternion.Euler(tiltAngleX, 0f, tiltAngleZ);
+
+        // Define the default top-down rotation (looking down on the Y-axis)
+        Quaternion topDownRotation = Quaternion.Euler(90f, 0f, 0f);
+
+        // Combine the default top-down rotation with the tilt rotation
+        Quaternion targetRotation = topDownRotation * tiltRotation;
+
+        // Smoothly interpolate the camera's rotation towards the target rotation
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
     // Get an offset based on the direction the player is facing
     Vector3 GetOffsetBasedOnDirection()
     {
 
-        // Get the player's forward direction 
-        Vector3 playerForward = player.forward;
-
-        // Depending on the direction the player is facing, adjust the offset
-        // Example: if player is facing forward, the camera stays behind; if player faces right, the camera moves to the side
-        if (Vector3.Dot(playerForward, Vector3.forward) > 0.5f)  // Player is facing forward
+        if (playerController == null)
         {
-            return offset;  // Default offset (behind the player)
-        }
-        else if (Vector3.Dot(playerForward, Vector3.back) > 0.5f)  // Player is facing backward
-        {
-            return new Vector3(0f, 40f, 0f);  // Camera moves in front of the player
-        }
-        else if (Vector3.Dot(playerForward, Vector3.right) > 0.5f)  // Player is facing right
-        {
-            return new Vector3(10f, 40f, 0f);  // Camera moves to the right of the player
-        }
-        else if (Vector3.Dot(playerForward, Vector3.left) > 0.5f)  // Player is facing left
-        {
-            return new Vector3(-10f, 40f, 0f);  // Camera moves to the left of the player
+            playerController = player.GetComponent<PlayerControllerr>();
+            if (playerController == null) return offset; // Exit if PlayerController is not found
         }
 
-        return offset;  // Default if none of the above directions match
-        
+        // Get the player's movement direction (moveInput)
+        Vector2 moveInput = playerController.GetMoveInput();
+
+        // Normalize the moveInput to ensure consistent offset magnitude
+        if (moveInput.magnitude > 1f)
+        {
+            moveInput.Normalize();
+        }
+
+        // Calculate the adjusted offset based on the player's movement direction
+        Vector3 adjustedOffset = new Vector3(moveInput.x, 0f, moveInput.y) * offset.z;
+
+        // Add the fixed Y-axis offset to ensure the camera looks down
+        adjustedOffset.y = offset.y;
+
+        Debug.Log("Adjusted Offset is " + adjustedOffset);
+
+        return adjustedOffset;
+
+
+
     }
 
     GameObject FindLocalPlayer()
