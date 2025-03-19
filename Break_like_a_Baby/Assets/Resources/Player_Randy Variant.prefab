@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: a28995502c338f14fad158ced2aefc13, type: 2}
+  m_sharedMaterial: {fileID: 6720276249112229488, guid: a28995502c338f14fad158ced2aefc13, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -302,6 +302,38 @@ PrefabInstance:
       propertyPath: nameTag
       value: 
       objectReference: {fileID: 4303716930247438860}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: shadowColors.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: shadowColors.Array.data[0].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: shadowColors.Array.data[0].b
+      value: 0.16055535
+      objectReference: {fileID: 0}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: shadowColors.Array.data[0].g
+      value: 0.66960704
+      objectReference: {fileID: 0}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: shadowColors.Array.data[0].r
+      value: 0.8301887
+      objectReference: {fileID: 0}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: shadowColors.Array.data[1].b
+      value: 0.07863116
+      objectReference: {fileID: 0}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: shadowColors.Array.data[1].g
+      value: 0.07863116
+      objectReference: {fileID: 0}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: shadowColors.Array.data[1].r
+      value: 0.8773585
+      objectReference: {fileID: 0}
     - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
       propertyPath: animatorControllers.Array.size
       value: 2
