@@ -1,14 +1,27 @@
 using UnityEngine;
 using Photon.Pun;
 using TMPro;
+using UnityEngine.UI;
 
 public class GameOver : MonoBehaviourPunCallbacks
 {
     [SerializeField] string GameRoom = "Arnav_Implement";
+    [SerializeField] GameObject wonOverlay,lossOverlay, setButton;
+    [SerializeField] string waitingForMaster = "Waiting for host to restart!";
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            setButton.GetComponent<Button>().enabled = false;
+            setButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = waitingForMaster;
+
+        }
+        wonOverlay.SetActive(false);
+        lossOverlay.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -16,32 +29,37 @@ public class GameOver : MonoBehaviourPunCallbacks
     {
         
     }
-
-    public void GameRestart()
+    public void GameSet(bool won)
     {
+        photonView.RPC("gameSetRPC", RpcTarget.All, won);
+    }
 
-
-        if (PhotonNetwork.IsMasterClient)
+    [PunRPC]
+    void gameSetRPC(bool won)
+    {
+        if (won)
         {
-         
-            
-                PhotonNetwork.LoadLevel(GameRoom);
-            
-            
-
+            wonOverlay.SetActive(true);
         }
         else
         {
-            photonView.RPC("RequestRestart", RpcTarget.MasterClient); 
+            lossOverlay.SetActive(true);
         }
+    }
+
+    public void GameRestart()
+    {
+        
+      photonView.RPC("RequestRestart", RpcTarget.All);
+     
+
     }
 
     [PunRPC]
     void RequestRestart()
     {
-        if (PhotonNetwork.IsMasterClient) 
-        {
-            PhotonNetwork.LoadLevel(GameRoom);
-        }
+        
+     PhotonNetwork.LoadLevel(GameRoom);
+      
     }
 }

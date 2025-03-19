@@ -642,10 +642,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ObjectManager
       objectReference: {fileID: 0}
-    - target: {fileID: 8461588963570409670, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
-      propertyPath: sceneViewId
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: timerText
       value: 
