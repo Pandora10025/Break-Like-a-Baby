@@ -13,10 +13,12 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
     public bool inRange = false;
     GameObject breakable;
 
+    public string brokenList;
     
     private void Start()
     {
         rb = this.GetComponent<Rigidbody>();
+        brokenList = "";
     }
 
     private void Update()
@@ -26,6 +28,7 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
             breakable.GetComponent<BreakableObject>().TakeDamage(photonView.ViewID);
             
         }
+
         //check to show the tablist
         if (photonView.IsMine)
         {
@@ -42,7 +45,7 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
         }
     }
 
-    public void breakableInRange(bool isInRange , GameObject breakableObj)
+    public void breakableInRange(bool isInRange, GameObject breakableObj)
     {
         if (isInRange)
         {
@@ -50,12 +53,14 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
             inRange = true;
             breakable = breakableObj;
         }
-        if( !isInRange && breakable == breakableObj)
+        if (!isInRange && breakable == breakableObj)
         {
-            inRange = false;
+            inRange = false; 
         }
     }
 
-
-
+    public void AddToList(string objectName)
+    {
+        brokenList = brokenList + "\n" + objectName;
+    }
 }

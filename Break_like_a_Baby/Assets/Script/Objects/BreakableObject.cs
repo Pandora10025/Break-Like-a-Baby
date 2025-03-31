@@ -122,6 +122,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
             if (health <= 0)//when the object is broken
             {
                 ObjectManager.instance.Break(this.gameObject);
+                
                 foreach (GameObject player in playersInRange)
                 {
                     player.GetComponent<PlayerBreak>().breakableInRange(false, gameObject);
