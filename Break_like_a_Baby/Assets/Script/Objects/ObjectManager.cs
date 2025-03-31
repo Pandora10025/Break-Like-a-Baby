@@ -139,6 +139,7 @@ public class ObjectManager : MonoBehaviourPun
 
     public void Break(GameObject child)
     {
+        ///LUKAS PUT ANY SIGNALS IN THIS FUNCTION; ANY ORDER!
         child.GetComponent<BreakableObject>().Break();
         activeObjects.Remove(child.transform.parent.gameObject);
         Debug.Log("Broken Object: " + activeObjects.ToString());
