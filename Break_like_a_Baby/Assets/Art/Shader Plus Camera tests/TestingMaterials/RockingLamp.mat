@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RockingTv
-  m_Shader: {fileID: 4800000, guid: 147750b72804496469a7535069b55772, type: 3}
+  m_Name: RockingLamp
+  m_Shader: {fileID: 4800000, guid: 512218cd4952983409af57059508c8a7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -118,12 +118,11 @@ Material:
     - _GradientSize: 0.25
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _OutlineOpacity: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _SampleGI: 0
-    - _ShadowSmoothingSize: 0.1
+    - _ShadowSmoothingSize: 0
     - _Shininess: 0
     - _Smoothness: 0.5
     - _SmoothnessSource: 0
@@ -136,17 +135,12 @@ Material:
     - _TestingOffset: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _rotY: 0.0000000011924881
-    - _shadingBands: 4
+    - _shadingBands: 2
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Center: {r: 0.33801258, g: 0.09009215, b: -0.12217143, a: 0}
-    - _Color: {r: 0.033018887, g: 0.033018887, b: 0.033018887, a: 1}
+    - _Color: {r: 1, g: 0.903612, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _ForwardAxis: {r: 0.99999976, g: 4e-45, b: 6e-45, a: 0}
-    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
-    - _ShadowColor: {r: 0.32156864, g: 0.36735284, b: 0.37254903, a: 1}
+    - _ShadowColor: {r: 0.6901961, g: 0.4546494, b: 0.3764706, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _UpAxis: {r: -0.7435477, g: 0.010344982, b: 0.66860294, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
