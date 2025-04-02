@@ -19,10 +19,18 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     PhotonView pv;
     List<GameObject> playersInRange = new List<GameObject>();
     private Transform playerTransform;
-  
 
+    [SerializeField]
+    GameObject shatterable;
+    List<Rigidbody> breakableRb = new List<Rigidbody>();
+    public float explosionForce = 10f;  
+    public float explosionRadius = 5f;
+    public float upwardsModifier = 1f;
 
+    [SerializeField] Transform explosionPosition;
 
+    [SerializeField] GameObject shatteredMesh, originalMesh;
+    [SerializeField] float shatterWeight = 10f;
     //enum and state manager
     private enum objectState
     {
@@ -32,7 +40,24 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     }
     private int myState = (int)objectState.inactive;
 
+    private void Awake()
+    {
+        if (shatterable != null)
+        {
+            // Collect all Rigidbody components in the children of the public object
+            breakableRb.AddRange(shatterable.GetComponentsInChildren<Rigidbody>());
+        }
+      
 
+        foreach (Rigidbody rb in breakableRb)
+        {
+            rb.isKinematic = true;
+            rb.mass = shatterWeight;
+        }
+
+        if(shatteredMesh!=null)
+        shatteredMesh.SetActive(false);
+    }
     void Start()
     {
         //instantiate sliders and stuff
@@ -78,6 +103,11 @@ public class BreakableObject : MonoBehaviourPunCallbacks
             health += 0.05f;
         slider.value = health;
 
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            Explode();
+        }
+
     }
     public void TakeDamage(int pvId)
     {
@@ -121,6 +151,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
             if (health <= 0)//when the object is broken
             {
+                Explode();
                 ObjectManager.instance.Break(this.gameObject);
                 
                 foreach (GameObject player in playersInRange)
@@ -132,6 +163,27 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         }
     }
 
+
+    void Explode()
+    {
+       
+        if(originalMesh!=null && shatteredMesh != null)
+        {
+            originalMesh.SetActive(false);
+            shatteredMesh.SetActive(true);
+        }
+
+        foreach (Rigidbody rb in breakableRb)
+        {
+          
+
+            if (rb != null)
+            {
+                rb.isKinematic = false;
+                rb.AddExplosionForce(explosionForce, explosionPosition.position, explosionRadius, upwardsModifier, ForceMode.Impulse);
+            }
+        }
+    }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
