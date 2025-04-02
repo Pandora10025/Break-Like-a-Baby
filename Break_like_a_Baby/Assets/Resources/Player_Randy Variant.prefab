@@ -430,10 +430,7 @@ MonoBehaviour:
   rotationSpeed: 10
   moveDirection: {x: 0, y: 0, z: 0}
   inRange: 0
-<<<<<<< HEAD
-=======
   aud: {fileID: 0}
->>>>>>> 9016072e16332981137f66ddbacd1eb5f1110729
   brokenList: 
 --- !u!114 &5414641804094520482
 MonoBehaviour:
