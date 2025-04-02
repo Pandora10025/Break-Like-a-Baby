@@ -12,19 +12,21 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
 
     public bool inRange = false;
     GameObject breakable;
-
+    [SerializeField] public AudioSource aud;
     public string brokenList;
     
     private void Start()
     {
         rb = this.GetComponent<Rigidbody>();
+        aud = this.GetComponent<AudioSource>();
         brokenList = "";
     }
 
     private void Update()
     {
         if (inRange && Input.GetKeyDown(KeyCode.Space) && photonView.IsMine){
-            Debug.Log("pressed space");
+
+            aud.Play();
             breakable.GetComponent<BreakableObject>().TakeDamage(photonView.ViewID);
             
         }
