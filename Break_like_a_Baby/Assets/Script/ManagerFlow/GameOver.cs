@@ -11,7 +11,7 @@ public class GameOver : MonoBehaviourPunCallbacks
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         if (!PhotonNetwork.IsMasterClient)
         {
@@ -21,6 +21,8 @@ public class GameOver : MonoBehaviourPunCallbacks
         }
         wonOverlay.SetActive(false);
         lossOverlay.SetActive(false);
+
+        gameObject.SetActive(false);
 
     }
 
@@ -51,6 +53,16 @@ public class GameOver : MonoBehaviourPunCallbacks
         }
     }
 
+   public void gameWon()
+    {
+        wonOverlay.SetActive(true);
+        Debug.Log("won");
+    }
+    public void gameLost()
+    {
+        lossOverlay.SetActive(true);
+        Debug.Log("lost");
+    }
     public void GameRestart()
     {
         GameManager.instance.restartLevel();

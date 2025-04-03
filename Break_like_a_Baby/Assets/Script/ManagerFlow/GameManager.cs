@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         instance = this;
 
         gameStarted = true;
-        gameOverScreen.SetActive(false);
+        
     }
 
     // Update is called once per frame
@@ -64,7 +64,15 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         gameOver = true;
         gameOverScreen.SetActive(true);
-        gameOverScreen.GetComponent<GameOver>().GameSet(won);
+        //gameOverScreen.GetComponent<GameOver>().GameSet(won);
+        if (won)
+        {
+            gameOverScreen.GetComponent<GameOver>().gameWon();
+        }
+        else
+        {
+            gameOverScreen.GetComponent<GameOver>().gameLost();
+        }
         Debug.Log("Game Over RPC: " + won);
     }
 
