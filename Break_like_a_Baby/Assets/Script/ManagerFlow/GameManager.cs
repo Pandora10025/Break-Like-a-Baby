@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 {
     public static GameManager instance { get; private set; }
 
-    bool gameOver=true;
+    bool gameOver=false;
     public string timerUItext;
     [SerializeField] float totalTime;
     [SerializeField] bool gameStarted;
