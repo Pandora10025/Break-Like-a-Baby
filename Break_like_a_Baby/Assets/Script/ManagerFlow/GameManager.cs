@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         gameOver = true;
         gameOverScreen.SetActive(true);
         gameOverScreen.GetComponent<GameOver>().GameSet(won);
+        Debug.Log("Game Over RPC: " + won);
     }
 
     public void ToggleText(bool b)
