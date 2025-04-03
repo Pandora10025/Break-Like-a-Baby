@@ -1,0 +1,58 @@
+using UnityEngine;
+
+public class PlayerCatching : MonoBehaviour
+{
+    public enum playerCatchState
+    {
+        free,
+        caught,
+        roomed
+    }
+    public playerCatchState catchState;
+
+    public PlayerControllerr playerC;
+
+    int ogSpriteOrder;
+    [SerializeField] int pushedSpriteOrder = -10;
+
+    SpriteRenderer mySpr;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        catchState = playerCatchState.free;
+        playerC = GetComponent<PlayerControllerr>();
+        mySpr = GetComponent<SpriteRenderer>();
+        ogSpriteOrder = mySpr.sortingOrder;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    public void changeState( playerCatchState pc)
+    {
+        switch (pc)
+        {
+            case playerCatchState.free:
+                playerC.enableMove = true;
+                GetComponent<Collider>().enabled = true;
+                transform.position = new Vector3(GameManager.instance.respawnPos.position.x, transform.position.y, GameManager.instance.respawnPos.position.z);
+                mySpr.sortingOrder = ogSpriteOrder;
+                break;
+            case playerCatchState.caught:
+                //UI Change to be added
+                playerC.enableMove = false;
+                GetComponent<Collider>().enabled = false;
+                mySpr.sortingOrder = pushedSpriteOrder;
+                break;
+            case playerCatchState.roomed:
+                playerC.enableMove = false;
+                GetComponent<Collider>().enabled = false;
+                mySpr.sortingOrder = pushedSpriteOrder;
+                GameManager.instance.playerRoomed();
+                break;
+        }
+    }
+}

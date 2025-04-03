@@ -63,6 +63,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
     [SerializeField] TextMeshProUGUI nameTag;
     [SerializeField] Color[] shadowColors;
 
+    public bool enableMove = true;
 
     void Awake()
     {
@@ -176,7 +177,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     void Update()
     {
-        if (view.IsMine)
+        if (view.IsMine && enableMove )
         {
             // Fetch input data from the input system
             moveInput = inputActions.Player.Move.ReadValue<Vector2>();  // Get the movement direction

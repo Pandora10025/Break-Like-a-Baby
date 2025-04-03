@@ -15,6 +15,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] TextMeshProUGUI timerText;
     [SerializeField] GameObject gameOverScreen;
 
+    public Transform respawnPos;
+    int roomedCount;
+    int playerCount;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -126,6 +130,11 @@ void RequestRestart()
     PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().name);
 
 }
+
+    public void playerRoomed()
+    {
+        roomedCount++;
+    }
 
 
 }
