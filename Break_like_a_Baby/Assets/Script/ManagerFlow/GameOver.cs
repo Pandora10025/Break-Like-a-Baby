@@ -31,10 +31,11 @@ public class GameOver : MonoBehaviourPunCallbacks
     }
     public void GameSet(bool won)
     {
-        photonView.RPC("gameSetRPC", RpcTarget.All, won);
+        //photonView.RPC("gameSetRPC", RpcTarget.All, won);
+        gameSetRPC(won);
     }
 
-    [PunRPC]
+    //[PunRPC]
     void gameSetRPC(bool won)
     {
         if (won)
@@ -49,17 +50,6 @@ public class GameOver : MonoBehaviourPunCallbacks
 
     public void GameRestart()
     {
-        
-      photonView.RPC("RequestRestart", RpcTarget.All);
-     
-
-    }
-
-    [PunRPC]
-    void RequestRestart()
-    {
-        
-     PhotonNetwork.LoadLevel(GameRoom);
-      
+        GameManager.instance.restartLevel();
     }
 }

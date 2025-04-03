@@ -182,7 +182,11 @@ public class BreakableObject : MonoBehaviourPunCallbacks
                 rb.isKinematic = false;
                 rb.AddExplosionForce(explosionForce, explosionPosition.position, explosionRadius, upwardsModifier, ForceMode.Impulse);
             }
+
+            Invoke("disableColOnFragments", 0.5f);
         }
+
+
     }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -213,6 +217,18 @@ public class BreakableObject : MonoBehaviourPunCallbacks
             other.GetComponent<PlayerBreak>().breakableInRange(false, gameObject);
             playersInRange.Remove(other.gameObject);
 
+        }
+    }
+
+    void disableColOnFragments()
+    {
+        foreach( Rigidbody rb in breakableRb)
+        {
+            Collider col = rb.gameObject.GetComponent<Collider>();
+            if (col!=null)
+            {
+                col.enabled = false;
+            }
         }
     }
 }

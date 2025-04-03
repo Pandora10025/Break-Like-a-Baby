@@ -1,7 +1,7 @@
 using UnityEngine;
 using Photon.Pun;
 using TMPro;
-
+using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviourPunCallbacks
 
 {
@@ -55,6 +55,12 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void GameOver(bool won)
     {
+        photonView.RPC("GameOverRPC", RpcTarget.AllBuffered, won);
+    }
+
+    [PunRPC]
+    void GameOverRPC(bool won)
+    {
         gameOver = true;
         gameOverScreen.SetActive(true);
         gameOverScreen.GetComponent<GameOver>().GameSet(won);
@@ -94,7 +100,22 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+public void restartLevel()
+    { 
+        photonView.RPC("RequestRestart", RpcTarget.All);
+    }
+   
+     
 
+    
+
+[PunRPC]
+void RequestRestart()
+{
+
+    PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().name);
+
+}
 
 
 }
