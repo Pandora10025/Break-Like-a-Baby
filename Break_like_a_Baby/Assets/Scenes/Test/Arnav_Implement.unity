@@ -7752,6 +7752,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 1.677
       objectReference: {fileID: 0}
+    - target: {fileID: 4210826275476797972, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4617697803041908047, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.66418
@@ -8096,6 +8100,10 @@ PrefabInstance:
     - target: {fileID: 2040243977234520603, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -1.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 4210826275476797972, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4617697803041908047, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: m_LocalScale.x
@@ -15263,6 +15271,10 @@ PrefabInstance:
       propertyPath: shatteredMesh
       value: 
       objectReference: {fileID: 545674564}
+    - target: {fileID: 4210826275476797972, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4617697803041908047, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.1237
@@ -16158,6 +16170,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -0.752
       objectReference: {fileID: 0}
+    - target: {fileID: 4210826275476797972, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4617697803041908047, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.9593739
@@ -16649,6 +16665,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 4210826275476797972, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4617697803041908047, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.66418
@@ -17075,6 +17095,10 @@ PrefabInstance:
     - target: {fileID: 2040243977234520603, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 4210826275476797972, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4617697803041908047, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: m_LocalScale.x
