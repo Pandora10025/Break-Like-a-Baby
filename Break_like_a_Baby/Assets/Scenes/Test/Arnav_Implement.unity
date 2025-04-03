@@ -6065,6 +6065,46 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: hitPoint.x
+      value: -1946.3817
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: hitPoint.y
+      value: -0.87259734
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: hitPoint.z
+      value: -18.04976
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: hitDirection.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: rotationAmount
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: rotationPoint.x
+      value: -1946.5568
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: rotationPoint.y
+      value: -1.3725973
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: rotationPoint.z
+      value: -17.874762
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: floorRectScale.x
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: floorRectScale.y
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: hitMaterials.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -6072,6 +6112,10 @@ PrefabInstance:
       propertyPath: 'hitMaterials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 255002aa802974c1984e804315fd6ab3, type: 2}
+    - target: {fileID: 7362121570345541299, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: 'hitMaterials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 3f8d69a0bbd31534e9153c151f0fffb6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
