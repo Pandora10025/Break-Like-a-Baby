@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void GameOver(bool won)
     {
+        if(!gameOver)
         photonView.RPC("GameOverRPC", RpcTarget.AllBuffered, won);
     }
 
