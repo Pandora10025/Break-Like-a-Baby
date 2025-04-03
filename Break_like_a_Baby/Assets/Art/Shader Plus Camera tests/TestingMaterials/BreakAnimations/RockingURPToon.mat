@@ -30,7 +30,8 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
@@ -118,6 +119,8 @@ Material:
     - _GradientSize: 0.05
     - _Metallic: 0
     - _OcclusionStrength: 1
+    - _OutlineOpacity: 1
+    - _OutlineSizeMultiplier: 4.4
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
@@ -135,16 +138,17 @@ Material:
     - _TestingOffset: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _rotY: 0.000000017484556
+    - _rotY: 0
     - _shadingBands: 3
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Center: {r: -1.2412114, g: -0.49999914, b: -0.8877423, a: 0}
+    - _Center: {r: 1.5039058, g: -0.499999, b: 0.2586466, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _ForwardAxis: {r: -6e-45, g: 6e-45, b: 0.99999976, a: 0}
+    - _ForwardAxis: {r: -6e-45, g: 6e-45, b: -0.99999976, a: 0}
+    - _OutlineColor: {r: 1, g: 0, b: 0, a: 1}
     - _ShadowColor: {r: 0.42352942, g: 0.14274894, b: 0.13725494, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _UpAxis: {r: 0.00000074505954, g: 1, b: -2.842171e-14, a: 0}
+    - _UpAxis: {r: -0.00000074173755, g: 1, b: -0.000000070293865, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

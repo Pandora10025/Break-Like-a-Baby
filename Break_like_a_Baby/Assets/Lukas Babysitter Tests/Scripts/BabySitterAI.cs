@@ -20,9 +20,17 @@ public class BabySitterAI : MonoBehaviour
         PRECHASE,
         CHASE,
         PREPICKUP,
-        PICKUP
+        PICKUP,
+        PATHFIND
+
 
     }
+
+    public bool cribTest = false;
+
+
+
+    public BabysitterAIState[] statesIntoAnsync;
 
     public BabysitterAIState currentState = BabysitterAIState.IDLE;
 
@@ -55,6 +63,7 @@ public class BabySitterAI : MonoBehaviour
 
     public Transform playerWeAreCurrentlyChasing;
     public Transform playerCloseEnoughToBeGrabbed;
+
 
 
     public LayerMask LayersWeCanSee;
@@ -91,6 +100,16 @@ public class BabySitterAI : MonoBehaviour
         {
             deathTimer = deathCountdownMaxTime;
         }
+
+
+        if (cribTest)
+        {
+            cribTest = false;
+
+            PathfindToPos( GameObject.FindGameObjectWithTag("Crib").transform.position );
+
+        }
+
 
         switch (currentState)
         {
@@ -353,6 +372,44 @@ public class BabySitterAI : MonoBehaviour
 
                 break;
 
+            case BabysitterAIState.PATHFIND:
+
+                //Moving between the different patrol points...
+                //When we reach a destination, we will set the current destination to null.
+                //Down here we're checking if there's no destination yet. If not, it means we're ready to move again!
+                // Check if we've reached the destination
+                // Series of if statements take from https://discussions.unity.com/t/how-can-i-tell-when-a-navmeshagent-has-reached-its-destination/52403/5
+                if (!nav.pathPending)
+                {
+                    if (nav.remainingDistance <= nav.stoppingDistance)
+                    {
+                        if (!nav.hasPath || nav.velocity.sqrMagnitude == 0f)
+                        {
+
+
+                            Debug.Log("Path has been found!");
+
+                            StopMoving();
+                            currentState = BabysitterAIState.PREIDLE;
+                            anim.SetBool("chasing", false);
+
+
+
+                            
+
+
+
+                        }
+                    }
+                }
+
+
+
+
+
+
+                break; 
+
 
 
 
@@ -366,6 +423,44 @@ public class BabySitterAI : MonoBehaviour
 
 
     }
+
+    public void PathfindToPos( Vector3 destination ) {
+
+        bool compatibleState = false;
+
+        for (int i = 0; i < statesIntoAnsync.Length; i++)
+        {
+            BabysitterAIState state = statesIntoAnsync[i];
+
+            if (state == currentState)
+            {
+
+                compatibleState = true;
+
+            }
+
+        }
+
+        if (compatibleState)
+        {
+            nav.SetDestination(destination);
+
+            anim.SetBool("chasing", true);
+
+            currentState = BabysitterAIState.PATHFIND;
+
+        }
+
+        
+
+
+
+
+
+
+
+    }
+
 
 
     public void StopMoving()

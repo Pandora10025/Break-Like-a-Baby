@@ -114,17 +114,17 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     - _rotX: 0
-    - _rotY: 0.000000021855694
+    - _rotY: 0.000000017484556
     - _rotZ: 0
     m_Colors:
     - _Axis: {r: -0.4755915, g: 0.76695085, b: -0.4308122, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Center: {r: -1.3459468, g: -0.49999905, b: -0.71905947, a: 0}
+    - _Center: {r: -1.26648, g: -0.49999905, b: 0.8512986, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _ForwardAxis: {r: -6e-45, g: 0, b: 0.99999976, a: 0}
+    - _ForwardAxis: {r: 0.25513846, g: 0, b: 0.9669048, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _UpAxis: {r: 0.00000074505925, g: 1, b: -1.7053026e-13, a: 0}
+    - _UpAxis: {r: 0.0000007450593, g: 1, b: -7.1054274e-14, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &3650548408888972379

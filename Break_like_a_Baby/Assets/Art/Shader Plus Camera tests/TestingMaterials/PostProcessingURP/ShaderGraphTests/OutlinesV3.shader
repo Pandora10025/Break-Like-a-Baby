@@ -480,7 +480,8 @@ Shader "Custom/OutlinesV3"
             float outlinesMask = max(cutoffNormal , cutoffDepth);
 
 
-            float3 calculateOutlinesColor =  _SceneColor_3729885ae3bb4bed90cbb9d71705b266_Out_1_Vector3 * 0;
+            //float3 calculateOutlinesColor =  _SceneColor_3729885ae3bb4bed90cbb9d71705b266_Out_1_Vector3 * 0;
+            float3 calculateOutlinesColor =  1;
 
             float3 outlinesColored = outlinesMask * calculateOutlinesColor;
 
@@ -490,8 +491,17 @@ Shader "Custom/OutlinesV3"
 
             //surface.BaseColor = cutoffDepth;// + exponentialNormal;
             
-            surface.BaseColor = sceneColor;
+
+
+            //correct return value
+            //surface.BaseColor = sceneColor;
             
+
+            surface.BaseColor = _URPSampleBuffer_539074bbd1664536ba90f820be8e5d0a_Output_2_Vector3;
+
+
+
+
             //surface.BaseColor = cutoffDepth;
             //surface.BaseColor = nDotv.rrr;
             

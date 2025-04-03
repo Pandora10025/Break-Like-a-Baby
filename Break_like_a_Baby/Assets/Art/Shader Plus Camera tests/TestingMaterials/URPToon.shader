@@ -3,21 +3,56 @@ Shader "Custom/URPToon"
     Properties
     {
         _BaseMap("Base Map", 2D) = "white" {}
+       
         _Color("Color", Color) = (1,1,1,1)
         _ShadowColor("ShadowColor", Color) = (1,1,1,1)
         _shadingBands ("ShadingBandsNumber", int) = 3
         _GradientSize ("GradientSize", Range(0,1)) = 0.5
         _TestingOffset("Testing Offset", float) = 0
         _ShadowSmoothingSize("ShadowSmoothness", float) = 0
+
+        _OutlineColor ("Outline Color", Color) = (0,0,0)
+        _OutlineOpacity( "Outline Opacity", float ) = 1
+        _OutlineSizeMultiplier( " Outline Size Multiplier", Range(0, 10) ) = 1
+
+
+
     }
 
     SubShader
     {
-        Tags { "RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline" }
+        Tags { "RenderType" = "Transparent"
+            "RenderPipeline" = "UniversalPipeline"
+            "UniversalMaterialType" = "Lit"
+            "IgnoreProjector" = "True"
+         }
+        
+
 
         Pass
         {
+
+            
+            Tags{
+                
+            "Queue" = "2000"
+            }
+
             HLSLPROGRAM
+
+
+
+            // Force depth texture because we need it for almost every nodes
+            // TODO: dependency system that triggers this define from position or view direction usage
+            #define REQUIRE_DEPTH_TEXTURE
+            
+        
+            // /* WARNING: $splice Could not find named fragment 'PassInstancing' */
+             #define SHADERPASS SHADERPASS_DRAWPROCEDURAL
+             #define REQUIRE_NORMAL_TEXTURE
+             #define REQUIRE_DEPTH_TEXTURE
+             #define REQUIRE_OPAQUE_TEXTURE
+        
 
             #pragma vertex vert
             #pragma fragment frag
@@ -30,7 +65,35 @@ Shader "Custom/URPToon"
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+            //#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
+
+
             
+
+             // custom interpolator pre-include
+            /* WARNING: $splice Could not find named fragment 'sgci_CustomInterpolatorPreInclude' */
+        
+            
+            // Includes
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
+            #include "Packages/com.unity.shadergraph/Editor/Generation/Targets/Fullscreen/Includes/FullscreenShaderPass.cs.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/UnityInstancing.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include_with_pragmas "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRenderingKeywords.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRendering.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/DebugMipmapStreamingMacros.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/SpaceTransforms.hlsl"
+            #include "Packages/com.unity.shadergraph/ShaderGraphLibrary/Functions.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareNormalsTexture.hlsl"
+          
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GlobalSamplers.hlsl"
+
 
             struct Attributes
             {
@@ -38,6 +101,8 @@ Shader "Custom/URPToon"
                 float2 uv: TEXCOORD0;
                 float3 normal : NORMAL;
             };
+
+
 
             struct Varyings
             {
@@ -47,11 +112,35 @@ Shader "Custom/URPToon"
                 float4 shadowCoords : TEXCOORD2;
                 float shadowDarkness : TEXCOORD3;
                 float3 positionWS : TEXCOORD4;
+                float4 positionSC : TEXCOORD5;
 
             };
 
+            TEXTURE2D(_OutlineTexture); 
+            SAMPLER(sampler_OutlineTexture);
+
             TEXTURE2D(_BaseMap);
             SAMPLER(sampler_BaseMap); 
+            //TEXTURE2D(_CameraDepthTexture);
+            //SAMPLER(sampler_DepthMap);
+            SAMPLER(sampler_NormalMap);
+            TEXTURE2D(normTex);
+
+            float4 _OutlineTexture_TexelSize;
+
+            // Identifier same as the RenderPass
+            #define SAMPLE_BLIT(uv) SAMPLE_TEXTURE2D( _OutlineTexture, sampler_LinearClamp, uv )
+        
+            
+
+            //sampler2D _CameraDepthTexture;
+
+
+            void Unity_SceneDepth_Raw_float(float4 UV, out float Out)
+            {
+                Out = SHADERGRAPH_SAMPLE_SCENE_DEPTH(UV.xy);
+            }
+
 
             CBUFFER_START(UnityPerMaterial)
             float4 _Color;
@@ -61,6 +150,14 @@ Shader "Custom/URPToon"
             float _GradientSize;
             float _TestingOffset;
             float _ShadowSmoothingSize;
+
+            float3 _OutlineColor;
+            float _OutlineOpacity;
+    
+            float _OutlineSizeMultiplier;
+
+            
+
             CBUFFER_END
 
             float3x3 boxBlurKernel = float3x3 (
@@ -126,6 +223,80 @@ Shader "Custom/URPToon"
 
 
                     return result;
+            }
+
+
+            float outlineRaycast(float2 direction, float2 screenUV){
+                
+            
+                float outlineValue = 0;
+            
+                float2 ts = _OutlineTexture_TexelSize.xy;
+            
+
+                for(float i = 0; i < _OutlineSizeMultiplier; i++)
+                {
+                    // float2 sampleOffset =
+                    //     float2 ((blurPixels / _BlitTexture_TexelSize.z) * (i / BLUR_SAMPLES_RANGE), 0);
+                    // color += SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, input.texcoord + sampleOffset).rgb;
+                    
+                    float scalingAmount = 1- i/_OutlineSizeMultiplier;
+
+                    float3 sample = SAMPLE_TEXTURE2D( _OutlineTexture, sampler_PointClamp , screenUV + direction * ts * i);
+
+                    float amountToAdd = -dot( sample, float3(1,0,0) )+dot( sample, float3(0,1,0) );
+
+                    outlineValue += amountToAdd * scalingAmount;
+
+
+                }
+
+                outlineValue = step(0.1, outlineValue);
+
+
+                return outlineValue;
+
+            }
+
+
+
+            float GetOutlineValue ( float2 screenUV ){
+                
+                float2 ts = _OutlineTexture_TexelSize.xy ;
+
+                float baseValue = SAMPLE_TEXTURE2D( _OutlineTexture, sampler_PointClamp , screenUV );
+                
+                float p1 = SAMPLE_TEXTURE2D( _OutlineTexture, sampler_PointClamp , screenUV + float2(1,0)*ts*_OutlineSizeMultiplier );
+                float p2 = SAMPLE_TEXTURE2D( _OutlineTexture, sampler_PointClamp , screenUV + float2(1,1) * .707 *ts*_OutlineSizeMultiplier );
+                float p3 = SAMPLE_TEXTURE2D( _OutlineTexture, sampler_PointClamp , screenUV + float2(0,1)  *ts*_OutlineSizeMultiplier );
+                float p4 = SAMPLE_TEXTURE2D( _OutlineTexture, sampler_PointClamp , screenUV + float2(-1,1) * .707 *ts*_OutlineSizeMultiplier );
+                float p5 = SAMPLE_TEXTURE2D( _OutlineTexture, sampler_PointClamp , screenUV + float2(-1,0)*ts*_OutlineSizeMultiplier );
+                float p6 = SAMPLE_TEXTURE2D( _OutlineTexture, sampler_PointClamp , screenUV + float2(-1,-1) * .707 *ts*_OutlineSizeMultiplier );
+                float p7 = SAMPLE_TEXTURE2D( _OutlineTexture, sampler_PointClamp , screenUV + float2(0,-1)*ts*_OutlineSizeMultiplier );
+                float p8 = SAMPLE_TEXTURE2D( _OutlineTexture, sampler_PointClamp , screenUV + float2(1,-1) * .707 *ts*_OutlineSizeMultiplier );             
+
+                float outlineValue = saturate(baseValue + p1 + p2 + p3 + p4 + p5 + p6 + p7 + p8);
+
+
+                //We'll try a horizontal and vertical sweep!
+
+                // float p1 = outlineRaycast( float2(1,0), screenUV );
+                // float p3 = outlineRaycast( float2(-1,0), screenUV );
+                // float p5 = outlineRaycast( float2(0,1), screenUV );
+                // float p7 = outlineRaycast( float2(0,-1), screenUV );
+                
+                // float outlineValue = saturate(baseValue + p1 + p3 + p5 + p7);
+
+                
+
+
+
+
+
+
+                return outlineValue;
+            
+            
             }
 
 
@@ -221,6 +392,10 @@ Shader "Custom/URPToon"
                 //OUT.normal = mul(unity_ObjectToWorld, IN.normal) - IN.positionOS ; //UnityObjectToWorldNormal(IN.normal);
                 //OUT.normal = normalize(OUT.normal);
 
+               float3 worldPos = mul( (float3x3)unity_ObjectToWorld, ( IN.positionOS ) ) ;
+
+                OUT.positionSC = ComputeScreenPos( TransformObjectToHClip(IN.positionOS.xyz)  );
+
 
                 OUT.shadowDarkness = shadowConvolution(positions.positionWS.xyz, OUT.normal, gaussianBlurKernel);
 
@@ -232,6 +407,36 @@ Shader "Custom/URPToon"
             {
                 float4 texel = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, IN.uv);
                 // return texel * _Color;
+
+                float2 screenUV = IN.positionSC.xy / IN.positionSC.w;
+                //float depth = tex2D(_CameraDepthTexture, screenUV);
+                
+                //depth /= _ProjectionParams.w;
+
+                //float4 depthNormals =  float4( SHADERGRAPH_SAMPLE_SCENE_NORMAL(screenUV)  , Linear01Depth(SHADERGRAPH_SAMPLE_SCENE_DEPTH(screenUV), _ZBufferParams) );
+
+                //float depth = SAMPLE_TEXTURE2D(_CameraDepthTexture, sampler_BaseMap, screenUV);
+                //float depth = SampleSceneDepth(IN.uv); //_CameraDepthTexture.sample();
+                //float depth = SampleSceneDepth(IN.uv); //_CameraDepthTexture.sample();
+               
+                //depth /= _ProjectionParams.w;
+
+
+                // void Unity_SceneDepth_Raw_float(float4 UV, out float Out)
+                //  {
+                //     Out = SHADERGRAPH_SAMPLE_SCENE_DEPTH(UV.xy);
+                //  } 
+
+                //depth = Linear01Depth(SHADERGRAPH_SAMPLE_SCENE_DEPTH(screenUV), _ZBufferParams);
+                //depth = (SHADERGRAPH_SAMPLE_SCENE_DEPTH(IN.uv));
+
+
+                //_CameraDepthTexture.sample();
+
+                //float depth = tex2D(_CameraDepthTexture, screenUV);
+                //float depth = depthNormals.w; 
+                //float depth = depthNormals.w; 
+
 
 
                 float3 color;
@@ -345,87 +550,218 @@ Shader "Custom/URPToon"
                 //return float4(distanceFromNearestEdge.rrr, 1);
                 //return float4(diffusefalloff.rrr, 1);
                 //return float4(diffusefalloffOffset.rrr, 1);
-                return float4(color, 1);
+                //return float4(color, 1);
+                //return float4(depth.rrr, 1);
+
+                //float3 normalTest = SHADERGRAPH_SAMPLE_SCENE_NORMAL( (IN.positionCS.xy * 0.5 + IN.positionCS.w * 0.5).xy ).xyz;
+                //float3 normalTest = SHADERGRAPH_SAMPLE_SCENE_NORMAL( GetNormalizedScreenSpaceUV(IN.positionCS.xy) ).xyz;
+                
+                
+                //float3 normalTest = SHADERGRAPH_SAMPLE_SCENE_NORMAL( screenUV ).xyz;
+                
+
+                //float3 normalTest = SAMPLE_TEXTURE2D(_CameraNormalsTexture, sampler_CameraNormalsTexture,  IN.positionCS.xy);
+                
+                
+                float3 normalTest = SampleSceneNormals(screenUV);
+
+
+
+                //float depthTest = Linear01Depth( SHADERGRAPH_SAMPLE_SCENE_DEPTH( GetNormalizedScreenSpaceUV(IN.positionCS.xy) ), _ZBufferParams );
+                float depthTest = ( SHADERGRAPH_SAMPLE_SCENE_DEPTH( GetNormalizedScreenSpaceUV(IN.positionCS.xy) )  );
+
+                //return float4( normalTest , 1 );
                 //return float4( shadowConvolution( IN.positionWS, IN.normal, boxBlurKernel).rrr, 1);
+
+
+
+                float3 rawOutline = SAMPLE_TEXTURE2D( _OutlineTexture, sampler_PointClamp , screenUV );
+                
+                float outlineMask = GetOutlineValue(screenUV); // SAMPLE_TEXTURE2D( _OutlineTexture, sampler_PointClamp , screenUV );
+
+              
+
+                //float4 outline = SAMPLE_BLIT( screenUV.xy );
+
+                //float4 outline = tex2D( _OutlineTexture, screenUV.xy );
+                float3 coloredOutlines = outlineMask * _OutlineColor;
+
+
+                //return float4( coloredOutlines.xyz , 1);
+                return float4( coloredOutlines + color * (1-outlineMask) , 1);
+
 
             }
             ENDHLSL
         }
 
+        // Pass
+        // {
+        //     Name "DepthOnly"
+        //     Tags
+        //     {
+        //         "LightMode" = "DepthOnly"
+        //     }
+
+        //     // -------------------------------------
+        //     // Render State Commands
+        //     ZWrite On
+        //     ColorMask R
+        //     Cull[_Cull]
+
+        //     HLSLPROGRAM
+        //     #pragma target 2.0
+
+        //     // -------------------------------------
+        //     // Shader Stages
+        //     #pragma vertex DepthOnlyVertex
+        //     #pragma fragment DepthOnlyFragment
+
+        //     // -------------------------------------
+        //     // Material Keywords
+        //     #pragma shader_feature_local _ALPHATEST_ON
+        //     #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+
+        //     // -------------------------------------
+        //     // Unity defined keywords
+        //     #pragma multi_compile _ LOD_FADE_CROSSFADE
+
+        //     //--------------------------------------
+        //     // GPU Instancing
+        //     #pragma multi_compile_instancing
+        //     #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+
+        //     // -------------------------------------
+        //     // Includes
+        //     #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+        //     #include "Packages/com.unity.render-pipelines.universal/Shaders/DepthOnlyPass.hlsl"
+        //     ENDHLSL
+        // }
+
+        
+        // This pass is used when drawing to a _CameraNormalsTexture texture
+        Pass
+        {
+            Name "DepthNormals"
+            Tags
+            {
+                "LightMode" = "DepthNormals"
+
+                "Queue" = "1900"
+            
+            }
+
+            // -------------------------------------
+            // Render State Commands
+            ZWrite On
+            Cull[_Cull]
+
+            HLSLPROGRAM
+            #pragma target 3.0
+
+            // -------------------------------------
+            // Shader Stages
+            #pragma vertex DepthNormalsVertex
+            #pragma fragment DepthNormalsFragment
+
+            // -------------------------------------
+            // Material Keywords
+            #pragma shader_feature_local _NORMALMAP
+            #pragma shader_feature_local _PARALLAXMAP
+            #pragma shader_feature_local _ _DETAIL_MULX2 _DETAIL_SCALED
+            #pragma shader_feature_local _ALPHATEST_ON
+            #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+
+            // -------------------------------------
+            // Unity defined keywords
+            #pragma multi_compile _ LOD_FADE_CROSSFADE
+
+            // -------------------------------------
+            // Universal Pipeline keywords
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
+
+            //--------------------------------------
+            // GPU Instancing
+            #pragma multi_compile_instancing
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+
+            // -------------------------------------
+            // Includes
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/LitDepthNormalsPass.hlsl"
+            ENDHLSL
+        }
 
         Pass{
-        Name "ShadowCaster"
-        Tags{"LightMode" = "ShadowCaster"  }
+            Name "ShadowCaster"
+            Tags{"LightMode" = "ShadowCaster"  }
      
-        ColorMask 0
+                ColorMask 0
 
-        HLSLPROGRAM
-        #pragma vertex Vertex
-        #pragma fragment Fragment
+                HLSLPROGRAM
+                #pragma vertex Vertex
+                #pragma fragment Fragment
         
-        #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl"
-        #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
+                #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+                #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl"
+                #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
     
-        float3 _LightDirection;
+                float3 _LightDirection;
 
-        struct Attributes{
-            float3 positionLS : POSITION;
-            float3 normalLS : NORMAL;
-        };
-
-
-        struct Varyings{
-            float4 positionCS : SV_POSITION;
-        };
+                struct Attributes{
+                    float3 positionLS : POSITION;
+                    float3 normalLS : NORMAL;
+                };
 
 
-        float4 GetShadowPositionHClip(Attributes input)
-{
-    float3 positionWS = TransformObjectToWorld(input.positionLS.xyz);
-    float3 normalWS = TransformObjectToWorldDir(input.normalLS);
+                struct Varyings{
+                    float4 positionCS : SV_POSITION;
+                };
 
-    float invNdotL = 1.0 - saturate(dot(_LightDirection, normalWS));
-    float scale = invNdotL * _ShadowBias.y;
 
-    // normal bias is negative since we want to apply an inset normal offset
-    positionWS = _LightDirection * _ShadowBias.xxx + positionWS;
-    positionWS = normalWS * scale.xxx + positionWS;
-    float4 positionCS = TransformWorldToHClip(positionWS);
+                float4 GetShadowPositionHClip(Attributes input) {
+                    float3 positionWS = TransformObjectToWorld(input.positionLS.xyz);
+                    float3 normalWS = TransformObjectToWorldDir(input.normalLS);
 
-    #if UNITY_REVERSED_Z
-        positionCS.z = min(positionCS.z, positionCS.w * UNITY_NEAR_CLIP_VALUE);
-    #else
-        positionCS.z = max(positionCS.z, positionCS.w * UNITY_NEAR_CLIP_VALUE);
-    #endif
+                    float invNdotL = 1.0 - saturate(dot(_LightDirection, normalWS));
+                    float scale = invNdotL * _ShadowBias.y;
 
-    return positionCS;
-}
+                    // normal bias is negative since we want to apply an inset normal offset
+                    positionWS = _LightDirection * _ShadowBias.xxx + positionWS;
+                    positionWS = normalWS * scale.xxx + positionWS;
+                    float4 positionCS = TransformWorldToHClip(positionWS);
 
-        Varyings Vertex(Attributes input){
+                    #if UNITY_REVERSED_Z
+                        positionCS.z = min(positionCS.z, positionCS.w * UNITY_NEAR_CLIP_VALUE);
+                    #else
+                        positionCS.z = max(positionCS.z, positionCS.w * UNITY_NEAR_CLIP_VALUE);
+                    #endif
+
+                    return positionCS;
+                }
+
+                Varyings Vertex(Attributes input){
             
-            Varyings output;
+                    Varyings output;
 
-            output.positionCS = GetShadowPositionHClip(input);
+                    output.positionCS = GetShadowPositionHClip(input);
 
-            return output;
+                    return output;
         
-        }
+                }
 
 
-        half4 Fragment(Varyings v) : SV_Target {
+                half4 Fragment(Varyings v) : SV_Target {
         
             
-            return 0;
+                    return 0;
+                }
+
+
+
+
+             ENDHLSL
         }
-
-
-
-
-        ENDHLSL
-
-     
-     }
 
     }
 

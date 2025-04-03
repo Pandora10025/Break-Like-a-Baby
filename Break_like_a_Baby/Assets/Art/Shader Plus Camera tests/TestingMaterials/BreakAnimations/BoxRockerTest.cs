@@ -49,6 +49,12 @@ public class BoxRockerTest : MonoBehaviour
 
 
 
+    private float outlineGlowDist = 3.5f;
+
+    private float outlineChangeProgress = 1;
+
+
+
 
     void Start()
     {
@@ -73,6 +79,59 @@ public class BoxRockerTest : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        //I'm going to make it so that the outliens glow different colors to signify the importance of the breakable objects
+        //...or they are just black when the player is far away.
+
+
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+
+        bool foundPlayer = false;
+
+        for (int i = 0; i < players.Length; i++)
+        {
+            GameObject currentPlayer = players[i];
+
+            if (Vector3.Distance(transform.position, currentPlayer.transform.position) < outlineGlowDist)
+            {
+                foundPlayer = true;
+
+
+                
+            }
+
+
+        }
+
+
+
+
+        if (foundPlayer)
+        {
+            outlineChangeProgress = Mathf.Lerp(outlineChangeProgress, 1, .3f);
+
+        }
+        else
+        {
+            outlineChangeProgress = Mathf.Lerp(outlineChangeProgress, 0, .3f);
+
+
+        }
+
+        Color currentOutlineGlowColor = Color.Lerp(Color.black, Color.Lerp(Color.red, Color.yellow, (Mathf.Sin(Time.realtimeSinceStartup * 1)+1)/2    ), outlineChangeProgress);
+
+
+
+
+
+        //And then down here it's time for the actual rotation calculations. We'll set the color in just a bit.
+
+
+
+
+
+
 
 
 
@@ -137,7 +196,7 @@ public class BoxRockerTest : MonoBehaviour
 
             testShake = false;
 
-            Shake(transform.position, transform.right);
+            Shake(transform.position + new Vector3(0,0,3), transform.right);
 
         }
 
@@ -172,6 +231,7 @@ public class BoxRockerTest : MonoBehaviour
             hitMaterial.SetVector("_ForwardAxis", new Vector4(slerpedRotationAxis.x, slerpedRotationAxis.y, slerpedRotationAxis.z, 0));
             hitMaterial.SetVector("_Center", new Vector4(lerpedCenter.x, lerpedCenter.y, lerpedCenter.z, 0));
 
+            hitMaterial.SetColor("_OutlineColor", currentOutlineGlowColor   );
 
 
 
@@ -216,6 +276,10 @@ public class BoxRockerTest : MonoBehaviour
 
 
         }
+
+
+
+
 
 
 
