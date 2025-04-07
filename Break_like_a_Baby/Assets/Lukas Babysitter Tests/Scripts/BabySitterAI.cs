@@ -74,6 +74,14 @@ public class BabySitterAI : MonoBehaviour
     private float velocity;
 
 
+    void Awake() { 
+        //GameManager.instance.
+    
+    
+    
+    }
+
+
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -337,6 +345,16 @@ public class BabySitterAI : MonoBehaviour
 
                             GameManager.instance.GameOver(false);
 
+                            //LUKAS AND ARNAV, THIS IS WHERE WE START UN-COMMENTING THINGS FOR THE BABYSITTER UPGRADE.
+                            //The above code should hopefully be obsolete soon, because we're going to have the babysitter grab the child and run off with them!
+                            //Their new task will be to run right off to the crib.
+
+
+
+
+                            //currentState = BabysitterAIState.PICKUP;
+
+                               
 
 
 
@@ -366,6 +384,22 @@ public class BabySitterAI : MonoBehaviour
                 break;
 
             case BabysitterAIState.PICKUP:
+
+
+                //               PlayerCatching player = playerWeAreCurrentlyChasing.GetComponent<PlayerCatching>();
+                //               player.GetCaught();
+
+                //And then I need to enable "the loaf"
+                //The loaf is our name for the cylinder that the babysitter will hold that represents the baby that just got caught.
+                //It will be yellow or red depending on the color of the baby.
+
+
+                //And then after that we ought to have the babysitter run off to the crib, and deposit their prisoner.
+                //PathfindToPos( GameObject.FindGameObjectWithTag("Crib").transform.position );
+
+
+
+
 
 
 
