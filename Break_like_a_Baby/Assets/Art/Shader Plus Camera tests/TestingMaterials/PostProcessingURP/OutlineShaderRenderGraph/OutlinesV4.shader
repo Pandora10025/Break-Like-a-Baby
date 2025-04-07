@@ -318,6 +318,7 @@ Shader "Custom/OutlinesV4"
             float calculatedNormalThreshold = lerp(   normalDefaultThreshold   ,   normalFarThreshold       ,   smoothstep( normalAdjustNearDepth , normalAdjustFarDepth , customDepthNormals.w ) );
 
             float thresholdedNormal = step( calculatedNormalThreshold ,  ConvertToHSV(normalSobel).zzz  );
+            //float thresholdedNormal = 0;
 
 
 

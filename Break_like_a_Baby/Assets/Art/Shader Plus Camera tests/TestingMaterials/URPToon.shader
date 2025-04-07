@@ -12,7 +12,7 @@ Shader "Custom/URPToon"
         _ShadowSmoothingSize("ShadowSmoothness", float) = 0
 
         _OutlineColor ("Outline Color", Color) = (0,0,0)
-        _OutlineOpacity( "Outline Opacity", float ) = 1
+        _OutlineOpacity( "Outline Opacity",   Range(0, 1) ) = 0
         _OutlineSizeMultiplier( " Outline Size Multiplier", Range(0, 10) ) = 1
 
 
@@ -584,7 +584,7 @@ Shader "Custom/URPToon"
                 //float4 outline = SAMPLE_BLIT( screenUV.xy );
 
                 //float4 outline = tex2D( _OutlineTexture, screenUV.xy );
-                float3 coloredOutlines = outlineMask * _OutlineColor;
+                float3 coloredOutlines = outlineMask *  lerp( color, _OutlineColor, _OutlineOpacity) ;
 
 
                 //return float4( coloredOutlines.xyz , 1);
