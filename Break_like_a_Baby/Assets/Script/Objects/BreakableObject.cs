@@ -227,8 +227,9 @@ public class BreakableObject : MonoBehaviourPunCallbacks
             Collider col = rb.gameObject.GetComponent<Collider>();
             if (col!=null)
             {
-                col.enabled = false;
+               
             }
+            rb.mass = 1f;
         }
     }
 }

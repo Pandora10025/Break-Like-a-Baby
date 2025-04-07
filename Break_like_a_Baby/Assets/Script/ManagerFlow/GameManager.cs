@@ -18,6 +18,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     public Transform respawnPos;
     int roomedCount;
     int playerCount;
+    
+    public Color[] playerColors;
+
+    public GameObject babySitter;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

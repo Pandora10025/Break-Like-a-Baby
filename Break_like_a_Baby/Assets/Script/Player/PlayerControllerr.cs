@@ -65,6 +65,8 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public bool enableMove = true;
 
+    public int colorId;
+
     void Awake()
     {
         inputActions = new PlayerControls();
@@ -128,6 +130,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
     void RPC_SetAnimator(int characterID)
     {
         nameTag.text = photonView.Owner.NickName;
+        colorId = characterID;
         
         if (anim == null)
         {
