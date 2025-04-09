@@ -43,7 +43,7 @@ public class Crib : MonoBehaviourPunCallbacks
 
     public void Break()
     {
-        GameManager.instance.playerCaught.GetComponent<PlayerCatching>().changeState(PlayerCatching.playerCatchState.free);
+        
         foreach (GameObject baby in babys)
         {
             baby.SetActive(false);
@@ -55,7 +55,8 @@ public class Crib : MonoBehaviourPunCallbacks
     [PunRPC]
     public void babyBed(int colorID)
     {
-       
+
+        GameManager.instance.playerCaught.GetComponent<PlayerCatching>().changeState(PlayerCatching.playerCatchState.free);
         babys[colorID].SetActive(true);
         babyBeddedCount++;
         breakable.Active();
