@@ -425,7 +425,7 @@ public class BabySitterAI : MonoBehaviour
                 PathfindToPos(GameManager.instance.crib.transform.parent.position);
                 Debug.Log("Crib:" +GameManager.instance.crib.transform.parent.position);
                 holdingBaby = true;
-                currentState = BabysitterAIState.PATHFIND;
+                //currentState = BabysitterAIState.PATHFIND;
 
                 break;
 
