@@ -15032,7 +15032,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cribTest: 0
   holdingBaby: 0
-  statesIntoAnsync: 0100000003000000
+  statesIntoAnsync: 010000000300000007000000
   currentState: 0
   idleWaitMinAndMax: {x: 3, y: 10}
   patrolPercentEachPatrolMinAndMax: {x: 0.1, y: 1}
