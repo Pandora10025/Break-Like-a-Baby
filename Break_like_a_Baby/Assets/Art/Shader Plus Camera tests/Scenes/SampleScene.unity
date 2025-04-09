@@ -1421,7 +1421,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5580254327145735850, guid: 0bea771901b2e48fdb8ed0abbdfba36b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1951.81
+      value: -1951.773
       objectReference: {fileID: 0}
     - target: {fileID: 5580254327145735850, guid: 0bea771901b2e48fdb8ed0abbdfba36b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3640,6 +3640,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cribTest: 0
+  holdingBaby: 0
   statesIntoAnsync: 0100000003000000
   currentState: 0
   idleWaitMinAndMax: {x: 3, y: 10}
@@ -3663,6 +3664,8 @@ MonoBehaviour:
   LayersWeCanSee:
     serializedVersion: 2
     m_Bits: 321
+  playerMats: []
+  babyOrb: {fileID: 0}
 --- !u!195 &635642821
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -4983,7 +4986,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5580254327145735850, guid: 0bea771901b2e48fdb8ed0abbdfba36b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1951.28
+      value: -1951.697
       objectReference: {fileID: 0}
     - target: {fileID: 5580254327145735850, guid: 0bea771901b2e48fdb8ed0abbdfba36b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4991,7 +4994,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5580254327145735850, guid: 0bea771901b2e48fdb8ed0abbdfba36b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -15.005
+      value: -14.666
       objectReference: {fileID: 0}
     - target: {fileID: 5580254327145735850, guid: 0bea771901b2e48fdb8ed0abbdfba36b, type: 3}
       propertyPath: m_LocalRotation.w
