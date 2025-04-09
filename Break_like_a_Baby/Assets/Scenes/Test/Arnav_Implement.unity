@@ -2965,6 +2965,7 @@ MonoBehaviour:
   babys:
   - {fileID: 706368134}
   - {fileID: 355748665}
+  respawnTime: 0
 --- !u!114 &361026075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21676,6 +21677,10 @@ PrefabInstance:
       propertyPath: totalTime
       value: 500
       objectReference: {fileID: 0}
+    - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
+      propertyPath: respawnPos
+      value: 
+      objectReference: {fileID: 361026071}
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: gameOverScreen
       value: 
