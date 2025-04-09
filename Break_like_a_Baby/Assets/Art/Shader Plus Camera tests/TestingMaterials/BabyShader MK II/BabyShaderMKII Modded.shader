@@ -74,10 +74,10 @@ Shader "Custom/BabyShaderMKII Modded"
 
         float alphaSobelOperator( float2 uv ){
             
-            float outlineScanSizeMultiplier = 1;
+            float outlineScanSizeMultiplier = .000001;
 
 
-            float2 ts = _MainTex_ST;
+            float2 ts = _MainTex_ST * outlineScanSizeMultiplier;
 
             
             //float3 camPos = GetCameraPositionWS();
@@ -135,33 +135,44 @@ Shader "Custom/BabyShaderMKII Modded"
 
 
 
-            // float2 p1Pos = floor( (pixelUV + float2(-1,1)*ts ) * resolution)/resolution);
-            // float2 p2Pos = floor( (pixelUV + float2(0,1)*ts ) * resolution)/resolution);
-            // float2 p3Pos = floor( (pixelUV + float2(1,1)*ts ) * resolution)/resolution);
-            // float2 p4Pos = floor( (pixelUV + float2(-1,0)*ts ) * resolution)/resolution);
-            // float2 p5Pos = floor(pixelUV * resolution)/resolution;
-            // float2 p6Pos = floor( (pixelUV + float2(1,0)*ts ) * resolution)/resolution);
-            // float2 p7Pos = floor( (pixelUV + float2(-1,-1)*ts ) * resolution)/resolution);
-            // float2 p8Pos = floor( (pixelUV + float2(0, -1)*ts ) * resolution)/resolution);
-            // float2 p9Pos = floor( (pixelUV + float2(1, -1)*ts ) * resolution)/resolution);
+            float2 p1Pos = floor( (pixelUV + float2(-1,1)*ts ) * resolution)/resolution;
+            float2 p2Pos = floor( (pixelUV + float2(0,1)*ts ) * resolution)/resolution;
+            float2 p3Pos = floor( (pixelUV + float2(1,1)*ts ) * resolution)/resolution;
+            float2 p4Pos = floor( (pixelUV + float2(-1,0)*ts ) * resolution)/resolution;
+            float2 p5Pos = floor(pixelUV * resolution)/resolution;
+            float2 p6Pos = floor( (pixelUV + float2(1,0)*ts ) * resolution)/resolution;
+            float2 p7Pos = floor( (pixelUV + float2(-1,-1)*ts ) * resolution)/resolution;
+            float2 p8Pos = floor( (pixelUV + float2(0, -1)*ts ) * resolution)/resolution;
+            float2 p9Pos = floor( (pixelUV + float2(1, -1)*ts ) * resolution)/resolution;
+
+
+            // float3 p1 = getScaledDepthNormals(uv + float2(-1, 1) * ts).rgb;
+                // float3 p2 = getScaledDepthNormals( uv + float2(0, 1) * ts ).rgb;
+                // float3 p3 = getScaledDepthNormals( uv + float2(1, 1) * ts ).rgb;
+                // float3 p4 = getScaledDepthNormals( uv + float2(-1, 0) * ts ).rgb;
+                // float3 p5 = getScaledDepthNormals( uv + float2(0, 0) * ts ).rgb;
+                // float3 p6 = getScaledDepthNormals( uv + float2(1, 0) * ts ).rgb;
+                // float3 p7 = getScaledDepthNormals( uv + float2(-1, -1) * ts ).rgb;
+                // float3 p8 = getScaledDepthNormals( uv + float2(0, -1) * ts ).rgb;
+                // float3 p9 = getScaledDepthNormals( uv + float2(1, -1) * ts ).rgb;
+                
+
+
+
+            float p1 = SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p1Pos  ).a;
+            float p2 = SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p2Pos  ).a;
+            float p3 = SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p3Pos  ).a;
+            float p4 = SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p4Pos  ).a;
+            float p5 = SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p5Pos).a;
+            float p6 = SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p6Pos  );
+            float p7 = SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p7Pos  ).a;
+            float p8 = SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p8Pos  ).a;
+            float p9 = SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p9Pos  ).a;
 
 
 
 
-            // float p1 = SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p1Pos  ).a;
-            // float p2 = SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p2Pos  ).a;
-            // float p3 = SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p3Pos  ).a;
-            // float p4 =  SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p4Pos  ).a;
-            // float p5 = SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p5Pos).a;
-            // float p6 = SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p6Pos  );
-            // float p7 = SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p7Pos  ).a;
-            // float p8 = SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p8Pos  ).a;
-            // float p9 = SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p9Pos  ).a;
-
-
-
-
-            //result = abs( (p1+ (2*p2)+p3)-(p7+(2*p8)+p9) )+ abs( (p3+ (2*p6) +p9 )-(p1+ (2*p4) + p7) );
+            result = abs( (p1+ (2*p2)+p3)-(p7+(2*p8)+p9) )+ abs( (p3+ (2*p6) +p9 )-(p1+ (2*p4) + p7) );
 
 
             return result;
@@ -216,6 +227,12 @@ Shader "Custom/BabyShaderMKII Modded"
             float difference = (v.surfZ- depth );
 
 
+
+            float alphaSobel = alphaSobelOperator(v.uv);
+
+
+
+
             float calculatedTransparency = texel.a;
 
 
@@ -265,7 +282,7 @@ Shader "Custom/BabyShaderMKII Modded"
 
             
             //return UniversalFragmentBlinnPhong(lighting, surface) * calculatedTransparency;// + unity_AmbientSky;
-            return pixelColor;// float4( alphaSobelOperator(v.uv).rrr, 1 );// + unity_AmbientSky;
+            return float4( alphaSobelOperator(v.uv).rrr, 1 );// + unity_AmbientSky;
             //return MainLightRealtimeShadow(lighting.shadowCoord);// * (1-GetMainLightShadowFade(v.positionWS));
             //return float4( (MainLightRealtimeShadow(lighting.shadowCoord)).rrr, 1);
             //return float4( pow((mainLight.shadowAttenuation), _TestingPower).rrr, 1);
