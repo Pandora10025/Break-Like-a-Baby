@@ -1,6 +1,7 @@
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 //[ExecuteInEditMode]
 
@@ -9,8 +10,7 @@ public class BoxRockerTest : MonoBehaviour
 {
 
 
-
-
+    
     [SerializeField] Vector3 rotationPoint;
     public Material[] hitMaterials;
 
@@ -54,6 +54,11 @@ public class BoxRockerTest : MonoBehaviour
     private float outlineChangeProgress = 1;
 
 
+    private Slider outlineSlider;
+
+    private Color healthyColor = new Color(2f/255f , 255f/255f , 120f/255f ); //rgb(2, 255, 184)
+    private Color brokenColor = new Color(1, 0, 0); 
+
 
 
     void Start()
@@ -71,8 +76,7 @@ public class BoxRockerTest : MonoBehaviour
         //}
 
 
-
-
+        outlineSlider = GetComponent<BreakableObject>().slider;
 
     }
 
@@ -107,22 +111,30 @@ public class BoxRockerTest : MonoBehaviour
 
 
 
-        if (foundPlayer)
+        if (foundPlayer && outlineSlider.normalizedValue != 0)
         {
-            outlineChangeProgress = Mathf.Lerp(outlineChangeProgress, 1, .3f);
+            outlineChangeProgress = Mathf.Lerp(outlineChangeProgress, 1, .1f);
 
         }
         else
         {
-            outlineChangeProgress = Mathf.Lerp(outlineChangeProgress, 0, .3f);
+            outlineChangeProgress = Mathf.Lerp(outlineChangeProgress, 0, .1f);
 
 
         }
 
-        Color currentOutlineGlowColor = Color.Lerp(Color.black, Color.Lerp(Color.red, Color.yellow, (Mathf.Sin(Time.realtimeSinceStartup * 1)+1)/2    ), outlineChangeProgress);
+        Color lerpedColor = Color.Lerp(brokenColor, healthyColor, Mathf.Pow(outlineSlider.normalizedValue, 2));
 
+        float h;
+        float s;
+        float v;
+        
+        Color.RGBToHSV(lerpedColor , out h, out s, out v);
 
+        lerpedColor = Color.HSVToRGB(h, Mathf.Max(.8f, s), Mathf.Max( .8f, v ) ); ;
 
+        //Color currentOutlineGlowColor = Color.Lerp(Color.black, Color.Lerp(Color.red, Color.yellow, (Mathf.Sin(Time.realtimeSinceStartup * 1)+1)/2    ), outlineChangeProgress);
+        Color currentOutlineGlowColor = Color.Lerp(Color.black,   lerpedColor  , outlineChangeProgress) ;
 
 
         //And then down here it's time for the actual rotation calculations. We'll set the color in just a bit.
@@ -298,6 +310,11 @@ public class BoxRockerTest : MonoBehaviour
 
         hitDirection = playerRightVector;
 
+        //And then down here we're going to experiment with rotating this just a tiny bit.
+
+        Vector3 rotatedHitDirection = Quaternion.Euler(0, UnityEngine.Random.Range(-45,45) , 0) * hitDirection;
+
+        hitDirection = rotatedHitDirection;
 
 
         if (animVelocity == 0)

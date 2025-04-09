@@ -959,6 +959,39 @@ MonoBehaviour:
   verticalBlur:
     m_OverrideState: 1
     m_Value: 0.05
+  noiseBrightnessUpperThreshold:
+    m_OverrideState: 1
+    m_Value: 0.5
+  noiseBrightnessShadowWieght:
+    m_OverrideState: 1
+    m_Value: 1
+  noiseResolution:
+    m_OverrideState: 1
+    m_Value: 512
+  outlineGlobalSizeMultiplier:
+    m_OverrideState: 1
+    m_Value: 1.5
+  normalThreshold:
+    m_OverrideState: 1
+    m_Value: 0.5
+  normalFarThreshold:
+    m_OverrideState: 1
+    m_Value: 0.5
+  normalAdjustNearDepth:
+    m_OverrideState: 1
+    m_Value: 0.5
+  normalAdjustFarDepth:
+    m_OverrideState: 1
+    m_Value: 0.5
+  depthThreshold:
+    m_OverrideState: 1
+    m_Value: 0.005
+  acuteDepthDefaultThreshold:
+    m_OverrideState: 1
+    m_Value: 0.005
+  acuteAngleStartDot:
+    m_OverrideState: 1
+    m_Value: 0.005
 --- !u!114 &9001657382290151224
 MonoBehaviour:
   m_ObjectHideFlags: 3

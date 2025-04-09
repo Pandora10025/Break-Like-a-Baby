@@ -28,6 +28,8 @@ public class BabySitterAI : MonoBehaviour
 
     public bool cribTest = false;
 
+    public bool holdingBaby = false;
+
 
 
     public BabysitterAIState[] statesIntoAnsync;
@@ -74,11 +76,16 @@ public class BabySitterAI : MonoBehaviour
     private float velocity;
 
 
-    void Awake() { 
-        //GameManager.instance.
-    
-    
-    
+    void Awake() {
+
+        Debug.Log(gameObject);
+
+        if (GameManager.instance)
+        {
+            GameManager.instance.babySitter = gameObject;
+
+        }
+
     }
 
 
@@ -345,14 +352,12 @@ public class BabySitterAI : MonoBehaviour
 
                             GameManager.instance.GameOver(false);
 
+
                             //LUKAS AND ARNAV, THIS IS WHERE WE START UN-COMMENTING THINGS FOR THE BABYSITTER UPGRADE.
                             //The above code should hopefully be obsolete soon, because we're going to have the babysitter grab the child and run off with them!
                             //Their new task will be to run right off to the crib.
 
-
-
-
-                            //currentState = BabysitterAIState.PICKUP;
+                             //currentState = BabysitterAIState.PICKUP;
 
                                
 
@@ -386,6 +391,8 @@ public class BabySitterAI : MonoBehaviour
             case BabysitterAIState.PICKUP:
 
 
+                //UNCOMMENT ALL THIS STUFF TOO!!!
+
                 //               PlayerCatching player = playerWeAreCurrentlyChasing.GetComponent<PlayerCatching>();
                 //               player.GetCaught();
 
@@ -395,9 +402,9 @@ public class BabySitterAI : MonoBehaviour
 
 
                 //And then after that we ought to have the babysitter run off to the crib, and deposit their prisoner.
-                //PathfindToPos( GameObject.FindGameObjectWithTag("Crib").transform.position );
+                            //PathfindToPos( GameObject.FindGameObjectWithTag("Crib").transform.position );
 
-
+                            //holdingBaby = true;
 
 
 
@@ -427,9 +434,20 @@ public class BabySitterAI : MonoBehaviour
                             currentState = BabysitterAIState.PREIDLE;
                             anim.SetBool("chasing", false);
 
+                            if (holdingBaby)
+                            {
+                                //AND THEN THIS IS WHERE WE DROP THE BABY!!!
+
+                                holdingBaby = false;
+
+                                //UNCOMMENT ALL THIS STUFF TOO!!!
+
+                                //               PlayerCatching player = playerWeAreCurrentlyChasing.GetComponent<PlayerCatching>();
+                                //               player.Roomed();
+
+                            }
 
 
-                            
 
 
 

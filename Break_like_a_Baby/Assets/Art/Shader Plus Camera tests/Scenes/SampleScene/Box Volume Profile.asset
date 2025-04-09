@@ -44,7 +44,7 @@ MonoBehaviour:
     m_Value: 216
   outlineGlobalSizeMultiplier:
     m_OverrideState: 1
-    m_Value: 3
+    m_Value: 2
   normalThreshold:
     m_OverrideState: 1
     m_Value: 2.5
@@ -59,10 +59,10 @@ MonoBehaviour:
     m_Value: 1
   depthThreshold:
     m_OverrideState: 1
-    m_Value: 0.01
+    m_Value: 0.52
   acuteDepthDefaultThreshold:
     m_OverrideState: 1
-    m_Value: 0.33
+    m_Value: 0.25
   acuteAngleStartDot:
     m_OverrideState: 1
     m_Value: 0.9

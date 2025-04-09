@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Breakable
   - Crib
+  - Babysitter
   layers:
   - Default
   - TransparentFX
