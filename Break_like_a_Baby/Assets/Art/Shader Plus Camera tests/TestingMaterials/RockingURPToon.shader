@@ -492,7 +492,9 @@ Shader "Custom/RockingURPToon"
                 //float4 outline = SAMPLE_BLIT( screenUV.xy );
 
                 //float4 outline = tex2D( _OutlineTexture, screenUV.xy );
-                float3 coloredOutlines = outlineMask * _OutlineColor;
+                //float3 coloredOutlines = outlineMask * _OutlineColor;
+
+                float3 coloredOutlines = outlineMask *  lerp( color, _OutlineColor, _OutlineOpacity) ;
 
 
                 //return float4( coloredOutlines.xyz , 1);

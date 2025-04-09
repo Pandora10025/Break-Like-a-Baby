@@ -572,6 +572,12 @@ public class BabySitterAI : MonoBehaviour
 
     Transform ScanForPlayers()
     {
+
+        if (holdingBaby)
+        {
+            return null;
+        }
+
         Transform playerReturnVariable = null;
 
 
