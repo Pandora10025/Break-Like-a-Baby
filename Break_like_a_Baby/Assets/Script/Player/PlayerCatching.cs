@@ -26,6 +26,7 @@ public class PlayerCatching : MonoBehaviour
         playerC = GetComponent<PlayerControllerr>();
         mySpr = GetComponent<SpriteRenderer>();
         ogSpriteOrder = mySpr.sortingOrder;
+        grabbable = true;
 
     }
 
@@ -58,7 +59,6 @@ public class PlayerCatching : MonoBehaviour
                 GetComponent<Collider>().enabled = false;
                 //mySpr.sortingOrder = pushedSpriteOrder;
                 mySpr.enabled = false;
-                grabbable = false;
                 break;
             case playerCatchState.roomed:
                 playerC.enableMove = false;
