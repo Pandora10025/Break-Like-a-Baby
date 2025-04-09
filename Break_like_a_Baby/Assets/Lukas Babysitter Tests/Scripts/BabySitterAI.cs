@@ -462,6 +462,7 @@ public class BabySitterAI : MonoBehaviour
                                 //               PlayerCatching player = playerWeAreCurrentlyChasing.GetComponent<PlayerCatching>();
                                 //               player.Roomed();
 
+                                GameManager.instance.crib.babyBedded(playerWeAreCurrentlyChasing.gameObject.GetComponent<PlayerControllerr>().colorId);
                                 playerWeAreCurrentlyChasing.gameObject.GetComponent<PlayerCatching>().changeState(PlayerCatching.playerCatchState.roomed);
                                 babyOrbActive(false);
                                
