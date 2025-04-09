@@ -7,14 +7,14 @@ public class Crib : MonoBehaviour
     BreakableObject breakable;
     void Awake()
     {
-        GameManager.instance.crib = this;
+       
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        GameManager.instance.crib = this;
 
-      
-         baby.SetActive(false);
+        baby.SetActive(false);
         
         breakable.Inactive();
     }

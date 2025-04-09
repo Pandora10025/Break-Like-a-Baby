@@ -83,12 +83,7 @@ public class BabySitterAI : MonoBehaviour
 
         Debug.Log(gameObject);
 
-        if (GameManager.instance)
-        {
-            GameManager.instance.babySitter = gameObject;
-
-        }
-        babyOrb.SetActive(false);
+        
 
     }
 
@@ -98,6 +93,12 @@ public class BabySitterAI : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (GameManager.instance)
+        {
+            GameManager.instance.babySitter = gameObject;
+
+        }
+        babyOrb.SetActive(false);
         nav = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
 
