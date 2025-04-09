@@ -10,6 +10,8 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
     [SerializeField] public float rotationSpeed = 10f;
     [SerializeField] private Vector3 moveDirection;
 
+    private PlayerControllerr playerControl;
+
     public bool inRange = false;
     GameObject breakable;
     [SerializeField] public AudioSource aud;
@@ -21,6 +23,7 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
     {
         rb = this.GetComponent<Rigidbody>();
         aud = this.GetComponent<AudioSource>();
+        playerControl = this.GetComponent<PlayerControllerr>();
         brokenList = "";
         viewId = photonView.ViewID;
 
@@ -28,7 +31,7 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (inRange && Input.GetKeyDown(KeyCode.Space) && photonView.IsMine){
+        if (inRange && (Input.GetKeyDown(KeyCode.Space) || playerControl.isSpamTriggered()) && photonView.IsMine){
 
             aud.Play();
             breakable.GetComponent<BreakableObject>().TakeDamage(photonView.ViewID);
@@ -38,7 +41,7 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
         //check to show the tablist
         if (photonView.IsMine)
         {
-            if (Input.GetKey(KeyCode.Tab))
+            if (Input.GetKey(KeyCode.Tab) || playerControl.isTaskTriggered())
             {
                 ObjectManager.instance.ToggleText(true);
                 //GameManager.instance.ToggleText(true);

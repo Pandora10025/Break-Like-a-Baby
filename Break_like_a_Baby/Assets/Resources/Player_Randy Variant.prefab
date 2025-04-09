@@ -432,6 +432,8 @@ MonoBehaviour:
   inRange: 0
   aud: {fileID: 0}
   brokenList: 
+  viewId: 0
+  breakCount: 0
 --- !u!114 &5414641804094520482
 MonoBehaviour:
   m_ObjectHideFlags: 0

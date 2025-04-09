@@ -53,10 +53,16 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     // Input Action variables
     private PlayerControls inputActions;  // Reference to input actions
+    private InputAction spamInput;
+    private InputAction tasksInput;
+
+  
+
     public Vector2 moveInput;
     public bool isSprinting;
     private bool isInteracting;
     public bool isRotating;
+
 
     public PhotonView view;
 
@@ -75,6 +81,9 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
         //inputActions.Player.Interact.performed += OnInteract; // Detect when the button is pressed
         inputActions.Player.Tasks.performed += OnTask;
         //inputActions.Player.Tasks.performed += OnSpam;
+
+        spamInput = inputActions.Player.Spam;
+        tasksInput = inputActions.Player.Tasks;
     }
 
     void OnEnable()
@@ -193,8 +202,15 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
             RotatePlayerToMovementDirection();
         }
 
-           
+        if (spamInput.triggered)
+        {
+            Debug.Log("Button pressed" + spamInput.ToString());
+        }
 
+        if (tasksInput.triggered)
+        {
+            Debug.Log("Task button is " +  tasksInput.ToString());  
+        }
         
         /*
         if (!timerManager.timesUp)
@@ -358,5 +374,14 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
     {
         return moveInput;
     }
- 
+    
+    public bool isSpamTriggered()
+    {
+        return spamInput.triggered;
+    }
+
+    public bool isTaskTriggered()
+    {
+        return tasksInput.triggered;
+    }
 }

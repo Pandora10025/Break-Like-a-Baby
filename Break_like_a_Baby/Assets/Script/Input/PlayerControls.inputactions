@@ -721,6 +721,28 @@
                     "action": "Spam",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "09855f18-0e90-4fec-9bc4-d2596d3acf06",
+                    "path": "<Keyboard>/n",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Spam",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "27465561-7eb5-4268-aa3f-b5e07ffce90f",
+                    "path": "<Keyboard>/m",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Spam",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
