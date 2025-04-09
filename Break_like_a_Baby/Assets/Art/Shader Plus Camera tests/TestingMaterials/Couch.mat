@@ -118,8 +118,8 @@ Material:
     - _GradientSize: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _OutlineOpacity: 1
-    - _OutlineSizeMultiplier: 1
+    - _OutlineOpacity: 0
+    - _OutlineSizeMultiplier: 0
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
