@@ -13,7 +13,7 @@ public class Crib : MonoBehaviour
     void Start()
     {
         GameManager.instance.crib = this;
-
+        breakable = GetComponent<BreakableObject>();
         baby.SetActive(false);
         
         breakable.Inactive();

@@ -31,6 +31,7 @@ public class PlayerCatching : MonoBehaviour
     {
         if (catchState == playerCatchState.caught)
         {
+            Debug.Log("aaaaa");
             Vector3 babySitterPosition = GameManager.instance.babySitter.transform.position;
             transform.position = new Vector3(babySitterPosition.x, transform.position.y, babySitterPosition.z);
         }
@@ -44,19 +45,22 @@ public class PlayerCatching : MonoBehaviour
                 playerC.enableMove = true;
                 GetComponent<Collider>().enabled = true;
                 transform.position = new Vector3(GameManager.instance.respawnPos.position.x, transform.position.y, GameManager.instance.respawnPos.position.z);
-                mySpr.sortingOrder = ogSpriteOrder;
+                mySpr.enabled=true;
                 break;
             case playerCatchState.caught:
                 //UI Change to be added
+                Debug.Log("Catch");
                 playerC.enableMove = false;
                 GetComponent<Collider>().enabled = false;
-                mySpr.sortingOrder = pushedSpriteOrder;
+                //mySpr.sortingOrder = pushedSpriteOrder;
+                mySpr.enabled = false;
                 break;
             case playerCatchState.roomed:
                 playerC.enableMove = false;
                 GetComponent<Collider>().enabled = false;
-                mySpr.sortingOrder = pushedSpriteOrder;
+                //mySpr.sortingOrder = pushedSpriteOrder;
                 GameManager.instance.playerRoomed();
+                mySpr.enabled = false;
                 break;
         }
         catchState = pc;

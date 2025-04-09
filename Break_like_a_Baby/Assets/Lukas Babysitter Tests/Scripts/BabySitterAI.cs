@@ -422,7 +422,8 @@ public class BabySitterAI : MonoBehaviour
                 GameManager.instance.playerCaught = playerWeAreCurrentlyChasing.gameObject;
                 babyOrbActive(true);
                 //PathfindToPos(GameObject.FindGameObjectWithTag("Crib").transform.position);
-                PathfindToPos(GameManager.instance.crib.transform.position);
+                PathfindToPos(GameManager.instance.crib.transform.parent.position);
+                Debug.Log("Crib:" +GameManager.instance.crib.transform.parent.position);
                 holdingBaby = true;
                 currentState = BabysitterAIState.PATHFIND;
 
@@ -452,6 +453,7 @@ public class BabySitterAI : MonoBehaviour
                             if (holdingBaby)
                             {
                                 //AND THEN THIS IS WHERE WE DROP THE BABY!!!
+                                Debug.Log("found crib");
 
                                 holdingBaby = false;
 
