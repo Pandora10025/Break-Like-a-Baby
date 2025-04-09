@@ -14,12 +14,16 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
     GameObject breakable;
     [SerializeField] public AudioSource aud;
     public string brokenList;
+    public int viewId;
+    public int breakCount;
     
     private void Start()
     {
         rb = this.GetComponent<Rigidbody>();
         aud = this.GetComponent<AudioSource>();
         brokenList = "";
+        viewId = photonView.ViewID;
+
     }
 
     private void Update()
@@ -63,6 +67,7 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
 
     public void AddToList(string objectName)
     {
-        brokenList = brokenList + "\n" + objectName;
+        brokenList = objectName +", " +brokenList;
+        breakCount++;
     }
 }

@@ -23,6 +23,10 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public GameObject babySitter;
 
+    public Crib crib;
+
+    public GameObject playerCaught;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -72,6 +76,19 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         gameOver = true;
         gameOverScreen.SetActive(true);
+        PlayerBreak[] allPbreaks = Object.FindObjectsOfType<PlayerBreak>();
+        string stats = "";
+
+        for (int i = 0; i < allPbreaks.Length; i++)
+        {
+
+            PhotonView playerPhotonView = PhotonView.Find(allPbreaks[i].viewId);
+
+
+            stats= stats + playerPhotonView.Owner.NickName+ " Broke " + allPbreaks[i].breakCount +" gamitems: " + allPbreaks[i].brokenList +"\n";
+        }
+
+        gameOverScreen.GetComponent<GameOver>().setScore(stats);
         //gameOverScreen.GetComponent<GameOver>().GameSet(won);
         if (won)
         {

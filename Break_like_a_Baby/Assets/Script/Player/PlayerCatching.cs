@@ -29,7 +29,11 @@ public class PlayerCatching : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (catchState == playerCatchState.caught)
+        {
+            Vector3 babySitterPosition = GameManager.instance.babySitter.transform.position;
+            transform.position = new Vector3(babySitterPosition.x, transform.position.y, babySitterPosition.z);
+        }
     }
 
     public void changeState( playerCatchState pc)
@@ -55,5 +59,6 @@ public class PlayerCatching : MonoBehaviour
                 GameManager.instance.playerRoomed();
                 break;
         }
+        catchState = pc;
     }
 }

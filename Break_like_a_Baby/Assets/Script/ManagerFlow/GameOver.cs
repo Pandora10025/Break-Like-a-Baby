@@ -8,7 +8,7 @@ public class GameOver : MonoBehaviourPunCallbacks
     [SerializeField] string GameRoom = "Arnav_Implement";
     [SerializeField] GameObject wonOverlay,lossOverlay, setButton;
     [SerializeField] string waitingForMaster = "Waiting for host to restart!";
-
+    [SerializeField] TextMeshProUGUI scoreText;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -62,6 +62,11 @@ public class GameOver : MonoBehaviourPunCallbacks
     {
         lossOverlay.SetActive(true);
         Debug.Log("lost");
+    }
+
+    public void setScore(string str)
+    {
+        scoreText.text = str;
     }
     public void GameRestart()
     {

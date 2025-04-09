@@ -31,6 +31,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
     [SerializeField] GameObject shatteredMesh, originalMesh;
     [SerializeField] float shatterWeight = 10f;
+
     //enum and state manager
     private enum objectState
     {
@@ -138,6 +139,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
                 Transform playerT = playerPhotonView.transform;
                 Debug.Log("Player has been sent over!: " + playerT.name);
 
+                playerT.gameObject.GetComponent<PlayerBreak>().AddToList(transform.parent.name);
                 Vector3 playerPos = playerT.position;
                 Vector3 playerRight = playerT.right;
 
@@ -151,6 +153,11 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
             if (health <= 0)//when the object is broken
             {
+
+                if (GetComponent<Crib>() != null)
+                {
+                    GameManager.instance.crib.Break();
+                }
                 Explode();
                 ObjectManager.instance.Break(this.gameObject);
                 
