@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class Crib : MonoBehaviour
 {
-    [SerializeField] GameObject[] babySleeping;
+    [SerializeField] Sprite[] babySleeping;
+    [SerializeField] GameObject baby;
     BreakableObject breakable;
     void Awake()
     {
@@ -11,10 +12,10 @@ public class Crib : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        foreach(GameObject baby in babySleeping)
-        {
-            baby.SetActive(false);
-        }
+
+      
+         baby.SetActive(false);
+        
         breakable.Inactive();
     }
 
@@ -24,9 +25,10 @@ public class Crib : MonoBehaviour
         
     }
 
-    public void babyBedded(int baby)
+    public void babyBedded(int colorID)
     {
-        babySleeping[baby].SetActive(true);
+        baby.SetActive(true);
+        baby.GetComponent<SpriteRenderer>().sprite = babySleeping[colorID];
         breakable.Active();
 
     }

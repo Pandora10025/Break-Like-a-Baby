@@ -75,6 +75,9 @@ public class BabySitterAI : MonoBehaviour
     private Animator anim;
     private float velocity;
 
+    public Material[] playerMats;
+
+    public GameObject babyOrb;
 
     void Awake() {
 
@@ -85,6 +88,7 @@ public class BabySitterAI : MonoBehaviour
             GameManager.instance.babySitter = gameObject;
 
         }
+        babyOrb.SetActive(false);
 
     }
 
@@ -350,16 +354,18 @@ public class BabySitterAI : MonoBehaviour
 
                             //ARNAV, ADD THE SCENE CHANGE CODE HERE!
 
-                            GameManager.instance.GameOver(false);
+                           //GameManager.instance.GameOver(false);
 
 
                             //LUKAS AND ARNAV, THIS IS WHERE WE START UN-COMMENTING THINGS FOR THE BABYSITTER UPGRADE.
                             //The above code should hopefully be obsolete soon, because we're going to have the babysitter grab the child and run off with them!
                             //Their new task will be to run right off to the crib.
 
-                             //currentState = BabysitterAIState.PICKUP;
+                            //currentState = BabysitterAIState.PICKUP;
 
-                               
+                            
+                            currentState =BabysitterAIState.PICKUP;
+
 
 
 
@@ -402,14 +408,22 @@ public class BabySitterAI : MonoBehaviour
 
 
                 //And then after that we ought to have the babysitter run off to the crib, and deposit their prisoner.
-                            //PathfindToPos( GameObject.FindGameObjectWithTag("Crib").transform.position );
+                //PathfindToPos( GameObject.FindGameObjectWithTag("Crib").transform.position );
 
-                            //holdingBaby = true;
+                
+
+                //holdingBaby = true;
+
+                
 
 
-
-
-
+                playerWeAreCurrentlyChasing.gameObject.GetComponent<PlayerCatching>().changeState(PlayerCatching.playerCatchState.caught);
+                GameManager.instance.playerCaught = playerWeAreCurrentlyChasing.gameObject;
+                babyOrbActive(true);
+                //PathfindToPos(GameObject.FindGameObjectWithTag("Crib").transform.position);
+                PathfindToPos(GameManager.instance.crib.transform.position);
+                holdingBaby = true;
+                currentState = BabysitterAIState.PATHFIND;
 
                 break;
 
@@ -444,6 +458,11 @@ public class BabySitterAI : MonoBehaviour
 
                                 //               PlayerCatching player = playerWeAreCurrentlyChasing.GetComponent<PlayerCatching>();
                                 //               player.Roomed();
+
+                                playerWeAreCurrentlyChasing.gameObject.GetComponent<PlayerCatching>().changeState(PlayerCatching.playerCatchState.roomed);
+                                babyOrbActive(false);
+                               
+
 
                             }
 
@@ -693,5 +712,20 @@ public class BabySitterAI : MonoBehaviour
 
     }
 
+    void babyOrbActive(bool on)
+    {
+        if (on)
+        {
+            int colorID = playerWeAreCurrentlyChasing.GetComponent<PlayerControllerr>().colorId;
+
+            babyOrb.GetComponent<MeshRenderer>().material = playerMats[colorID];
+            babyOrb.SetActive(true);
+        }
+        else
+        {
+            babyOrb.SetActive(false);
+        }
+        
+    }
 
 }

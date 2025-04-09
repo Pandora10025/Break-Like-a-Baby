@@ -18,7 +18,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public Transform respawnPos;
     int roomedCount;
     int playerCount;
-    
+
+   
     public Color[] playerColors;
 
     public GameObject babySitter;
@@ -85,7 +86,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonView playerPhotonView = PhotonView.Find(allPbreaks[i].viewId);
 
 
-            stats= stats + playerPhotonView.Owner.NickName+ " Broke " + allPbreaks[i].breakCount +" gamitems: " + allPbreaks[i].brokenList +"\n";
+            stats= stats + playerPhotonView.Owner.NickName+ " Broke " + allPbreaks[i].breakCount +" items: " + allPbreaks[i].brokenList +"\n";
         }
 
         gameOverScreen.GetComponent<GameOver>().setScore(stats);
