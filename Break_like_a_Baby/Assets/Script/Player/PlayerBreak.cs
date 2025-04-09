@@ -41,7 +41,7 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
         //check to show the tablist
         if (photonView.IsMine)
         {
-            if (Input.GetKey(KeyCode.Tab))
+            if (Input.GetKey(KeyCode.Tab) || playerControl.isTaskTriggered())
             {
                 ObjectManager.instance.ToggleText(true);
                 //GameManager.instance.ToggleText(true);

@@ -54,6 +54,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
     // Input Action variables
     private PlayerControls inputActions;  // Reference to input actions
     private InputAction spamInput;
+    private InputAction tasksInput;
 
   
 
@@ -82,6 +83,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
         //inputActions.Player.Tasks.performed += OnSpam;
 
         spamInput = inputActions.Player.Spam;
+        tasksInput = inputActions.Player.Tasks;
     }
 
     void OnEnable()
@@ -205,6 +207,10 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
             Debug.Log("Button pressed" + spamInput.ToString());
         }
 
+        if (tasksInput.triggered)
+        {
+            Debug.Log("Task button is " +  tasksInput.ToString());  
+        }
         
         /*
         if (!timerManager.timesUp)
@@ -372,5 +378,10 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public bool isSpamTriggered()
     {
         return spamInput.triggered;
+    }
+
+    public bool isTaskTriggered()
+    {
+        return tasksInput.triggered;
     }
 }
