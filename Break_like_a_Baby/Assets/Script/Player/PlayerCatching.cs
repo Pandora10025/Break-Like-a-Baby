@@ -16,6 +16,8 @@ public class PlayerCatching : MonoBehaviour
     [SerializeField] int pushedSpriteOrder = -10;
 
     SpriteRenderer mySpr;
+
+    public bool grabbable=true;
    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -24,6 +26,7 @@ public class PlayerCatching : MonoBehaviour
         playerC = GetComponent<PlayerControllerr>();
         mySpr = GetComponent<SpriteRenderer>();
         ogSpriteOrder = mySpr.sortingOrder;
+
     }
 
     // Update is called once per frame
@@ -46,6 +49,7 @@ public class PlayerCatching : MonoBehaviour
                 GetComponent<Collider>().enabled = true;
                 transform.position = new Vector3(GameManager.instance.respawnPos.position.x, transform.position.y, GameManager.instance.respawnPos.position.z);
                 mySpr.enabled=true;
+                grabbable = true;
                 break;
             case playerCatchState.caught:
                 //UI Change to be added
@@ -54,6 +58,7 @@ public class PlayerCatching : MonoBehaviour
                 GetComponent<Collider>().enabled = false;
                 //mySpr.sortingOrder = pushedSpriteOrder;
                 mySpr.enabled = false;
+                grabbable = false;
                 break;
             case playerCatchState.roomed:
                 playerC.enableMove = false;
@@ -61,6 +66,7 @@ public class PlayerCatching : MonoBehaviour
                 //mySpr.sortingOrder = pushedSpriteOrder;
                 GameManager.instance.playerRoomed();
                 mySpr.enabled = false;
+                grabbable = false;
                 break;
         }
         catchState = pc;

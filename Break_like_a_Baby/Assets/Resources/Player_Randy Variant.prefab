@@ -576,6 +576,7 @@ MonoBehaviour:
   catchState: 0
   playerC: {fileID: 0}
   pushedSpriteOrder: -10
+  grabbable: 0
 --- !u!4 &5580254327145735850 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2530442976814279169, guid: 991f7f1059923462197c333a60365d1a, type: 3}

@@ -5,9 +5,11 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using Photon.Pun;
 
 
-public class BabySitterAI : MonoBehaviour
+
+public class BabySitterAI : MonoBehaviourPunCallbacks
 {
 
 
@@ -411,20 +413,14 @@ public class BabySitterAI : MonoBehaviour
                 //And then after that we ought to have the babysitter run off to the crib, and deposit their prisoner.
                 //PathfindToPos( GameObject.FindGameObjectWithTag("Crib").transform.position );
 
-                
+
 
                 //holdingBaby = true;
 
-                
+
+                photonView.RPC("pickUp", RpcTarget.AllBuffered);
 
 
-                playerWeAreCurrentlyChasing.gameObject.GetComponent<PlayerCatching>().changeState(PlayerCatching.playerCatchState.caught);
-                GameManager.instance.playerCaught = playerWeAreCurrentlyChasing.gameObject;
-                babyOrbActive(true);
-                //PathfindToPos(GameObject.FindGameObjectWithTag("Crib").transform.position);
-                PathfindToPos(GameManager.instance.crib.transform.parent.position);
-                Debug.Log("Crib:" +GameManager.instance.crib.transform.parent.position);
-                holdingBaby = true;
                 //currentState = BabysitterAIState.PATHFIND;
 
                 break;
@@ -463,9 +459,8 @@ public class BabySitterAI : MonoBehaviour
                                 //               player.Roomed();
 
                                 GameManager.instance.crib.babyBedded(playerWeAreCurrentlyChasing.gameObject.GetComponent<PlayerControllerr>().colorId);
-                                playerWeAreCurrentlyChasing.gameObject.GetComponent<PlayerCatching>().changeState(PlayerCatching.playerCatchState.roomed);
-                                babyOrbActive(false);
-                               
+                                photonView.RPC("drop", RpcTarget.AllBuffered);
+
 
 
                             }
@@ -591,41 +586,46 @@ public class BabySitterAI : MonoBehaviour
         for (int i = 0; i < players.Length; i++)
         {
             GameObject currentPlayer = players[i];
-            Vector3 lookDirection = currentPlayer.transform.position - transform.position;
 
-            float currentDist = Vector3.Magnitude(lookDirection);
-
-            float angleDifference = Vector3.Angle(transform.forward, lookDirection);
-
-
-
-            RaycastHit hit;
-
-
-            if (Mathf.Abs(angleDifference) <= fieldOfViewDegrees / 2f)
+            if (currentPlayer.GetComponent<PlayerCatching>().grabbable)
             {
-                if (Physics.Raycast(transform.position, lookDirection.normalized * currentDist, out hit, 888, LayersWeCanSee))
+                Vector3 lookDirection = currentPlayer.transform.position - transform.position;
+
+                float currentDist = Vector3.Magnitude(lookDirection);
+
+                float angleDifference = Vector3.Angle(transform.forward, lookDirection);
+
+
+
+                RaycastHit hit;
+
+
+                if (Mathf.Abs(angleDifference) <= fieldOfViewDegrees / 2f)
                 {
-
-
-                    //&& hit.rigidbody.name == currentPlayer.name
-                    if (currentDist < closestDist && hit.transform.tag == "Player")
+                    if (Physics.Raycast(transform.position, lookDirection.normalized * currentDist, out hit, 888, LayersWeCanSee))
                     {
-                        closestDist = currentDist;
-                        closestPlayer = currentPlayer;
-
-                        playerReturnVariable = closestPlayer.GetComponent<Transform>();
-
-                        //Debug.Log("The closest player..." + playerReturnVariable.name + "!");
 
 
+                        //&& hit.rigidbody.name == currentPlayer.name
+                        if (currentDist < closestDist && hit.transform.tag == "Player")
+                        {
+                            closestDist = currentDist;
+                            closestPlayer = currentPlayer;
+
+                            playerReturnVariable = closestPlayer.GetComponent<Transform>();
+
+                            //Debug.Log("The closest player..." + playerReturnVariable.name + "!");
+
+
+
+
+                        }
 
 
                     }
-
-
                 }
             }
+            
 
         }
 
@@ -737,5 +737,23 @@ public class BabySitterAI : MonoBehaviour
         }
         
     }
+    [PunRPC]
+    void pickUp()
+    {
+        playerWeAreCurrentlyChasing.gameObject.GetComponent<PlayerCatching>().changeState(PlayerCatching.playerCatchState.caught);
+        GameManager.instance.playerCaught = playerWeAreCurrentlyChasing.gameObject;
+        babyOrbActive(true);
+        //PathfindToPos(GameObject.FindGameObjectWithTag("Crib").transform.position);
+        PathfindToPos(GameManager.instance.crib.transform.parent.position);
+        Debug.Log("Crib:" + GameManager.instance.crib.transform.parent.position);
+        holdingBaby = true;
+    }
+    [PunRPC]
+    void drop()
+    {
+        playerWeAreCurrentlyChasing.gameObject.GetComponent<PlayerCatching>().changeState(PlayerCatching.playerCatchState.roomed);
+        babyOrbActive(false);
+    }
+
 
 }
