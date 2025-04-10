@@ -88,6 +88,11 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         this.GetComponent<MeshRenderer>().material = activeMat;
         myState = (int)objectState.active;
         canvas.enabled = true;
+        
+    }
+    public void resetHealth()
+    {
+        health = maxHealth;
     }
     public void Break()
     {

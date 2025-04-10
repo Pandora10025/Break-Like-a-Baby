@@ -43,8 +43,10 @@ public class PlayerCatching : MonoBehaviour
 
     public void changeState( playerCatchState pc)
     {
+        catchState = pc;
         switch (pc)
         {
+            
             case playerCatchState.free:
                 playerC.enableMove = true;
                 GetComponent<Collider>().enabled = true;
@@ -67,8 +69,11 @@ public class PlayerCatching : MonoBehaviour
                 GameManager.instance.playerRoomed();
                 mySpr.enabled = false;
                 grabbable = false;
+                GetComponent<Rigidbody>().linearVelocity = new Vector3(0f, 0f, 0f);
+                Vector3 cribPos = GameManager.instance.crib.transform.position;
+                transform.position = new Vector3(cribPos.x, transform.position.y, cribPos.z);
                 break;
         }
-        catchState = pc;
+        
     }
 }

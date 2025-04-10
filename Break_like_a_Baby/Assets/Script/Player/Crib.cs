@@ -7,7 +7,7 @@ using UnityEditor;
 
 public class Crib : MonoBehaviourPunCallbacks
 {
-    //[SerializeField] Sprite[] babySleeping;
+    [SerializeField] Sprite[] babySleeping;
     [SerializeField] GameObject[] babys;
     BreakableObject breakable;
     int babyBeddedCount;
@@ -48,18 +48,21 @@ public class Crib : MonoBehaviourPunCallbacks
         {
             baby.SetActive(false);
         }
+        GameManager.instance.playerCaught.GetComponent<PlayerCatching>().changeState(PlayerCatching.playerCatchState.free);
 
-        Invoke("respawnCrib", respawnTime);
     }
 
     [PunRPC]
     public void babyBed(int colorID)
     {
 
-        GameManager.instance.playerCaught.GetComponent<PlayerCatching>().changeState(PlayerCatching.playerCatchState.free);
-        babys[colorID].SetActive(true);
+        
+        babys[babyBeddedCount].SetActive(true);
+        babys[babyBeddedCount].GetComponent<SpriteRenderer>().sprite = babySleeping[colorID];
         babyBeddedCount++;
+        if (babyBeddedCount >= 2) { GameManager.instance.GameOver(false); }
         breakable.Active();
+        breakable.resetHealth();
     }
 
     void respawnCrib()
