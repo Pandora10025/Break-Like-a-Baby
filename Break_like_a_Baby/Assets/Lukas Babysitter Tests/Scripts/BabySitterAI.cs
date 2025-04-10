@@ -85,7 +85,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
         Debug.Log(gameObject);
 
-        
+
 
     }
 
@@ -116,6 +116,9 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
         //Debug.Log(nav.velocity);
         //Code for when we spot a player
+
+        if (!PhotonNetwork.IsMasterClient)
+            return;
         Transform spottedPlayer = ScanForPlayers();
 
         if (spottedPlayer != playerWeAreCurrentlyChasing)
@@ -128,7 +131,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
         {
             cribTest = false;
 
-            PathfindToPos( GameObject.FindGameObjectWithTag("Crib").transform.position );
+            PathfindToPos(GameObject.FindGameObjectWithTag("Crib").transform.position);
 
         }
 
@@ -148,6 +151,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
 
                 currentState = BabysitterAIState.IDLE;
+                photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.IDLE);
 
                 break;
 
@@ -167,9 +171,10 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                     if (spottedPlayer)
                     {
                         currentState = BabysitterAIState.CHASE;
+                        photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.CHASE);
 
                         playerWeAreCurrentlyChasing = spottedPlayer;
-
+                        photonView.RPC("SetTargetPlayer", RpcTarget.AllBuffered, playerWeAreCurrentlyChasing.GetComponent<PhotonView>().ViewID);
                     }
 
 
@@ -179,6 +184,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                     //when waitTimer = 0, then the babysitter decides to patrol for a bit.
 
                     currentState = BabysitterAIState.PREPATROL;
+                    photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.PREPATROL);
 
                 }
 
@@ -210,8 +216,10 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 if (spottedPlayer)
                 {
                     currentState = BabysitterAIState.CHASE;
+                    photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.CHASE);
 
                     playerWeAreCurrentlyChasing = spottedPlayer;
+                    photonView.RPC("SetTargetPlayer", RpcTarget.AllBuffered, playerWeAreCurrentlyChasing.GetComponent<PhotonView>().ViewID);
 
                     return;
 
@@ -277,6 +285,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                                 //We're done patrolling for now!
 
                                 currentState = BabysitterAIState.PREIDLE;
+                                photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.PREIDLE);
                                 anim.SetBool("chasing", false);
 
 
@@ -312,8 +321,10 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 if (playerDist > escapeDistance)
                 {
                     playerWeAreCurrentlyChasing = null;
+                    photonView.RPC("SetTargetPlayer", RpcTarget.AllBuffered, null);
 
                     currentState = BabysitterAIState.PREIDLE;
+                    photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.PREIDLE);
 
                     StopMoving();
 
@@ -357,7 +368,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
                             //ARNAV, ADD THE SCENE CHANGE CODE HERE!
 
-                           //GameManager.instance.GameOver(false);
+                            //GameManager.instance.GameOver(false);
 
 
                             //LUKAS AND ARNAV, THIS IS WHERE WE START UN-COMMENTING THINGS FOR THE BABYSITTER UPGRADE.
@@ -366,9 +377,9 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
                             //currentState = BabysitterAIState.PICKUP;
 
-                            
-                            currentState =BabysitterAIState.PICKUP;
 
+                            currentState = BabysitterAIState.PICKUP;
+                            photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.PICKUP);
 
 
 
@@ -444,6 +455,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
                             StopMoving();
                             currentState = BabysitterAIState.PREIDLE;
+                            photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.PREIDLE);
                             anim.SetBool("chasing", false);
 
                             if (holdingBaby)
@@ -459,6 +471,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                                 //               player.Roomed();
 
                                 GameManager.instance.crib.babyBedded(playerWeAreCurrentlyChasing.gameObject.GetComponent<PlayerControllerr>().colorId);
+
                                 photonView.RPC("drop", RpcTarget.AllBuffered);
 
 
@@ -478,7 +491,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
 
 
-                break; 
+                break;
 
 
 
@@ -494,7 +507,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
     }
 
-    public void PathfindToPos( Vector3 destination ) {
+    public void PathfindToPos(Vector3 destination) {
 
         bool compatibleState = false;
 
@@ -516,12 +529,12 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
             nav.SetDestination(destination);
 
             anim.SetBool("chasing", true);
-
+            photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.PATHFIND);
             currentState = BabysitterAIState.PATHFIND;
 
         }
 
-        
+
 
 
 
@@ -625,7 +638,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                     }
                 }
             }
-            
+
 
         }
 
@@ -735,7 +748,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
         {
             babyOrb.SetActive(false);
         }
-        
+
     }
     [PunRPC]
     void pickUp()
@@ -755,5 +768,25 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
         babyOrbActive(false);
     }
 
+    [PunRPC]
+    void changeState(int state)
+    {
+        
+        currentState = (BabysitterAIState)state;
 
+    }
+
+    [PunRPC]
+    public void SetTargetPlayer(int viewID)
+    {
+        PhotonView targetView = PhotonView.Find(viewID);
+        if (targetView != null)
+        {
+            playerWeAreCurrentlyChasing = targetView.transform;
+        }
+        else
+        {
+            playerWeAreCurrentlyChasing = null;
+        }
+    }
 }
