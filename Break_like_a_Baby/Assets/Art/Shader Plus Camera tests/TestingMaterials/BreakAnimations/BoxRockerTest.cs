@@ -10,7 +10,7 @@ public class BoxRockerTest : MonoBehaviour
 {
 
 
-    
+
     [SerializeField] Vector3 rotationPoint;
     public Material[] hitMaterials;
 
@@ -56,9 +56,10 @@ public class BoxRockerTest : MonoBehaviour
 
     private Slider outlineSlider;
 
-    private Color healthyColor = new Color(2f/255f , 255f/255f , 120f/255f ); //rgb(2, 255, 184)
-    private Color brokenColor = new Color(1, 0, 0); 
+    private Color healthyColor = new Color(2f / 255f, 255f / 255f, 120f / 255f); //rgb(2, 255, 184)
+    private Color brokenColor = new Color(1, 0, 0);
 
+    private bool animateOutline = false;
 
 
     void Start()
@@ -111,7 +112,7 @@ public class BoxRockerTest : MonoBehaviour
 
 
 
-        if (foundPlayer && outlineSlider.normalizedValue != 0)
+        if (foundPlayer && outlineSlider.normalizedValue != 0 && animateOutline)
         {
             outlineChangeProgress = Mathf.Lerp(outlineChangeProgress, 1, .1f);
 
@@ -135,6 +136,7 @@ public class BoxRockerTest : MonoBehaviour
 
         //Color currentOutlineGlowColor = Color.Lerp(Color.black, Color.Lerp(Color.red, Color.yellow, (Mathf.Sin(Time.realtimeSinceStartup * 1)+1)/2    ), outlineChangeProgress);
         Color currentOutlineGlowColor = Color.Lerp(Color.black,   lerpedColor  , outlineChangeProgress) ;
+
 
 
         //And then down here it's time for the actual rotation calculations. We'll set the color in just a bit.
@@ -243,7 +245,9 @@ public class BoxRockerTest : MonoBehaviour
             hitMaterial.SetVector("_ForwardAxis", new Vector4(slerpedRotationAxis.x, slerpedRotationAxis.y, slerpedRotationAxis.z, 0));
             hitMaterial.SetVector("_Center", new Vector4(lerpedCenter.x, lerpedCenter.y, lerpedCenter.z, 0));
 
-            hitMaterial.SetColor("_OutlineColor", currentOutlineGlowColor   );
+            hitMaterial.SetColor("_OutlineColor", currentOutlineGlowColor);
+            hitMaterial.SetFloat("_OutlineOpacity", outlineChangeProgress);
+
 
 
 
@@ -336,6 +340,17 @@ public class BoxRockerTest : MonoBehaviour
 
     }
 
+
+    public void EnabledOutlines() {
+
+        animateOutline = true;
+    
+    }
+
+    public void DisableOutlines() {
+
+        animateOutline = false;
+    }
 
 
 
