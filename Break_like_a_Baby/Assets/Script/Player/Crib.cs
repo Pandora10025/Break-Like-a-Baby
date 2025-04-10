@@ -43,7 +43,7 @@ public class Crib : MonoBehaviourPunCallbacks
 
     public void Break()
     {
-        
+        babyBeddedCount--;
         foreach (GameObject baby in babys)
         {
             baby.SetActive(false);
