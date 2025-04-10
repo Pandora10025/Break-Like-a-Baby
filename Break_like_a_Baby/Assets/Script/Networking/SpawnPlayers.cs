@@ -11,6 +11,7 @@ public class SpawnPlayers : MonoBehaviour
     {
         GameObject playerspawned =PhotonNetwork.Instantiate(playerPrefab.name, spawnPosition[0].position, Quaternion.identity);
         playerspawned.transform.Rotate(90, 0, 0);
+        GameManager.instance.respawnPos = spawnPosition[0];
   
     }
 

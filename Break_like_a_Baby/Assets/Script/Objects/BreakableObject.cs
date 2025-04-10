@@ -27,7 +27,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     public float explosionRadius = 5f;
     public float upwardsModifier = 1f;
 
-    [SerializeField] Transform explosionPosition;
+    [SerializeField] public Transform explosionPosition;
 
     [SerializeField] GameObject shatteredMesh, originalMesh;
     [SerializeField] float shatterWeight = 10f;
@@ -82,13 +82,16 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         this.GetComponent<MeshRenderer>().material = inactiveMat;
         myState = (int)objectState.inactive;
         canvas.enabled = false;
+        GetComponent<BoxRockerTest>().DisableOutlines();
+
     }
     public void Active()
     {
         this.GetComponent<MeshRenderer>().material = activeMat;
         myState = (int)objectState.active;
         canvas.enabled = true;
-        
+        GetComponent<BoxRockerTest>().EnabledOutlines();
+
     }
     public void resetHealth()
     {

@@ -122,11 +122,13 @@ public class ObjectManager : MonoBehaviourPun
             if (b)
             {
                 g.transform.GetChild(0).GetComponent<BreakableObject>().Active();
+                g.transform.GetChild(0).GetComponent<BoxRockerTest>().EnabledOutlines();
             }
             else
             {
 
                 g.transform.GetChild(0).GetComponent<BreakableObject>().Inactive();
+                g.transform.GetChild(0).GetComponent<BoxRockerTest>().DisableOutlines();
             }
         }
     }

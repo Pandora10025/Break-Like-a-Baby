@@ -12,6 +12,7 @@ public class Crib : MonoBehaviourPunCallbacks
     BreakableObject breakable;
     int babyBeddedCount;
     [SerializeField] float respawnTime;
+    public Transform placePos;
     void Awake()
     {
 
@@ -21,6 +22,7 @@ public class Crib : MonoBehaviourPunCallbacks
     {
         GameManager.instance.crib = this;
         breakable = GetComponent<BreakableObject>();
+        placePos = breakable.explosionPosition;
         foreach(GameObject baby in babys)
         {
             baby.SetActive(false);
@@ -49,6 +51,7 @@ public class Crib : MonoBehaviourPunCallbacks
             baby.SetActive(false);
         }
         GameManager.instance.playerCaught.GetComponent<PlayerCatching>().changeState(PlayerCatching.playerCatchState.free);
+        
 
     }
 

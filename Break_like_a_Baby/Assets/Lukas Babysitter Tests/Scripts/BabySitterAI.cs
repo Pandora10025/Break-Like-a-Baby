@@ -757,7 +757,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
         GameManager.instance.playerCaught = playerWeAreCurrentlyChasing.gameObject;
         babyOrbActive(true);
         //PathfindToPos(GameObject.FindGameObjectWithTag("Crib").transform.position);
-        PathfindToPos(GameManager.instance.crib.transform.parent.position);
+        PathfindToPos(GameManager.instance.crib.placePos.position);
         Debug.Log("Crib:" + GameManager.instance.crib.transform.parent.position);
         holdingBaby = true;
     }
