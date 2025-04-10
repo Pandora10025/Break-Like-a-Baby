@@ -3,7 +3,10 @@ Shader "Custom/BabyShaderMKII Modded"
     Properties{
         _MainTex("Sprite", 2D) = "white" {}
         _Color ("Color", Color) = (1,1,1,1)    
-        _TestingPower ("Testing Power", float) = 1    
+        _OutlineColor ("Outline Color", Color) = (1,1,1,1)    
+        _TestingPower ("Testing Power", float) = 1 
+        _OutlineResolution("Outline Resolution", float) = 216
+        _OutlineSizeMultiplier("Outline Size", float) = 1
     
     }
     SubShader{
@@ -20,7 +23,8 @@ Shader "Custom/BabyShaderMKII Modded"
         Tags {"LightMode" = "UniversalForward"}
 
         Cull Off
-        Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
+        //Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
+        Blend SrcAlpha OneMinusSrcAlpha
         ZTest always
         ZWrite Off
 
@@ -46,7 +50,10 @@ Shader "Custom/BabyShaderMKII Modded"
 
         CBUFFER_START(UnityPerMaterial)
         half4 _Color;
+        float4 _OutlineColor;
         float _TestingPower;
+        float _OutlineResolution;
+        float _OutlineSizeMultiplier;
         float4 _MainTex_ST;
         CBUFFER_END
 
@@ -74,10 +81,10 @@ Shader "Custom/BabyShaderMKII Modded"
 
         float alphaSobelOperator( float2 uv ){
             
-            float outlineScanSizeMultiplier = .000001;
+            float outlineScanSizeMultiplier = _OutlineSizeMultiplier;
 
 
-            float2 ts = _MainTex_ST * outlineScanSizeMultiplier;
+            float2 ts = _MainTex_TexelSize.xy * outlineScanSizeMultiplier;
 
             
             //float3 camPos = GetCameraPositionWS();
@@ -92,7 +99,7 @@ Shader "Custom/BabyShaderMKII Modded"
             
             float aspect = _MainTex_TexelSize.z/_MainTex_TexelSize.w;
             
-            float2 resolution = 50;
+            float2 resolution = _OutlineResolution;
 
             resolution.x *= aspect;
             
@@ -164,7 +171,7 @@ Shader "Custom/BabyShaderMKII Modded"
             float p3 = SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p3Pos  ).a;
             float p4 = SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p4Pos  ).a;
             float p5 = SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p5Pos).a;
-            float p6 = SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p6Pos  );
+            float p6 = SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p6Pos  ).a;
             float p7 = SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p7Pos  ).a;
             float p8 = SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p8Pos  ).a;
             float p9 = SAMPLE_TEXTURE2D( _MainTex ,sampler_MainTex, p9Pos  ).a;
@@ -226,6 +233,8 @@ Shader "Custom/BabyShaderMKII Modded"
             //float difference = abs( depth - v.surfZ);
             float difference = (v.surfZ- depth );
 
+            float steppedDifference = saturate(step( 0, difference ));
+
 
 
             float alphaSobel = alphaSobelOperator(v.uv);
@@ -233,7 +242,7 @@ Shader "Custom/BabyShaderMKII Modded"
 
 
 
-            float calculatedTransparency = texel.a;
+            float calculatedTransparency =  texel.a ;
 
 
 
@@ -272,17 +281,21 @@ Shader "Custom/BabyShaderMKII Modded"
 
 
             SurfaceData surface = (SurfaceData)0;
-            surface.albedo = difference;//texel.rgb;
-            surface.alpha = 1 ;//calculatedTransparency;
+            surface.albedo = texel.rgb;
+            surface.alpha = calculatedTransparency;
             surface.smoothness = .9;
             surface.specular = .9;
 
             float4 calculatedBlinnPhong = UniversalFragmentBlinnPhong(lighting, surface);
 
+            float4 coloredOutline = alphaSobel * _OutlineColor;
+
+            float4 calculatedColor = lerp( calculatedBlinnPhong   ,  coloredOutline  , steppedDifference   );
+
 
             
             //return UniversalFragmentBlinnPhong(lighting, surface) * calculatedTransparency;// + unity_AmbientSky;
-            return float4( alphaSobelOperator(v.uv).rrr, 1 );// + unity_AmbientSky;
+            return float4( calculatedColor.rgba );// + unity_AmbientSky;
             //return MainLightRealtimeShadow(lighting.shadowCoord);// * (1-GetMainLightShadowFade(v.positionWS));
             //return float4( (MainLightRealtimeShadow(lighting.shadowCoord)).rrr, 1);
             //return float4( pow((mainLight.shadowAttenuation), _TestingPower).rrr, 1);
@@ -301,78 +314,355 @@ Shader "Custom/BabyShaderMKII Modded"
 
      }
 
-     Pass{
-        Name "ShadowCaster"
-        Tags{"LightMode" = "ShadowCaster"  }
-     
+     Pass
+        {
+            Name "ShadowCaster"
+            Tags
+            {
+                "LightMode" = "ShadowCaster"
+            }
+        
+        // Render State
+        Cull Off
+        ZTest LEqual
+        ZWrite On
         ColorMask 0
-
+        
+        // Debug
+        // <None>
+        
+        // --------------------------------------------------
+        // Pass
+        
         HLSLPROGRAM
-        #pragma vertex Vertex
-        #pragma fragment Fragment
         
+        // Pragmas
+        #pragma target 2.0
+        #pragma multi_compile_instancing
+        #pragma vertex vert
+        #pragma fragment frag
+        
+        // Keywords
+        #pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
+        // GraphKeywords: <None>
+        
+        // Defines
+        
+        #define _NORMALMAP 1
+        #define _NORMAL_DROPOFF_TS 1
+        #define ATTRIBUTES_NEED_NORMAL
+        #define ATTRIBUTES_NEED_TANGENT
+        #define ATTRIBUTES_NEED_TEXCOORD0
+        #define ATTRIBUTES_NEED_COLOR
+        #define FEATURES_GRAPH_VERTEX_NORMAL_OUTPUT
+        #define FEATURES_GRAPH_VERTEX_TANGENT_OUTPUT
+        #define VARYINGS_NEED_NORMAL_WS
+        #define VARYINGS_NEED_TEXCOORD0
+        #define VARYINGS_NEED_COLOR
+        #define FEATURES_GRAPH_VERTEX
+        /* WARNING: $splice Could not find named fragment 'PassInstancing' */
+        #define SHADERPASS SHADERPASS_SHADOWCASTER
+        #define _ALPHATEST_ON 1
+        
+        
+        // custom interpolator pre-include
+        /* WARNING: $splice Could not find named fragment 'sgci_CustomInterpolatorPreInclude' */
+        
+        // Includes
+        #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl"
-        #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
-    
-        float3 _LightDirection;
-
-        struct Attributes{
-            float3 positionLS : POSITION;
-            float3 normalLS : NORMAL;
-        };
-
-
-        struct Varyings{
-            float4 positionCS : SV_POSITION;
-        };
-
-
-        float4 GetShadowPositionHClip(Attributes input){
-            
-            VertexPositionInputs positions = GetVertexPositionInputs(input.positionLS);
-            VertexNormalInputs normals = GetVertexNormalInputs(input.normalLS);
-
-
-            float4 positionCS = TransformWorldToHClip( ApplyShadowBias( positions.positionWS , normals.normalWS, _LightDirection) );
-
-            #if UNITY_REVERSED_Z
-                positionCS.z = min(positionCS.z, UNITY_NEAR_CLIP_VALUE);
-            #else
-                positionCS.z = max(positionCS.z, UNITY_NEAR_CLIP_VALUE);
+        #include_with_pragmas "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRenderingKeywords.hlsl"
+        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRendering.hlsl"
+        #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+        #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
+        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
+        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/DebugMipmapStreamingMacros.hlsl"
+        #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
+        #include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
+        
+        // --------------------------------------------------
+        // Structs and Packing
+        
+        // custom interpolators pre packing
+        /* WARNING: $splice Could not find named fragment 'CustomInterpolatorPrePacking' */
+        
+        struct Attributes
+        {
+             float3 positionOS : POSITION;
+             float3 normalOS : NORMAL;
+             float4 tangentOS : TANGENT;
+             float4 uv0 : TEXCOORD0;
+             float4 color : COLOR;
+            #if UNITY_ANY_INSTANCING_ENABLED || defined(ATTRIBUTES_NEED_INSTANCEID)
+             uint instanceID : INSTANCEID_SEMANTIC;
             #endif
-
-
-            positionCS = ApplyShadowClamping(positionCS);
-            
-            return positionCS;
+        };
+        struct Varyings
+        {
+             float4 positionCS : SV_POSITION;
+             float3 normalWS;
+             float4 texCoord0;
+             float4 color;
+            #if UNITY_ANY_INSTANCING_ENABLED || defined(VARYINGS_NEED_INSTANCEID)
+             uint instanceID : CUSTOM_INSTANCE_ID;
+            #endif
+            #if (defined(UNITY_STEREO_MULTIVIEW_ENABLED)) || (defined(UNITY_STEREO_INSTANCING_ENABLED) && (defined(SHADER_API_GLES3) || defined(SHADER_API_GLCORE)))
+             uint stereoTargetEyeIndexAsBlendIdx0 : BLENDINDICES0;
+            #endif
+            #if (defined(UNITY_STEREO_INSTANCING_ENABLED))
+             uint stereoTargetEyeIndexAsRTArrayIdx : SV_RenderTargetArrayIndex;
+            #endif
+            #if defined(SHADER_STAGE_FRAGMENT) && defined(VARYINGS_NEED_CULLFACE)
+             FRONT_FACE_TYPE cullFace : FRONT_FACE_SEMANTIC;
+            #endif
+        };
+        struct SurfaceDescriptionInputs
+        {
+             float4 uv0;
+             float4 VertexColor;
+        };
+        struct VertexDescriptionInputs
+        {
+             float3 ObjectSpaceNormal;
+             float3 ObjectSpaceTangent;
+             float3 ObjectSpacePosition;
+        };
+        struct PackedVaryings
+        {
+             float4 positionCS : SV_POSITION;
+             float4 texCoord0 : INTERP0;
+             float4 color : INTERP1;
+             float3 normalWS : INTERP2;
+            #if UNITY_ANY_INSTANCING_ENABLED || defined(VARYINGS_NEED_INSTANCEID)
+             uint instanceID : CUSTOM_INSTANCE_ID;
+            #endif
+            #if (defined(UNITY_STEREO_MULTIVIEW_ENABLED)) || (defined(UNITY_STEREO_INSTANCING_ENABLED) && (defined(SHADER_API_GLES3) || defined(SHADER_API_GLCORE)))
+             uint stereoTargetEyeIndexAsBlendIdx0 : BLENDINDICES0;
+            #endif
+            #if (defined(UNITY_STEREO_INSTANCING_ENABLED))
+             uint stereoTargetEyeIndexAsRTArrayIdx : SV_RenderTargetArrayIndex;
+            #endif
+            #if defined(SHADER_STAGE_FRAGMENT) && defined(VARYINGS_NEED_CULLFACE)
+             FRONT_FACE_TYPE cullFace : FRONT_FACE_SEMANTIC;
+            #endif
+        };
         
-        }
-
-        Varyings Vertex(Attributes input){
-            
-            Varyings output;
-
-            output.positionCS = GetShadowPositionHClip(input);
-
+        PackedVaryings PackVaryings (Varyings input)
+        {
+            PackedVaryings output;
+            ZERO_INITIALIZE(PackedVaryings, output);
+            output.positionCS = input.positionCS;
+            output.texCoord0.xyzw = input.texCoord0;
+            output.color.xyzw = input.color;
+            output.normalWS.xyz = input.normalWS;
+            #if UNITY_ANY_INSTANCING_ENABLED || defined(VARYINGS_NEED_INSTANCEID)
+            output.instanceID = input.instanceID;
+            #endif
+            #if (defined(UNITY_STEREO_MULTIVIEW_ENABLED)) || (defined(UNITY_STEREO_INSTANCING_ENABLED) && (defined(SHADER_API_GLES3) || defined(SHADER_API_GLCORE)))
+            output.stereoTargetEyeIndexAsBlendIdx0 = input.stereoTargetEyeIndexAsBlendIdx0;
+            #endif
+            #if (defined(UNITY_STEREO_INSTANCING_ENABLED))
+            output.stereoTargetEyeIndexAsRTArrayIdx = input.stereoTargetEyeIndexAsRTArrayIdx;
+            #endif
+            #if defined(SHADER_STAGE_FRAGMENT) && defined(VARYINGS_NEED_CULLFACE)
+            output.cullFace = input.cullFace;
+            #endif
             return output;
-        
         }
-
-
-        half4 Fragment(Varyings v) : SV_Target {
+        
+        Varyings UnpackVaryings (PackedVaryings input)
+        {
+            Varyings output;
+            output.positionCS = input.positionCS;
+            output.texCoord0 = input.texCoord0.xyzw;
+            output.color = input.color.xyzw;
+            output.normalWS = input.normalWS.xyz;
+            #if UNITY_ANY_INSTANCING_ENABLED || defined(VARYINGS_NEED_INSTANCEID)
+            output.instanceID = input.instanceID;
+            #endif
+            #if (defined(UNITY_STEREO_MULTIVIEW_ENABLED)) || (defined(UNITY_STEREO_INSTANCING_ENABLED) && (defined(SHADER_API_GLES3) || defined(SHADER_API_GLCORE)))
+            output.stereoTargetEyeIndexAsBlendIdx0 = input.stereoTargetEyeIndexAsBlendIdx0;
+            #endif
+            #if (defined(UNITY_STEREO_INSTANCING_ENABLED))
+            output.stereoTargetEyeIndexAsRTArrayIdx = input.stereoTargetEyeIndexAsRTArrayIdx;
+            #endif
+            #if defined(SHADER_STAGE_FRAGMENT) && defined(VARYINGS_NEED_CULLFACE)
+            output.cullFace = input.cullFace;
+            #endif
+            return output;
+        }
+        
+        
+        // --------------------------------------------------
+        // Graph
+        
+        // Graph Properties
+        CBUFFER_START(UnityPerMaterial)
+        float4 _MainTex_TexelSize;
+        UNITY_TEXTURE_STREAMING_DEBUG_VARS;
+        CBUFFER_END
+        
+        
+        // Object and Global properties
+        SAMPLER(SamplerState_Linear_Repeat);
+        TEXTURE2D(_MainTex);
+        SAMPLER(sampler_MainTex);
+        
+        // Graph Includes
+        // GraphIncludes: <None>
+        
+        // -- Property used by ScenePickingPass
+        #ifdef SCENEPICKINGPASS
+        float4 _SelectionID;
+        #endif
+        
+        // -- Properties used by SceneSelectionPass
+        #ifdef SCENESELECTIONPASS
+        int _ObjectId;
+        int _PassValue;
+        #endif
+        
+        // Graph Functions
+        
+        void Unity_Multiply_float_float(float A, float B, out float Out)
+        {
+            Out = A * B;
+        }
+        
+        // Custom interpolators pre vertex
+        /* WARNING: $splice Could not find named fragment 'CustomInterpolatorPreVertex' */
+        
+        // Graph Vertex
+        struct VertexDescription
+        {
+            float3 Position;
+            float3 Normal;
+            float3 Tangent;
+        };
+        
+        VertexDescription VertexDescriptionFunction(VertexDescriptionInputs IN)
+        {
+            VertexDescription description = (VertexDescription)0;
+            description.Position = IN.ObjectSpacePosition;
+            description.Normal = IN.ObjectSpaceNormal;
+            description.Tangent = IN.ObjectSpaceTangent;
+            return description;
+        }
+        
+        // Custom interpolators, pre surface
+        #ifdef FEATURES_GRAPH_VERTEX
+        Varyings CustomInterpolatorPassThroughFunc(inout Varyings output, VertexDescription input)
+        {
+        return output;
+        }
+        #define CUSTOMINTERPOLATOR_VARYPASSTHROUGH_FUNC
+        #endif
+        
+        // Graph Pixel
+        struct SurfaceDescription
+        {
+            float Alpha;
+            float AlphaClipThreshold;
+        };
+        
+        SurfaceDescription SurfaceDescriptionFunction(SurfaceDescriptionInputs IN)
+        {
+            SurfaceDescription surface = (SurfaceDescription)0;
+            float _Split_b35f8b8c85bb4973937dc261703aeac2_R_1_Float = IN.VertexColor[0];
+            float _Split_b35f8b8c85bb4973937dc261703aeac2_G_2_Float = IN.VertexColor[1];
+            float _Split_b35f8b8c85bb4973937dc261703aeac2_B_3_Float = IN.VertexColor[2];
+            float _Split_b35f8b8c85bb4973937dc261703aeac2_A_4_Float = IN.VertexColor[3];
+            UnityTexture2D _Property_6d51d03cd663484b860c7174bb75d79d_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
+            float4 _SampleTexture2D_3a67302bb363410e96211dcf5511a88d_RGBA_0_Vector4 = SAMPLE_TEXTURE2D(_Property_6d51d03cd663484b860c7174bb75d79d_Out_0_Texture2D.tex, _Property_6d51d03cd663484b860c7174bb75d79d_Out_0_Texture2D.samplerstate, _Property_6d51d03cd663484b860c7174bb75d79d_Out_0_Texture2D.GetTransformedUV(IN.uv0.xy) );
+            float _SampleTexture2D_3a67302bb363410e96211dcf5511a88d_R_4_Float = _SampleTexture2D_3a67302bb363410e96211dcf5511a88d_RGBA_0_Vector4.r;
+            float _SampleTexture2D_3a67302bb363410e96211dcf5511a88d_G_5_Float = _SampleTexture2D_3a67302bb363410e96211dcf5511a88d_RGBA_0_Vector4.g;
+            float _SampleTexture2D_3a67302bb363410e96211dcf5511a88d_B_6_Float = _SampleTexture2D_3a67302bb363410e96211dcf5511a88d_RGBA_0_Vector4.b;
+            float _SampleTexture2D_3a67302bb363410e96211dcf5511a88d_A_7_Float = _SampleTexture2D_3a67302bb363410e96211dcf5511a88d_RGBA_0_Vector4.a;
+            float _Multiply_64451f60605d4577a5a606a0c215e4cb_Out_2_Float;
+            Unity_Multiply_float_float(_Split_b35f8b8c85bb4973937dc261703aeac2_A_4_Float, _SampleTexture2D_3a67302bb363410e96211dcf5511a88d_A_7_Float, _Multiply_64451f60605d4577a5a606a0c215e4cb_Out_2_Float);
+            surface.Alpha = _Multiply_64451f60605d4577a5a606a0c215e4cb_Out_2_Float;
+            surface.AlphaClipThreshold = float(0.1);
+            return surface;
+        }
+        
+        // --------------------------------------------------
+        // Build Graph Inputs
+        #ifdef HAVE_VFX_MODIFICATION
+        #define VFX_SRP_ATTRIBUTES Attributes
+        #define VFX_SRP_VARYINGS Varyings
+        #define VFX_SRP_SURFACE_INPUTS SurfaceDescriptionInputs
+        #endif
+        VertexDescriptionInputs BuildVertexDescriptionInputs(Attributes input)
+        {
+            VertexDescriptionInputs output;
+            ZERO_INITIALIZE(VertexDescriptionInputs, output);
+        
+            output.ObjectSpaceNormal =                          input.normalOS;
+            output.ObjectSpaceTangent =                         input.tangentOS.xyz;
+            output.ObjectSpacePosition =                        input.positionOS;
+        #if UNITY_ANY_INSTANCING_ENABLED
+        #else // TODO: XR support for procedural instancing because in this case UNITY_ANY_INSTANCING_ENABLED is not defined and instanceID is incorrect.
+        #endif
+        
+            return output;
+        }
+        SurfaceDescriptionInputs BuildSurfaceDescriptionInputs(Varyings input)
+        {
+            SurfaceDescriptionInputs output;
+            ZERO_INITIALIZE(SurfaceDescriptionInputs, output);
+        
+        #ifdef HAVE_VFX_MODIFICATION
+        #if VFX_USE_GRAPH_VALUES
+            uint instanceActiveIndex = asuint(UNITY_ACCESS_INSTANCED_PROP(PerInstance, _InstanceActiveIndex));
+            /* WARNING: $splice Could not find named fragment 'VFXLoadGraphValues' */
+        #endif
+            /* WARNING: $splice Could not find named fragment 'VFXSetFragInputs' */
+        
+        #endif
         
             
-            return 0;
+        
+        
+        
+        
+        
+        
+            #if UNITY_UV_STARTS_AT_TOP
+            #else
+            #endif
+        
+        
+            output.uv0 = input.texCoord0;
+            output.VertexColor = input.color;
+        #if UNITY_ANY_INSTANCING_ENABLED
+        #else // TODO: XR support for procedural instancing because in this case UNITY_ANY_INSTANCING_ENABLED is not defined and instanceID is incorrect.
+        #endif
+        #if defined(SHADER_STAGE_FRAGMENT) && defined(VARYINGS_NEED_CULLFACE)
+        #define BUILD_SURFACE_DESCRIPTION_INPUTS_OUTPUT_FACESIGN output.FaceSign =                    IS_FRONT_VFACE(input.cullFace, true, false);
+        #else
+        #define BUILD_SURFACE_DESCRIPTION_INPUTS_OUTPUT_FACESIGN
+        #endif
+        #undef BUILD_SURFACE_DESCRIPTION_INPUTS_OUTPUT_FACESIGN
+        
+                return output;
         }
-
-
-
-
+        
+        // --------------------------------------------------
+        // Main
+        
+        #include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/Varyings.hlsl"
+        #include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShadowCasterPass.hlsl"
+        
+        // --------------------------------------------------
+        // Visual Effect Vertex Invocations
+        #ifdef HAVE_VFX_MODIFICATION
+        #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/VisualEffectVertex.hlsl"
+        #endif
+        
         ENDHLSL
-
-     
-     }
+        }
 
         
 

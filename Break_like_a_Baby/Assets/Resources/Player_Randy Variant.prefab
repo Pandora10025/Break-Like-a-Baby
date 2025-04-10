@@ -346,6 +346,10 @@ PrefabInstance:
       propertyPath: 'animatorControllers.Array.data[1]'
       value: 
       objectReference: {fileID: 9100000, guid: fa887de5eda0aac408e1c24a70a3fe43, type: 2}
+    - target: {fileID: 8427537295082485426, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 3ad007e31b62b3943be072329b3fe164, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

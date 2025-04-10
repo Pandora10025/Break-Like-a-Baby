@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8253804406018738866
+--- !u!114 &-1651830717170646405
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,17 +20,16 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BabyMaterialMKII
-  m_Shader: {fileID: 4800000, guid: da3a89f3b0aad4347913171b3e38b4ac, type: 3}
+  m_Name: RockingBallBlack
+  m_Shader: {fileID: 4800000, guid: 147750b72804496469a7535069b55772, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _ALPHATEST_ON
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
@@ -97,10 +96,11 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 0
-    - _AlphaClip: 1
-    - _AlphaToMask: 1
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
+    - _BlendOp: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -113,28 +113,43 @@ Material:
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
+    - _GlossinessSource: 0
     - _GlossyReflections: 0
+    - _GradientSize: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _OutlineResolution: 88
-    - _OutlineSizeMultiplier: 1
+    - _OutlineOpacity: 1
+    - _OutlineSizeMultiplier: 0.1
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _SampleGI: 0
+    - _ShadowSmoothingSize: 0
+    - _Shininess: 0
     - _Smoothness: 0.5
+    - _SmoothnessSource: 0
     - _SmoothnessTextureChannel: 0
+    - _SpecSource: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _TestingPower: 1
+    - _TestingOffset: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
+    - _rotX: 0
+    - _rotY: 0.0000000059624403
+    - _rotZ: 0
+    - _shadingBands: 2
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Center: {r: -0.3272704, g: -0.3320899, b: 0.33678806, a: 0}
+    - _Color: {r: 0.16447136, g: 0.18900533, b: 0.5283019, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ForwardAxis: {r: 0.99999976, g: 6e-45, b: -6e-45, a: 0}
+    - _OutlineColor: {r: 0, g: 6e-45, b: 3e-45, a: 1}
+    - _ShadowColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _UpAxis: {r: 0, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
