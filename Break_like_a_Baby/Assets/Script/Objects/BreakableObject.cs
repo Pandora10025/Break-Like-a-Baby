@@ -166,8 +166,12 @@ public class BreakableObject : MonoBehaviourPunCallbacks
                 {
                     GameManager.instance.crib.Break();
                 }
+                else
+                {
+                    ObjectManager.instance.Break(this.gameObject);
+                }
                 Explode();
-                ObjectManager.instance.Break(this.gameObject);
+               
                 
                 foreach (GameObject player in playersInRange)
                 {
