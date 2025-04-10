@@ -55,14 +55,14 @@ public class Crib : MonoBehaviourPunCallbacks
     [PunRPC]
     public void babyBed(int colorID)
     {
-
-        
+        breakable.resetHealth();
+        breakable.Active();
         babys[babyBeddedCount].SetActive(true);
         babys[babyBeddedCount].GetComponent<SpriteRenderer>().sprite = babySleeping[colorID];
         babyBeddedCount++;
         if (babyBeddedCount >= 2) { GameManager.instance.GameOver(false); }
-        breakable.Active();
-        breakable.resetHealth();
+       
+        
     }
 
     void respawnCrib()

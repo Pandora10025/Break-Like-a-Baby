@@ -165,6 +165,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
                 if (GetComponent<Crib>() != null)
                 {
                     GameManager.instance.crib.Break();
+                    Break();
                 }
                 else
                 {
