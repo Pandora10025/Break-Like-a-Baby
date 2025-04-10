@@ -35730,7 +35730,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 573844923914009964, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: breakablePercentage
-      value: 0.5
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 573844923914009964, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: 'bObjects.Array.data[0]'
@@ -35826,7 +35826,7 @@ PrefabInstance:
       objectReference: {fileID: 880321617}
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: totalTime
-      value: 500
+      value: 125
       objectReference: {fileID: 0}
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: respawnPos
