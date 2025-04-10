@@ -141,7 +141,7 @@ Material:
     - _shadingBands: 3
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Center: {r: 0.6330569, g: -0.3320899, b: -1.0219989, a: 0}
+    - _Center: {r: -1.0128169, g: -0.3320899, b: -0.6475756, a: 0}
     - _Color: {r: 0.6078231, g: 0.75108135, b: 0.8207547, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _ForwardAxis: {r: -0.99999976, g: 6e-45, b: -6e-45, a: 0}
