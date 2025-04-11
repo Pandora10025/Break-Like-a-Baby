@@ -140,7 +140,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
         {
 
             case BabysitterAIState.PREIDLE:
-
+                anim.SetBool("preidle", true);
                 calculatedWaitDelay = UnityEngine.Random.Range(idleWaitMinAndMax.x, idleWaitMinAndMax.y);
 
                 waitTimer = calculatedWaitDelay;
@@ -156,7 +156,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 break;
 
             case BabysitterAIState.IDLE:
-
+                anim.SetBool("preidle", false);
 
                 // 'waitTimer' decreases every frame to act as a timer.
                 if (waitTimer > 0)
@@ -195,7 +195,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
             case BabysitterAIState.PREPATROL:
 
-
+                anim.SetBool("prepatrol", true);
 
 
                 //Pre-patrol behavior:
@@ -203,6 +203,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 RandomAmountOfPointsToPatrol();
 
                 currentState = BabysitterAIState.PATROL;
+                photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.PATROL);
 
 
 
@@ -212,7 +213,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
 
                 //Code for when we spot a player
-
+                anim.SetBool("prepatrol", false);
                 if (spottedPlayer)
                 {
                     currentState = BabysitterAIState.CHASE;
@@ -573,7 +574,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
     void RandomAmountOfPointsToPatrol()
     {
-
+ 
         float randomPercent = UnityEngine.Random.Range(patrolPercentEachPatrolMinAndMax.x, patrolPercentEachPatrolMinAndMax.y);
 
 
