@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BabyOrb
+  m_Name: Onesie
   m_Shader: {fileID: 4800000, guid: 512218cd4952983409af57059508c8a7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -140,10 +140,10 @@ Material:
     - _shadingBands: 3
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.9433962, g: 0.30704877, b: 0.37847534, a: 1}
+    - _Color: {r: 0.8579942, g: 0.8867924, b: 0.13803846, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
-    - _ShadowColor: {r: 0.9811321, g: 0.42114633, b: 0.42114633, a: 1}
+    - _ShadowColor: {r: 0.8679245, g: 0.69527215, b: 0.10234957, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

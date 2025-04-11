@@ -428,7 +428,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
                 //holdingBaby = true;
 
-
+               
                 photonView.RPC("pickUp", RpcTarget.AllBuffered);
 
 
@@ -753,6 +753,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
     [PunRPC]
     void pickUp()
     {
+        anim.SetBool("pickup", true);
         playerWeAreCurrentlyChasing.gameObject.GetComponent<PlayerCatching>().changeState(PlayerCatching.playerCatchState.caught);
         GameManager.instance.playerCaught = playerWeAreCurrentlyChasing.gameObject;
         babyOrbActive(true);
@@ -764,6 +765,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
     [PunRPC]
     void drop()
     {
+        anim.SetBool("pickup", false);
         playerWeAreCurrentlyChasing.gameObject.GetComponent<PlayerCatching>().changeState(PlayerCatching.playerCatchState.roomed);
         babyOrbActive(false);
     }
