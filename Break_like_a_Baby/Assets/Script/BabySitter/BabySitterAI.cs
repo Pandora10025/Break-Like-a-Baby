@@ -754,7 +754,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
     void babyOrbActive(bool on)
     {
-        if (on)
+        if (on )
         {
             int colorID = playerWeAreCurrentlyChasing.GetComponent<PlayerControllerr>().colorId;
 
@@ -786,6 +786,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
     private IEnumerator displayOrb()
     {
         yield return new WaitForSeconds(1.5f);
+        if(currentState==BabysitterAIState.PICKUP)
         babyOrbActive(true);
     }
 
