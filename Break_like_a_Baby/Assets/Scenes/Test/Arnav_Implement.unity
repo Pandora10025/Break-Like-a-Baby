@@ -25462,22 +25462,22 @@ MonoBehaviour:
     SynchronizeType: 2
     Name: chasing
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 2
     Name: pickup
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 2
     Name: craddle
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 2
     Name: patrol
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 2
     Name: prepickup
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 2
     Name: prepatrol
   - Type: 4
-    SynchronizeType: 0
+    SynchronizeType: 2
     Name: preidle
   m_SynchronizeLayers:
   - SynchronizeType: 0
@@ -25498,6 +25498,11 @@ MonoBehaviour:
   rotationLerpSpeed: 20
   anim: {fileID: 0}
   networkedChasing: 0
+  networkedPickup: 0
+  networkedPrePickup: 0
+  networkedPatrol: 0
+  networkedPrePatrol: 0
+  networkedPreIdle: 0
 --- !u!114 &1461944897
 MonoBehaviour:
   m_ObjectHideFlags: 0
