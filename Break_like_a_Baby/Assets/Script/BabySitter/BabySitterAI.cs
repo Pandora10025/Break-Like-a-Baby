@@ -439,7 +439,13 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
                 //holdingBaby = true;
 
-               
+                anim.SetBool("patrol", false);
+                anim.SetBool("chasing", false);
+                anim.SetBool("prepickup", false);
+
+                // Togle on pickup animation
+                anim.SetBool("pickup", true);
+
                 photonView.RPC("pickUp", RpcTarget.AllBuffered);
 
 
@@ -482,7 +488,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                                 //               player.Roomed();
 
                                 GameManager.instance.crib.babyBedded(playerWeAreCurrentlyChasing.gameObject.GetComponent<PlayerControllerr>().colorId);
-
+                                anim.SetBool("pickup", false);
                                 photonView.RPC("drop", RpcTarget.AllBuffered);
 
 
@@ -761,16 +767,12 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
         }
 
     }
+
     [PunRPC]
     void pickUp()
     {
         // Toggle off all previous animations
-        anim.SetBool("patrol", false);
-        anim.SetBool("chasing", false);
-        anim.SetBool("prepickup", false);
-
-        // Togle on pickup animation
-        anim.SetBool("pickup", true);
+       
         playerWeAreCurrentlyChasing.gameObject.GetComponent<PlayerCatching>().changeState(PlayerCatching.playerCatchState.caught);
         GameManager.instance.playerCaught = playerWeAreCurrentlyChasing.gameObject;
         StartCoroutine(displayOrb());
@@ -779,16 +781,18 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
         Debug.Log("Crib:" + GameManager.instance.crib.transform.parent.position);
         holdingBaby = true;
     }
-    [PunRPC]
+   
 
     private IEnumerator displayOrb()
     {
         yield return new WaitForSeconds(1.5f);
         babyOrbActive(true);
     }
+
+    [PunRPC]
     void drop()
     {
-        anim.SetBool("pickup", false);
+        
         playerWeAreCurrentlyChasing.gameObject.GetComponent<PlayerCatching>().changeState(PlayerCatching.playerCatchState.roomed);
         babyOrbActive(false);
     }
