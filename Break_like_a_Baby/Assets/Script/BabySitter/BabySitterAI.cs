@@ -322,7 +322,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 if (playerDist > escapeDistance)
                 {
                     playerWeAreCurrentlyChasing = null;
-                    photonView.RPC("SetTargetPlayer", RpcTarget.AllBuffered, null);
+                    photonView.RPC("SetTargetPlayer", RpcTarget.AllBuffered, -1);
 
                     currentState = BabysitterAIState.PREIDLE;
                     photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.PREIDLE);
@@ -808,9 +808,10 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
     [PunRPC]
     public void SetTargetPlayer(int viewID)
     {
-        PhotonView targetView = PhotonView.Find(viewID);
-        if (targetView != null)
+        
+        if (viewID != -1)
         {
+            PhotonView targetView = PhotonView.Find(viewID);
             playerWeAreCurrentlyChasing = targetView.transform;
         }
         else
