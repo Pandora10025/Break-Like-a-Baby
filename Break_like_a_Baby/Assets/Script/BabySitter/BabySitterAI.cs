@@ -317,7 +317,9 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
             case BabysitterAIState.CHASE:
 
                 float playerDist = Vector3.Distance(playerWeAreCurrentlyChasing.position, transform.position);
+                anim.SetBool("patrol", false);
                 anim.SetBool("chasing", true);
+                
 
                 if (playerDist > escapeDistance)
                 {
