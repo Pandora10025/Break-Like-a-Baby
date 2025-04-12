@@ -773,13 +773,19 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
         anim.SetBool("pickup", true);
         playerWeAreCurrentlyChasing.gameObject.GetComponent<PlayerCatching>().changeState(PlayerCatching.playerCatchState.caught);
         GameManager.instance.playerCaught = playerWeAreCurrentlyChasing.gameObject;
-        babyOrbActive(true);
+        StartCoroutine(displayOrb());
         //PathfindToPos(GameObject.FindGameObjectWithTag("Crib").transform.position);
         PathfindToPos(GameManager.instance.crib.placePos.position);
         Debug.Log("Crib:" + GameManager.instance.crib.transform.parent.position);
         holdingBaby = true;
     }
     [PunRPC]
+
+    private IEnumerator displayOrb()
+    {
+        yield return new WaitForSeconds(1.5f);
+        babyOrbActive(true);
+    }
     void drop()
     {
         anim.SetBool("pickup", false);
