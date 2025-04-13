@@ -140,10 +140,10 @@ Material:
     - _shadingBands: 4
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.6415094, g: 0.51238966, b: 0.32983267, a: 1}
+    - _Color: {r: 0.9137255, g: 0.6509804, b: 0.31764707, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineColor: {r: 0.6431373, g: 0.5137255, b: 0.32941177, a: 1}
-    - _ShadowColor: {r: 0.1462264, g: 0.08445799, b: 0.042764325, a: 1}
+    - _ShadowColor: {r: 0.645283, g: 0.5223608, b: 0.43221784, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

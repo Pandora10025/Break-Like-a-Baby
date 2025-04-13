@@ -115,7 +115,7 @@ Material:
     - _Glossiness: 0
     - _GlossinessSource: 0
     - _GlossyReflections: 0
-    - _GradientSize: 0.071
+    - _GradientSize: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _OutlineOpacity: 0
@@ -143,7 +143,7 @@ Material:
     - _Color: {r: 0.92156863, g: 0.84791476, b: 0.7607843, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
-    - _ShadowColor: {r: 0.18431373, g: 0.030202955, b: 0.015686274, a: 1}
+    - _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
