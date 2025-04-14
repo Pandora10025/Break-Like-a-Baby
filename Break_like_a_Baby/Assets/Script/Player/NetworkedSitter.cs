@@ -33,12 +33,12 @@ public class NetworkedSitter : MonoBehaviourPun, IPunObservable
             transform.position = Vector3.Lerp(transform.position, networkPosition, Time.fixedDeltaTime * positionLerpSpeed);
             transform.rotation = Quaternion.Slerp(transform.rotation, networkRotation, Time.fixedDeltaTime * rotationLerpSpeed);
 
-            anim.SetBool("chasing", networkedChasing);
-            anim.SetBool("patrol", networkedPatrol);
-            anim.SetBool("prepatrol", networkedPrePatrol);
-            anim.SetBool("preidle", networkedPreIdle);
-            anim.SetBool("pickup", networkedPickup);
-            anim.SetBool("prepickup", networkedPrePickup);
+            //anim.SetBool("chasing", networkedChasing);
+            //anim.SetBool("patrol", networkedPatrol);
+            //anim.SetBool("prepatrol", networkedPrePatrol);
+            //anim.SetBool("preidle", networkedPreIdle);
+            //anim.SetBool("pickup", networkedPickup);
+            //anim.SetBool("prepickup", networkedPrePickup);
         }
     }
 
@@ -54,24 +54,24 @@ public class NetworkedSitter : MonoBehaviourPun, IPunObservable
         {
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
-            stream.SendNext(anim.GetBool("chasing"));
-            stream.SendNext(anim.GetBool("patrol"));
-            stream.SendNext(anim.GetBool("prepatrol"));
-            stream.SendNext(anim.GetBool("preidle"));
-            stream.SendNext(anim.GetBool("pickup"));
-            stream.SendNext(anim.GetBool("prepickup"));
+            //stream.SendNext(anim.GetBool("chasing"));
+            //stream.SendNext(anim.GetBool("patrol"));
+            //stream.SendNext(anim.GetBool("prepatrol"));
+            //stream.SendNext(anim.GetBool("preidle"));
+            //stream.SendNext(anim.GetBool("pickup"));
+            //stream.SendNext(anim.GetBool("prepickup"));
 
         }
         else
         {
             networkPosition = (Vector3)stream.ReceiveNext();
             networkRotation = (Quaternion)stream.ReceiveNext();
-            networkedChasing = (bool)stream.ReceiveNext();
-            networkedPatrol= (bool)stream.ReceiveNext();
-            networkedPrePatrol = (bool)stream.ReceiveNext();
-            networkedPreIdle = (bool)stream.ReceiveNext();
-            networkedPickup = (bool)stream.ReceiveNext();
-            networkedPrePickup = (bool)stream.ReceiveNext();
+            //networkedChasing = (bool)stream.ReceiveNext();
+            //networkedPatrol= (bool)stream.ReceiveNext();
+            //networkedPrePatrol = (bool)stream.ReceiveNext();
+            //networkedPreIdle = (bool)stream.ReceiveNext();
+            //networkedPickup = (bool)stream.ReceiveNext();
+            //networkedPrePickup = (bool)stream.ReceiveNext();
         }
     }
 }

@@ -829,4 +829,9 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
             playerWeAreCurrentlyChasing = null;
         }
     }
+    [PunRPC]
+    public void SetBool(bool b, string name)
+    {
+        anim.SetBool(name, b);
+    }
 }
