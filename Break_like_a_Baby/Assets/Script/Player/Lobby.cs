@@ -8,11 +8,8 @@ public class Lobby : MonoBehaviourPunCallbacks
 {
     public static Lobby Instance;
 
-    public Dictionary<int, bool> playerReady = new Dictionary<int, bool>();
     public string gameSceneName;
-    int readyCount, totalCount;
     [SerializeField] TextMeshProUGUI readyText;
-    
 
     void Awake()
     {
@@ -26,6 +23,7 @@ public class Lobby : MonoBehaviourPunCallbacks
             Destroy(gameObject);
         }
     }
+
     private void Start()
     {
         UpdateReadyDisplay();
@@ -41,9 +39,21 @@ public class Lobby : MonoBehaviourPunCallbacks
         UpdateReadyDisplay();
     }
 
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        if (changedProps.ContainsKey("Ready"))
+        {
+            UpdateReadyDisplay();
+            if (PhotonNetwork.IsMasterClient && AllReady())
+            {
+                PhotonNetwork.LoadLevel(gameSceneName);
+            }
+        }
+    }
+
     public void UpdateReadyDisplay()
     {
-        if (readyText == null || Lobby.Instance == null)
+        if (readyText == null)
             return;
 
         int readyCount = 0;
@@ -51,7 +61,7 @@ public class Lobby : MonoBehaviourPunCallbacks
 
         foreach (var player in PhotonNetwork.PlayerList)
         {
-            if (Lobby.Instance.playerReady.TryGetValue(player.ActorNumber, out bool isReady) && isReady)
+            if (player.CustomProperties.TryGetValue("Ready", out object isReady) && (bool)isReady)
             {
                 readyCount++;
             }
@@ -62,33 +72,24 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     public void SetReady()
     {
-       
-        int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
-
-        playerReady[actorNumber] = true;
-        Debug.Log($"Player {actorNumber} set ready: {true}");
-        UpdateReadyDisplay();
-        // Only MasterClient should check and start the game
-        if (PhotonNetwork.IsMasterClient && AllReady())
+        ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable
         {
-            Debug.Log("All players ready. Starting game...");
-            ResetReadyFlags();
-            PhotonNetwork.LoadLevel(gameSceneName);
-        }
+            { "Ready", true }
+        };
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+        Debug.Log($"Player {PhotonNetwork.LocalPlayer.ActorNumber} is ready!");
     }
 
     private bool AllReady()
     {
         foreach (var player in PhotonNetwork.PlayerList)
         {
-            if (!playerReady.ContainsKey(player.ActorNumber) || !playerReady[player.ActorNumber])
+            if (!player.CustomProperties.TryGetValue("Ready", out object isReady) || !(bool)isReady)
+            {
                 return false;
+            }
         }
         return true;
-    }
-
-    public void ResetReadyFlags()
-    {
-        playerReady.Clear();
     }
 }
