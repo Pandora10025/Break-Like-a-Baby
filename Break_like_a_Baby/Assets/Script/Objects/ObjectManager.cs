@@ -25,6 +25,7 @@ public class ObjectManager : MonoBehaviourPun
     [SerializeField] private int numOfActiveObjects;
     [SerializeField] private TextMeshProUGUI tmp;
     [SerializeField] private float breakablePercentage=0.5f;
+    [SerializeField] GameObject[] emptyImageSlots;
     private void Start()
     {
         instance = this;
@@ -164,6 +165,8 @@ public class ObjectManager : MonoBehaviourPun
         foreach(GameObject g in activeObjects)
         {
             s += g.name + "\n";
+
+            //g.transform.GetChild(0).GetComponent<BreakableObject>().breakImage;
         }
 
         tmp.text = s;

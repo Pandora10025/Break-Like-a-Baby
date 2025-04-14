@@ -5,6 +5,7 @@ using Photon.Pun;
 using System;
 using UnityEditor;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class BreakableObject : MonoBehaviourPunCallbacks
 {
@@ -31,6 +32,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
     [SerializeField] GameObject shatteredMesh, originalMesh;
     [SerializeField] float shatterWeight = 10f;
+    public Image breakImage;
     //enum and state manager
     private enum objectState
     {
