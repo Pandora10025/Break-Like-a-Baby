@@ -22,6 +22,7 @@ public class Lobby : MonoBehaviourPunCallbacks
         {
             Destroy(gameObject);
         }
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     private void Start()
@@ -46,6 +47,7 @@ public class Lobby : MonoBehaviourPunCallbacks
             UpdateReadyDisplay();
             if (PhotonNetwork.IsMasterClient && AllReady())
             {
+              
                 PhotonNetwork.LoadLevel(gameSceneName);
             }
         }
