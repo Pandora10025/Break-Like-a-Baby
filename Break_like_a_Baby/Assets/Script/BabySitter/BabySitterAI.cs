@@ -778,14 +778,20 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
         playerWeAreCurrentlyChasing.gameObject.GetComponent<PlayerCatching>().changeState(PlayerCatching.playerCatchState.caught);
         GameManager.instance.playerCaught = playerWeAreCurrentlyChasing.gameObject;
         //StartCoroutine(displayOrb());
-        babyOrbActive(true);
+        //babyOrbActive(true);
         //PathfindToPos(GameObject.FindGameObjectWithTag("Crib").transform.position);
         PathfindToPos(GameManager.instance.crib.placePos.position);
         Debug.Log("Crib:" + GameManager.instance.crib.transform.parent.position);
         holdingBaby = true;
     }
    
-
+    // Call this function with an animtion event on the craddle animation
+    public void showOrb()
+    {
+        // If the baby sitter is finding her way to the crib
+        if (currentState == BabysitterAIState.PATHFIND)
+            babyOrbActive(true);
+    }
     private IEnumerator displayOrb()
     {
         yield return new WaitForSeconds(1.5f);
