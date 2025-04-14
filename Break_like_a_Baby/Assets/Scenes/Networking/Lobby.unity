@@ -337,7 +337,7 @@ MonoBehaviour:
   joinInput: {fileID: 624997726}
   playerInput: {fileID: 929531894}
   statusText: {fileID: 327764889}
-  roomJoin: Arnav_Implement
+  roomJoin: Lobby 1
 --- !u!4 &55021222
 Transform:
   m_ObjectHideFlags: 0

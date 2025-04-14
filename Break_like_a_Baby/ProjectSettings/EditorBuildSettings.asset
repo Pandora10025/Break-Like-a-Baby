@@ -23,6 +23,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameLevels/GameLost.unity
     guid: 1bdef3e4db20c41f9aebf883d33d46c1
+  - enabled: 1
+    path: Assets/Scenes/Test/Lobby 1.unity
+    guid: 7b10cc502a0ba4f5e85d9f437a9d000f
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
