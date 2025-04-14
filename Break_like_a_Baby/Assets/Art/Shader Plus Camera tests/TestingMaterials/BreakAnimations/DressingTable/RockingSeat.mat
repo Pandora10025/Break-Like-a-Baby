@@ -142,7 +142,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Center: {r: -1.0128169, g: -0.3320899, b: -0.64757514, a: 0}
-    - _Color: {r: 0.28488785, g: 0.5529412, b: 0.62352943, a: 1}
+    - _Color: {r: 0.5686275, g: 0.5294118, b: 0.5294118, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _ForwardAxis: {r: -0.99999976, g: 6e-45, b: -6e-45, a: 0}
     - _OutlineColor: {r: 0, g: 6e-45, b: 3e-45, a: 1}

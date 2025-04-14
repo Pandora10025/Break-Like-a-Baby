@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RockingTable
-  m_Shader: {fileID: 4800000, guid: 147750b72804496469a7535069b55772, type: 3}
+  m_Name: Pillar
+  m_Shader: {fileID: 4800000, guid: 512218cd4952983409af57059508c8a7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -115,16 +115,16 @@ Material:
     - _Glossiness: 0
     - _GlossinessSource: 0
     - _GlossyReflections: 0
-    - _GradientSize: 0.634
+    - _GradientSize: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _OutlineOpacity: 1.149143e-39
-    - _OutlineSizeMultiplier: 4
+    - _OutlineOpacity: 0
+    - _OutlineSizeMultiplier: 0
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _SampleGI: 0
-    - _ShadowSmoothingSize: 0.05
+    - _ShadowSmoothingSize: 0
     - _Shininess: 0
     - _Smoothness: 0.5
     - _SmoothnessSource: 0
@@ -137,17 +137,13 @@ Material:
     - _TestingOffset: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _rotY: 0.0000000029812202
-    - _shadingBands: 4
+    - _shadingBands: 8.95
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Center: {r: -0.52099586, g: -0.47968686, b: -0.43442905, a: 0}
-    - _Color: {r: 0.6901961, g: 0.58793974, b: 0.5137255, a: 1}
+    - _Color: {r: 0, g: 0.25070956, b: 0.3679245, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _ForwardAxis: {r: -0.7071067, g: 6e-45, b: 0.7071062, a: 0}
-    - _OutlineColor: {r: 9.013e-42, g: 1.149143e-39, b: 5.40774e-40, a: 1}
-    - _ShadowColor: {r: 0.18431373, g: 0.030202955, b: 0.015686274, a: 1}
+    - _OutlineColor: {r: 0.19607839, g: 0.49803913, b: 0.6392157, a: 0}
+    - _ShadowColor: {r: 0.19607843, g: 0.49803922, b: 0.6392157, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _UpAxis: {r: 0, g: 1, b: -0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
