@@ -473,6 +473,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 //anim.SetBool("pickup", true);
 
                 photonView.RPC("pickUp", RpcTarget.AllBuffered);
+                PathfindToPos(GameManager.instance.crib.placePos.position);
 
 
                 //currentState = BabysitterAIState.PATHFIND;
@@ -807,7 +808,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
         //StartCoroutine(displayOrb());
         //babyOrbActive(true);
         //PathfindToPos(GameObject.FindGameObjectWithTag("Crib").transform.position);
-        PathfindToPos(GameManager.instance.crib.placePos.position);
+  
         Debug.Log("Crib:" + GameManager.instance.crib.transform.parent.position);
         holdingBaby = true;
     }
