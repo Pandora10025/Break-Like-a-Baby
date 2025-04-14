@@ -427,7 +427,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 break;
 
             case BabysitterAIState.PREPICKUP:
-                photonView.RPC("SetAnim", RpcTarget.AllBuffered, "prepick", true);
+                photonView.RPC("SetAnim", RpcTarget.AllBuffered, "prepickup", true);
 
                 //SetAnim("prepick", true);
                 //anim.SetBool("prepickup", true);
