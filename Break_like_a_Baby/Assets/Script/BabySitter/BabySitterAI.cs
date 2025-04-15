@@ -425,8 +425,29 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                     }
                     else
                     {
-                        nav.SetDestination(playerWeAreCurrentlyChasing.position);
+                        //nav.SetDestination(playerWeAreCurrentlyChasing.position);
 
+
+
+
+                        //THIS IS LUKAS WITH THE NEW BABYSITTER CHASING CODE--THIS IS THE RPEDICTIVE STUFF!
+                        float moveSpeed = 3; // playerWeAreCurrentlyChasing.GetComponent<PlayerController>().moveSpeed;
+
+                        Vector3 babysitterToPlayerVector = (playerWeAreCurrentlyChasing.position - transform.position);
+
+                        Vector3 estimatedFuturePos = playerWeAreCurrentlyChasing.position + playerWeAreCurrentlyChasing.forward * moveSpeed;
+
+                        if (Vector3.Dot(playerWeAreCurrentlyChasing.forward, transform.forward) > 0)
+                        {
+                            estimatedFuturePos = playerWeAreCurrentlyChasing.position + babysitterToPlayerVector.normalized * moveSpeed;
+                        }
+
+                        nav.SetDestination(estimatedFuturePos);
+
+
+
+
+                        //And then here we just have the timer set back to max. 
                         deathTimer = deathCountdownMaxTime;
 
                     }
@@ -495,7 +516,18 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
             case BabysitterAIState.PATHFIND:
 
-                //Moving between the different patrol points...
+                //LUKAS HERE--I added this on 4/14/2025 because I realized maybe the babysitter should break if she's not holding a baby.
+                if (spottedPlayer && !holdingBaby)
+                {
+                    //currentState = BabysitterAIState.CHASE;
+                    photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.CHASE);
+
+                    playerWeAreCurrentlyChasing = spottedPlayer;
+                    photonView.RPC("SetTargetPlayer", RpcTarget.AllBuffered, playerWeAreCurrentlyChasing.GetComponent<PhotonView>().ViewID);
+                }
+
+
+                //Moving between to a specially defineed point that is not necessarily on the partol-path
                 //When we reach a destination, we will set the current destination to null.
                 //Down here we're checking if there's no destination yet. If not, it means we're ready to move again!
                 // Check if we've reached the destination
@@ -513,7 +545,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                             StopMoving();
                             currentState = BabysitterAIState.PREIDLE;
                             photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.PREIDLE);
-               
+
 
                             if (holdingBaby)
                             {
@@ -537,6 +569,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
 
                             }
+                            
 
 
 

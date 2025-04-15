@@ -40,6 +40,13 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         active,
         broken
     }
+
+
+    [SerializeField] bool debugShowRadii = false;
+    [SerializeField] float onHitAlarmRadius = 8;
+    //Thought I'd also add a super duper radius for when you break an object. It's obviously going to be a bit louder!
+    [SerializeField] float onShatterAlarmRadius = 88;
+
     private int myState = (int)objectState.inactive;
 
     private void Awake()
@@ -148,6 +155,10 @@ public class BreakableObject : MonoBehaviourPunCallbacks
                 Transform playerT = playerPhotonView.transform;
                 Debug.Log("Player has been sent over!: " + playerT.name);
 
+
+
+                //THIS IS LUKAS!!! Here, I'm making it so that the babysitter is alarmed.
+                alarmBabysitter(onHitAlarmRadius);
                 
                 Vector3 playerPos = playerT.position;
                 Vector3 playerRight = playerT.right;
@@ -192,6 +203,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     void Explode()
     {
        
+
         if(originalMesh!=null && shatteredMesh != null)
         {
             originalMesh.SetActive(false);
@@ -210,6 +222,11 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
             Invoke("disableColOnFragments", 0.5f);
         }
+
+
+        //THIS IS LUKAS!!! HERE IM SETTING IT SO THAT THE BABYSITTER IS ALARMED AND ITS ESPECIALLY LOUD WHEN YOU BREAK THE OBJECT
+
+        alarmBabysitter(onShatterAlarmRadius);
 
 
     }
@@ -257,4 +274,42 @@ public class BreakableObject : MonoBehaviourPunCallbacks
             rb.mass = 1f;
         }
     }
+
+    void alarmBabysitter(float radius) {
+
+        if ( Vector3.Distance( GameManager.instance.babySitter.transform.position, transform.position) < radius   )
+        {
+            GameManager.instance.babySitter.GetComponent<BabySitterAI>().PathfindToPos(transform.position);
+
+        }
+
+
+
+    }
+
+
+    //THIS IS LUKAS!!! JUST THOUGHT ID DRAW A GIZMO TO SHOW THE RADIUS OF AN OBJECT!
+    private void OnDrawGizmos()
+    {
+        if (debugShowRadii)
+        {
+            int arcSteps = 32;
+            for (int i = 0; i < arcSteps; i++)
+            {
+                Gizmos.color = Color.yellow;
+
+                Vector3 from = Quaternion.Euler(0, (float)i / (float)arcSteps * 360 + Time.realtimeSinceStartup * 2, 0) * Vector3.forward;
+                Vector3 to = Quaternion.Euler(0, (float)(i + 1) / (float)arcSteps * 360 + Time.realtimeSinceStartup * 2, 0) * Vector3.forward;
+
+                Gizmos.DrawLine(transform.position + from * onHitAlarmRadius, transform.position + to * onHitAlarmRadius);
+                Gizmos.DrawLine(transform.position + from * onShatterAlarmRadius, transform.position + to * onShatterAlarmRadius);
+
+            }
+        }
+
+        
+
+
+    }
+
 }

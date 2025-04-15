@@ -13503,6 +13503,10 @@ PrefabInstance:
       propertyPath: explosionPosition
       value: 
       objectReference: {fileID: 677147295}
+    - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: babysitterAlarmRadius
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1344713303252172504, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: m_LocalPosition.z
       value: 5.34
@@ -15156,6 +15160,10 @@ PrefabInstance:
       propertyPath: shatteredMesh
       value: 
       objectReference: {fileID: 642676443}
+    - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: babysitterAlarmRadius
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1344713303252172504, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: m_LocalPosition.z
       value: -1.24
@@ -24891,6 +24899,10 @@ PrefabInstance:
       propertyPath: explosionPosition
       value: 
       objectReference: {fileID: 1195058908}
+    - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: babysitterAlarmRadius
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1344713303252172504, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: m_LocalPosition.z
       value: 5.34
@@ -32196,6 +32208,10 @@ PrefabInstance:
       propertyPath: shatteredMesh
       value: 
       objectReference: {fileID: 1500889827}
+    - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: babysitterAlarmRadius
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1344713303252172504, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: m_LocalPosition.z
       value: -1.24
@@ -35405,6 +35421,14 @@ PrefabInstance:
       propertyPath: shatteredMesh
       value: 
       objectReference: {fileID: 545674564}
+    - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: debugShowRadii
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: babysitterAlarmRadius
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 4210826275476797972, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
@@ -39812,6 +39836,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1907091280}
     - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: babysitterAlarmRadius
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: breakableRb.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -42205,6 +42233,10 @@ PrefabInstance:
       propertyPath: explosionPosition
       value: 
       objectReference: {fileID: 1991281245}
+    - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: babysitterAlarmRadius
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1344713303252172504, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: m_LocalPosition.z
       value: 5.34
@@ -43159,6 +43191,10 @@ PrefabInstance:
       propertyPath: explosionPosition
       value: 
       objectReference: {fileID: 2041693745}
+    - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: babysitterAlarmRadius
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1344713303252172504, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: m_LocalPosition.z
       value: 5.34
@@ -45726,6 +45762,10 @@ PrefabInstance:
       propertyPath: shatteredMesh
       value: 
       objectReference: {fileID: 1741552012}
+    - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: babysitterAlarmRadius
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1344713303252172504, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: m_LocalPosition.z
       value: -1.24
