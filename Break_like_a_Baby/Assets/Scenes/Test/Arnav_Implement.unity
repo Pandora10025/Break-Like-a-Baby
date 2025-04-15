@@ -31964,9 +31964,9 @@ MonoBehaviour:
   footstepSource: {fileID: 1597029603}
   tileFX: []
   woodFX: []
-  footStep1SFX: {fileID: 8300000, guid: 6c8da4fba272977479083efa134196e7, type: 3}
-  footStep2SFX: {fileID: 8300000, guid: f3e3ca04bbcc65540854b868339ac4d4, type: 3}
-  footStep3SFX: {fileID: 8300000, guid: 66df860e89edd3d45b05b0a09a882bf1, type: 3}
+  footStep1SFX: {fileID: 8300000, guid: 90c0f3f4672ffbb4ea0e988e34b8a533, type: 3}
+  footStep2SFX: {fileID: 8300000, guid: eccdc8b1fc5619e46838d10471ad7772, type: 3}
+  footStep3SFX: {fileID: 8300000, guid: 45d35eeade7dec74ca273b33d63c97b3, type: 3}
   footStep4SFX: {fileID: 8300000, guid: 7f16a55f5e4887745a6ea81268eeb466, type: 3}
   footStep5SFX: {fileID: 0}
 --- !u!65 &1464636183
@@ -43470,7 +43470,7 @@ AudioSource:
   m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
-  Mute: 0
+  Mute: 1
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
