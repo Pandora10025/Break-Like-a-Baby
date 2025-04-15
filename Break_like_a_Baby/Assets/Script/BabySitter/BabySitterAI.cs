@@ -82,6 +82,8 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
     public GameObject babyOrb;
 
+    [SerializeField] string[] animNames;
+
     void Awake() {
 
         Debug.Log(gameObject);
@@ -149,9 +151,9 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
             case BabysitterAIState.PREIDLE:
                 //SetAnim("preidle", true);
-                //photonView.RPC("SetAnim", RpcTarget.All, "preidle", true);
+                photonView.RPC("SetAnim", RpcTarget.All, findInArray("preidle"), 1);
 
-                anim.SetBool("preidle", true);
+                //anim.SetBool("preidle", true);
                 calculatedWaitDelay = UnityEngine.Random.Range(idleWaitMinAndMax.x, idleWaitMinAndMax.y);
 
                 waitTimer = calculatedWaitDelay;
@@ -167,9 +169,9 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 break;
 
             case BabysitterAIState.IDLE:
-                //photonView.RPC("SetAnim", RpcTarget.All, "preidle", false);
+                photonView.RPC("SetAnim", RpcTarget.All, findInArray("preidle"), 0);
                 //SetAnim("preidle", false);
-                anim.SetBool("preidle", false);
+                //anim.SetBool("preidle", false);
 
                 // 'waitTimer' decreases every frame to act as a timer.
                 if (waitTimer > 0)
@@ -208,9 +210,9 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
             case BabysitterAIState.PREPATROL:
 
-                //photonView.RPC("SetAnim", RpcTarget.All, "prepatrol", true);
+                photonView.RPC("SetAnim", RpcTarget.All, findInArray("prepatrol"), 1);
                 //SetAnim("prepatrol", true);
-                anim.SetBool("prepatrol", true);
+                //anim.SetBool("prepatrol", true);
 
 
                 //Pre-patrol behavior:
@@ -228,9 +230,9 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
                 //SetAnim("prepatrol", false);
                 //Code for when we spot a player
-                anim.SetBool("prepatrol", false);
+                //anim.SetBool("prepatrol", false);
 
-                //photonView.RPC("SetAnim", RpcTarget.All, "prepatrol", false);
+                photonView.RPC("SetAnim", RpcTarget.All, findInArray("prepatrol"), 0);
                 if (spottedPlayer)
                 {
                     //currentState = BabysitterAIState.CHASE;
@@ -268,9 +270,9 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                                 //We're going another point!
 
                                 calculatedPatrolPointsToVisit--;
-                                //photonView.RPC("SetAnim", RpcTarget.AllBuffered, "patrol", true);
+                                photonView.RPC("SetAnim", RpcTarget.All, findInArray("patrol"), 1);
                                 //SetAnim("patrol", true);
-                                anim.SetBool("patrol", true);
+                                //anim.SetBool("patrol", true);
 
                                 //First we find the closest patrol point! (the one we are at)
                                 //Then the destination will be the one after that.
@@ -305,10 +307,10 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                                 //We're done patrolling for now!
 
                                 //currentState = BabysitterAIState.PREIDLE;
-                                //photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.PREIDLE);
-                                //photonView.RPC("SetAnim", RpcTarget.All, "patrol", false);
+                                photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.PREIDLE);
+                                photonView.RPC("SetAnim", RpcTarget.All, findInArray("patrol"), 0);
                                 //SetAnim("patrol", false);
-                                anim.SetBool("patrol", false);
+                                //anim.SetBool("patrol", false);
 
 
 
@@ -338,13 +340,13 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
             case BabysitterAIState.CHASE:
 
                 float playerDist = Vector3.Distance(playerWeAreCurrentlyChasing.position, transform.position);
-                //photonView.RPC("SetAnim", RpcTarget.All, "patrol", false);
-                //photonView.RPC("SetAnim", RpcTarget.All, "chasing", true);
+                photonView.RPC("SetAnim", RpcTarget.All, findInArray("patrol"), 0);
+                photonView.RPC("SetAnim", RpcTarget.All, findInArray("chasing"), 1);
                 //SetAnim("patrol", false);
-                anim.SetBool("patrol", false);
+                //anim.SetBool("patrol", false);
 
                 //SetAnim("chasing", true);
-                anim.SetBool("chasing", true);
+                //anim.SetBool("chasing", true);
 
 
                 if (playerDist > escapeDistance)
@@ -438,10 +440,10 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 break;
 
             case BabysitterAIState.PREPICKUP:
-                //photonView.RPC("SetAnim", RpcTarget.All, "prepickup", true);
+                photonView.RPC("SetAnim", RpcTarget.All, findInArray("prepickup"), 0);
 
                 //SetAnim("prepick", true);
-                anim.SetBool("prepickup", true);
+                //anim.SetBool("prepickup", true);
 
                 //currentState = BabysitterAIState.PICKUP;
                 photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.PICKUP);
@@ -467,21 +469,21 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
 
                 //holdingBaby = true;
-                //photonView.RPC("SetAnim", RpcTarget.All, "patrol", false);
-                //photonView.RPC("SetAnim", RpcTarget.All, "chasing", false);
-                //photonView.RPC("SetAnim", RpcTarget.All, "prepickup", false);
+                photonView.RPC("SetAnim", RpcTarget.All, findInArray("patrol"), 0);
+                photonView.RPC("SetAnim", RpcTarget.All, findInArray("chasing"), 0);
+                photonView.RPC("SetAnim", RpcTarget.All, findInArray("prepickup"), 0);
                 //SetAnim("patrol", false);
                 //SetAnim("chasing", false);
                 //SetAnim("prepickup", false);
 
-                anim.SetBool("patrol", false);
-                anim.SetBool("chasing", false);
-                anim.SetBool("prepickup", false);
+                //anim.SetBool("patrol", false);
+                //anim.SetBool("chasing", false);
+                //anim.SetBool("prepickup", false);
 
                 // Togle on pickup animation
-                //photonView.RPC("SetAnim", RpcTarget.All, "pickup", true);
+                photonView.RPC("SetAnim", RpcTarget.All, findInArray("pickup"), 0);
                 //SetAnim("pickup", true);
-                anim.SetBool("pickup", true);
+                //anim.SetBool("pickup", true);
 
                 photonView.RPC("pickUp", RpcTarget.AllBuffered);
                 PathfindToPos(GameManager.instance.crib.placePos.position);
@@ -527,8 +529,9 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
                                 GameManager.instance.crib.babyBedded(playerWeAreCurrentlyChasing.gameObject.GetComponent<PlayerControllerr>().colorId);
                                 //SetAnim("pickup", false);
-                                //photonView.RPC("SetAnim", RpcTarget.AllBuffered, "pickup", false);
-                                anim.SetBool("pickup", false);
+
+                                photonView.RPC("SetAnim", RpcTarget.All, findInArray("pickup"), 0);
+                                //anim.SetBool("pickup", false);
                                 photonView.RPC("drop", RpcTarget.AllBuffered);
 
 
@@ -614,8 +617,8 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
         //nav.ResetPath();
 
 
-        anim.SetBool("chasing", false);
-        //photonView.RPC("SetAnim", RpcTarget.All, "chasing", false);
+        //anim.SetBool("chasing", false);
+        photonView.RPC("SetAnim", RpcTarget.All, findInArray("chasing"), 0);
     }
 
 
@@ -869,10 +872,23 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
         }
     }
     [PunRPC]
-    void SetAnim(string name, bool b)
+    void SetAnim(int i, int b)
     {
-        
-       anim.SetBool(name, b);
-        
+        if(b==1)
+            anim.SetBool(animNames[i],true);
+        else
+            anim.SetBool(animNames[i], false);
+    }
+
+    int findInArray(string s)
+    {
+        for(int i = 0; i < animNames.Length; i++)
+        {
+            if (animNames[i] == s)
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 }

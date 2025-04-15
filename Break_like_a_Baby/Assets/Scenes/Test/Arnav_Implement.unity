@@ -31299,6 +31299,13 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 0eb90b716486b36478ac72c115a2f829, type: 2}
   - {fileID: 2100000, guid: 689b9077b02efb047bf0229067342945, type: 2}
   babyOrb: {fileID: 1125326234}
+  animNames:
+  - patrol
+  - prepatrol
+  - prepickup
+  - pickup
+  - chasing
+  - preidle
 --- !u!195 &1461944891
 NavMeshAgent:
   m_ObjectHideFlags: 0
