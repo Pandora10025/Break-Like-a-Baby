@@ -118,7 +118,7 @@ Material:
     - _GradientSize: 0
     - _Metallic: 0
     - _OcclusionStrength: 1
-    - _OutlineOpacity: 1.1095918e-29
+    - _OutlineOpacity: 7.154011e-27
     - _OutlineSizeMultiplier: 0.1
     - _Parallax: 0.005
     - _QueueOffset: 0
@@ -143,11 +143,11 @@ Material:
     - _shadingBands: 2
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Center: {r: -0.3272704, g: -0.3320899, b: 0.33678806, a: 0}
+    - _Center: {r: -0.32727063, g: -0.3320899, b: 0.33678806, a: 0}
     - _Color: {r: 0.16447136, g: 0.18900533, b: 0.5283019, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _ForwardAxis: {r: 0.99999976, g: 4e-45, b: -6e-45, a: 0}
-    - _OutlineColor: {r: 8.70268e-32, g: 1.1095918e-29, b: 5.2216095e-30, a: 1}
+    - _ForwardAxis: {r: 0.99999976, g: 4e-45, b: 6e-45, a: 0}
+    - _OutlineColor: {r: 5.6109887e-29, g: 7.154011e-27, b: 3.366594e-27, a: 1}
     - _ShadowColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _UpAxis: {r: 0, g: 1, b: 0, a: 0}
