@@ -502,7 +502,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 //anim.SetBool("prepickup", false);
 
                 // Togle on pickup animation
-                photonView.RPC("SetAnim", RpcTarget.All, findInArray("pickup"), 0);
+                photonView.RPC("SetAnim", RpcTarget.All, findInArray("pickup"), 1);
                 //SetAnim("pickup", true);
                 //anim.SetBool("pickup", true);
 
