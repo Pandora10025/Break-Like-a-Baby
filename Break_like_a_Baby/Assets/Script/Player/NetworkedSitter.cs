@@ -8,21 +8,18 @@ public class NetworkedSitter : MonoBehaviourPun, IPunObservable
     public float positionLerpSpeed = 10f;
     public float rotationLerpSpeed = 20f;
 
-    public Animator anim;
-    public bool networkedChasing;
-    public bool networkedPickup;
-    public bool networkedPrePickup;
-    public bool networkedPatrol;
-    public bool networkedPrePatrol;
-    public bool networkedPreIdle;
+    //public Animator anim;
+    //public bool networkedChasing;
+    //public bool networkedPickup;
+    //public bool networkedPrePickup;
+    //public bool networkedPatrol;
+    //public bool networkedPrePatrol;
+    //public bool networkedPreIdle;
 
 
     void Awake()
     {
-        anim = GetComponent<Animator>();
-
-        PhotonNetwork.SendRate = 100;          // Default is 50
-        PhotonNetwork.SerializationRate = 100;
+        //anim = GetComponent<Animator>();
     }
 
     void FixedUpdate()
@@ -40,12 +37,6 @@ public class NetworkedSitter : MonoBehaviourPun, IPunObservable
             //anim.SetBool("pickup", networkedPickup);
             //anim.SetBool("prepickup", networkedPrePickup);
         }
-    }
-
-    [PunRPC]
-    void SyncAnimation(float velocity)
-    {
-        anim.SetFloat("Velocity", velocity);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

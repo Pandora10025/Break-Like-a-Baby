@@ -31357,13 +31357,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   positionLerpSpeed: 10
   rotationLerpSpeed: 20
-  anim: {fileID: 0}
-  networkedChasing: 0
-  networkedPickup: 0
-  networkedPrePickup: 0
-  networkedPatrol: 0
-  networkedPrePatrol: 0
-  networkedPreIdle: 0
 --- !u!114 &1461944897
 MonoBehaviour:
   m_ObjectHideFlags: 0
