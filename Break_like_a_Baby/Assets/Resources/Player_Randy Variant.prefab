@@ -434,6 +434,7 @@ MonoBehaviour:
   rotationSpeed: 10
   moveDirection: {x: 0, y: 0, z: 0}
   inRange: 0
+  breakables: []
   aud: {fileID: 0}
   brokenList: 
   viewId: 0

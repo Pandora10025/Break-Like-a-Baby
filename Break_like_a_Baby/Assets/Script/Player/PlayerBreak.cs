@@ -2,6 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class PlayerBreak : MonoBehaviourPunCallbacks
 {
@@ -14,6 +15,8 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
 
     public bool inRange = false;
     GameObject breakable;
+    [SerializeField]
+    List<GameObject> breakables=new List<GameObject>();
     [SerializeField] public AudioSource aud;
     public string brokenList;
     public int viewId;
@@ -60,12 +63,33 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
         {
             //Debug.Log(gameObject.name + isInRange);
             inRange = true;
+            addToList(breakableObj);
+            //if (breakable)
+            //{
+                //breakable.GetComponent<BreakableObject>().removeSelf(gameObject);
+                //breakable.GetComponent<BoxRockerTest>().DisableOutlines();
+            //}
+
             breakable = breakableObj;
+            if(photonView.IsMine)
+            breakable.GetComponent<BoxRockerTest>().EnabledOutlines();
         }
-        if (!isInRange && breakable == breakableObj)
+        if (!isInRange )
         {
-            inRange = false; 
+            if(breakable == breakableObj)
+            removeFromList(breakable);
+            else
+            {
+                breakables.Remove(breakableObj);
+                if (photonView.IsMine)
+                    breakableObj.GetComponent<BoxRockerTest>().DisableOutlines();
+            }
+            //inRange = false;
+            //breakable.GetComponent<BoxRockerTest>().DisableOutlines();
+            //breakable = null;
         }
+
+
     }
 
     public void AddToList(string objectName)
@@ -73,4 +97,41 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
         brokenList = objectName +", " +brokenList;
         breakCount++;
     }
+
+    void addToList(GameObject b)
+    {
+        
+        for(int i = 0; i < breakables.Count; i++)
+        {
+            if (photonView.IsMine)
+            {
+                breakables[i].GetComponent<BoxRockerTest>().DisableOutlines();
+            }
+           
+        }
+        breakables.Add(b);
+
+    }
+
+    void removeFromList(GameObject b)
+    {
+        int newIndex = breakables.IndexOf(b)-1;
+        if (newIndex < 0)
+        {
+            breakable = null;
+            inRange = false;
+        }
+        else
+        {
+            breakable = breakables[newIndex];
+            if(photonView.IsMine)
+            breakable.GetComponent<BoxRockerTest>().EnabledOutlines();
+        }
+        if(photonView.IsMine)
+        b.GetComponent<BoxRockerTest>().DisableOutlines();
+
+        breakables.Remove(b);
+       
+    }
+
 }

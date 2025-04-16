@@ -244,7 +244,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player" && myState == (int)objectState.active)
         {
             playersInRange.Add(other.gameObject);
             other.GetComponent<PlayerBreak>().breakableInRange(true, gameObject);
@@ -260,6 +260,12 @@ public class BreakableObject : MonoBehaviourPunCallbacks
             playersInRange.Remove(other.gameObject);
 
         }
+    }
+
+    public void removeSelf(GameObject g)
+    {
+        playersInRange.Remove(g);
+        
     }
 
     void disableColOnFragments()
