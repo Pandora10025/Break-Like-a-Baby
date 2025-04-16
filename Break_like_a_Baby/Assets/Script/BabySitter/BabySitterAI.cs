@@ -210,7 +210,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
             case BabysitterAIState.PREPATROL:
 
-                photonView.RPC("SetAnim", RpcTarget.All, findInArray("prepatrol"), 1);
+                //photonView.RPC("SetAnim", RpcTarget.All, findInArray("prepatrol"), 1);
                 //SetAnim("prepatrol", true);
                 //anim.SetBool("prepatrol", true);
 
@@ -232,7 +232,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 //Code for when we spot a player
                 //anim.SetBool("prepatrol", false);
 
-                photonView.RPC("SetAnim", RpcTarget.All, findInArray("prepatrol"), 0);
+                //photonView.RPC("SetAnim", RpcTarget.All, findInArray("prepatrol"), 0);
                 if (spottedPlayer)
                 {
                     //currentState = BabysitterAIState.CHASE;
