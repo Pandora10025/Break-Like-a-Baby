@@ -141,7 +141,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
 public void restartLevel()
-    { 
+    {
+
         photonView.RPC("RequestRestart", RpcTarget.All);
     }
    

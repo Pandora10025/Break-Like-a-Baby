@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 using ExitGames.Client.Photon;
+using Photon.Realtime;
 
 public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
 {
@@ -55,7 +56,14 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
-        UpdateStatus($"Failed to join room: {message}");
+        if (returnCode == ErrorCode.GameClosed)
+        {
+            UpdateStatus("Room is closed. Game has already started.");
+        }
+        else
+        {
+            UpdateStatus($"Failed to join room: {message}");
+        }
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)

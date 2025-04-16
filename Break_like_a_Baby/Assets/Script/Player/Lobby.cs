@@ -46,7 +46,8 @@ public class Lobby : MonoBehaviourPunCallbacks
             UpdateReadyDisplay();
             if (PhotonNetwork.IsMasterClient && AllReady())
             {
-              
+                PhotonNetwork.CurrentRoom.IsOpen = false;
+                PhotonNetwork.CurrentRoom.IsVisible = false;
                 PhotonNetwork.LoadLevel(gameSceneName);
             }
         }
