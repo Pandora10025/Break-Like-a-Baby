@@ -340,7 +340,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
             case BabysitterAIState.CHASE:
 
                 float playerDist = Vector3.Distance(playerWeAreCurrentlyChasing.position, transform.position);
-                photonView.RPC("SetAnim", RpcTarget.All, findInArray("patrol"), 0);
+                //photonView.RPC("SetAnim", RpcTarget.All, findInArray("patrol"), 0);
                 photonView.RPC("SetAnim", RpcTarget.All, findInArray("chasing"), 1);
                 //SetAnim("patrol", false);
                 //anim.SetBool("patrol", false);
@@ -461,7 +461,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 break;
 
             case BabysitterAIState.PREPICKUP:
-                photonView.RPC("SetAnim", RpcTarget.All, findInArray("prepickup"), 1);
+                //photonView.RPC("SetAnim", RpcTarget.All, findInArray("prepickup"), 1);
 
                 //SetAnim("prepick", true);
                 //anim.SetBool("prepickup", true);
@@ -490,9 +490,10 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
 
                 //holdingBaby = true;
-                photonView.RPC("SetAnim", RpcTarget.All, findInArray("patrol"), 0);
+                //photonView.RPC("SetAnim", RpcTarget.All, findInArray("patrol"), 0);
                 photonView.RPC("SetAnim", RpcTarget.All, findInArray("chasing"), 0);
-                photonView.RPC("SetAnim", RpcTarget.All, findInArray("prepickup"), 0);
+                photonView.RPC("SetAnim", RpcTarget.All, findInArray("pickup"), 1);
+                //photonView.RPC("SetAnim", RpcTarget.All, findInArray("prepickup"), 0);
                 //SetAnim("patrol", false);
                 //SetAnim("chasing", false);
                 //SetAnim("prepickup", false);
@@ -502,7 +503,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 //anim.SetBool("prepickup", false);
 
                 // Togle on pickup animation
-                photonView.RPC("SetAnim", RpcTarget.All, findInArray("pickup"), 1);
+
                 //SetAnim("pickup", true);
                 //anim.SetBool("pickup", true);
 
