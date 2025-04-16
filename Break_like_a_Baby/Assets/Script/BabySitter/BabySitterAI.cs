@@ -491,7 +491,6 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
                 //holdingBaby = true;
                 //photonView.RPC("SetAnim", RpcTarget.All, findInArray("patrol"), 0);
-                photonView.RPC("SetAnim", RpcTarget.All, findInArray("chasing"), 0);
                 photonView.RPC("SetAnim", RpcTarget.All, findInArray("pickup"), 1);
                 //photonView.RPC("SetAnim", RpcTarget.All, findInArray("prepickup"), 0);
                 //SetAnim("patrol", false);
@@ -564,6 +563,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                                 //SetAnim("pickup", false);
 
                                 photonView.RPC("SetAnim", RpcTarget.All, findInArray("pickup"), 0);
+                                photonView.RPC("SetAnim", RpcTarget.All, findInArray("chasing"), 0);
                                 //anim.SetBool("pickup", false);
                                 photonView.RPC("drop", RpcTarget.AllBuffered);
 
