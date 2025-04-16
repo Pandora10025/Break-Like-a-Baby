@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public GameObject playerCaught;
 
+    [SerializeField] CaughtPlayerOverlay caughtOverlay;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
@@ -147,8 +149,21 @@ public void restartLevel()
     }
    
      
-
-    
+    public void caughtPlayerOverlay(int pvID)
+    {
+        photonView.RPC("caughtPlayerO", RpcTarget.All,pvID);
+    }
+    [PunRPC]
+    void caughtPlayerO(int pvID)
+    {
+        PhotonView playerPhotonView = PhotonView.Find(pvID);
+        if (playerPhotonView)
+        {
+            caughtOverlay.overlayOn(2f, playerPhotonView.Owner.NickName + " has been caught!");
+           
+        }
+       
+    }
 
 [PunRPC]
 void RequestRestart()

@@ -21,6 +21,8 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
     public string brokenList;
     public int viewId;
     public int breakCount;
+
+    public bool canBreak = true;
     
     private void Start()
     {

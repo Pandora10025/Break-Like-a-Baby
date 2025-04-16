@@ -439,6 +439,7 @@ MonoBehaviour:
   brokenList: 
   viewId: 0
   breakCount: 0
+  canBreak: 1
 --- !u!82 &3533941397440801381
 AudioSource:
   m_ObjectHideFlags: 0

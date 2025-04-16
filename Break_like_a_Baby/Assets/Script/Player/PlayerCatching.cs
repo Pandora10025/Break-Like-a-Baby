@@ -1,6 +1,7 @@
 using UnityEngine;
+using Photon.Pun;
 
-public class PlayerCatching : MonoBehaviour
+public class PlayerCatching : MonoBehaviourPun
 {
     public enum playerCatchState
     {
@@ -57,6 +58,7 @@ public class PlayerCatching : MonoBehaviour
                 transform.position = new Vector3(GameManager.instance.respawnPos.position.x, transform.position.y, GameManager.instance.respawnPos.position.z);
                 mySpr.enabled=true;
                 grabbable = true;
+                GetComponent<PlayerBreak>().canBreak = true;
                 break;
             case playerCatchState.caught:
                 //UI Change to be added
@@ -65,8 +67,10 @@ public class PlayerCatching : MonoBehaviour
                 GetComponent<Collider>().enabled = false;
                 //mySpr.sortingOrder = pushedSpriteOrder;
                 mySpr.enabled = false;
+                GameManager.instance.caughtPlayerOverlay(photonView.ViewID);
                 break;
             case playerCatchState.roomed:
+                GetComponent<PlayerBreak>().canBreak = false;
                 playerC.enableMove = false;
                 GetComponent<Collider>().enabled = false;
                 //mySpr.sortingOrder = pushedSpriteOrder;
