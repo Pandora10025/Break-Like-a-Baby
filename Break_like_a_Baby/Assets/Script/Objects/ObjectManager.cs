@@ -14,7 +14,7 @@ public class ObjectManager : MonoBehaviourPun
     //private vars
     //place all BreakableObjects in the scene will be put in here through code
     [Tooltip("Add all breakable objects to here for them to work!")]
-    [SerializeField] private static List<GameObject> bObjects = new List<GameObject>();
+    [SerializeField] private List<GameObject> bObjects = new List<GameObject>();
     private List<GameObject> activeObjects = new List<GameObject>();
 
     //public vars
@@ -24,6 +24,7 @@ public class ObjectManager : MonoBehaviourPun
     [SerializeField] private int numOfStartObjects;
     [SerializeField] private int numOfActiveObjects;
     [SerializeField] private TextMeshProUGUI tmp;
+    [UnityEngine.RangeAttribute(0, 1)]
     [SerializeField] private float breakablePercentage = 0.5f;
     [SerializeField] GameObject[] emptyImageSlots;
     private void Start()
@@ -142,8 +143,8 @@ public class ObjectManager : MonoBehaviourPun
 
     public void Break(GameObject child)
     {
-        //sound stuff
-        //child.name
+        //sound stuff, fix param 1
+        AudioManager.instance.PlaySFX(child.transform.GetChild(0).name, child.transform.position);
 
         //break and remove from List
         child.GetComponent<BreakableObject>().Break();
@@ -184,12 +185,12 @@ public class ObjectManager : MonoBehaviourPun
     }
 
     /// <summary>
-    /// Method <c>getBObjNames</c> returns all bObjs
+    /// Method <c>getBObjs</c> returns all bObjs
     /// </summary>
     /// <returns>List of all bObjs</returns>
-    public static List<GameObject> getBObjNames()
+    public List<GameObject> getBObjs()
     {
-        return ObjectManager.bObjects;
+        return bObjects;
     }
 
 }

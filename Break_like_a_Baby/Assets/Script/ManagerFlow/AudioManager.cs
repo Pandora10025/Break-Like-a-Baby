@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager instance;
+    public static AudioManager instance { get; private set; }
 
     [Header("Audio Sources")]
 
@@ -51,7 +51,7 @@ public class AudioManager : MonoBehaviour
         PlayAmbience();
         PlayMusic();
 
-        List<GameObject> bObjects = ObjectManager.getBObjNames();
+        List<GameObject> bObjects = ObjectManager.instance.getBObjs();
         //set key/value pair based off of material set on value set in scene
         foreach(GameObject g in bObjects)
         {
