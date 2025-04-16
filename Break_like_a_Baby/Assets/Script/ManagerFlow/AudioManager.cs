@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class AudioManager : MonoBehaviour
 {
-   public static AudioManager instance;
+    public static AudioManager instance;
 
     [Header("Audio Sources")]
 
@@ -22,6 +24,12 @@ public class AudioManager : MonoBehaviour
     public AudioClip hitSFX;
     public AudioClip caughtSFX;
 
+    public List<AudioClip> breakSfxs;
+    //data structures for holding audio clips and assigning
+    private static Dictionary<string, AudioClip> sfxDict = new Dictionary<string, AudioClip>();
+
+
+
     private void Awake()
     {
         if (instance == null)
@@ -36,11 +44,12 @@ public class AudioManager : MonoBehaviour
         PlayAmbience();
         PlayMusic();
 
+        //i'm sorry little one (i'm hard coding this)
+        //if there are multiplayer problems, fill in objMan and then populate clips here
 
 
     }
 
-    
     public void PlayMusic()
     {
         if (!music.isPlaying)
@@ -65,8 +74,21 @@ public class AudioManager : MonoBehaviour
         SFX.PlayOneShot(clip);
     }
 
+    /// <summary>
+    /// Method <c>PlaySFX</c> is an overload of <c>PlaySFX(AudioClip clip)</c> 
+    /// As per inbuilt Unity method <c>PlayClipAtPoint</c>, <br/> it will create a 
+    /// temporary AudioClip and place it at <paramref name="position"/>. The sound
+    /// will be based off of the inputted <paramref name="name"/>.
+    /// </summary>
+    /// if game is lagging, this might be the culprit. it's quite costly.
+    public void PlaySFX(string name, Vector3 position)
+    {
+        AudioSource.PlayClipAtPoint(sfxDict[name], position);
+    }
+
     public void PauseMusic()
     {
         music.Stop();
     }
+
 }

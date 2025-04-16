@@ -77,7 +77,7 @@ public class ObjectManager : MonoBehaviourPun
             {
                 i--;
             }
-            Debug.Log("aa");
+            //Debug.Log("aa");
         }
         return g;
         
@@ -136,13 +136,16 @@ public class ObjectManager : MonoBehaviourPun
 
 
     /// <summary>
-    /// Method <c>Break</c> informs the ObjectManager that this <param>child</param> is broken
+    /// Method <c>Break</c> informs the ObjectManager that this <paramref name="child"/> is broken
     /// and sets flags accordingly
     /// </summary>
 
     public void Break(GameObject child)
     {
-        ///LUKAS PUT ANY SIGNALS IN THIS FUNCTION; ANY ORDER!
+        //sound stuff
+        //child.name
+
+        //break and remove from List
         child.GetComponent<BreakableObject>().Break();
         activeObjects.Remove(child.transform.parent.gameObject);
         Debug.Log("Broken Object: " + activeObjects.ToString());
