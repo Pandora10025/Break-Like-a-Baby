@@ -38,14 +38,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     //for sounds
     [Range(0, 4)]
     [Tooltip("glass, wood, metal, porcelain, soft")][SerializeField] private int matType;
-    private enum materialType
-    {
-        glass,
-        wood,
-        metal,
-        porcelain,
-        soft
-    }
+    
 
     //enum and state manager
     private enum objectState

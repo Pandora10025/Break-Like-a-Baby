@@ -27,7 +27,14 @@ public class AudioManager : MonoBehaviour
     public List<AudioClip> breakSfxs;
     //data structures for holding audio clips and assigning
     private static Dictionary<string, AudioClip> sfxDict = new Dictionary<string, AudioClip>();
-
+    private enum materialType
+    {
+        glass,
+        wood,
+        metal,
+        porcelain,
+        soft
+    }
 
 
     private void Awake()
@@ -44,11 +51,17 @@ public class AudioManager : MonoBehaviour
         PlayAmbience();
         PlayMusic();
 
-        //i'm sorry little one (i'm hard coding this)
-        //if there are multiplayer problems, fill in objMan and then populate clips here
-
+        List<GameObject> bObjects = ObjectManager.getBObjNames();
+        //set key/value pair based off of material set on value set in scene
+        foreach(GameObject g in bObjects)
+        {
+            sfxDict[g.name] = breakSfxs[g.GetComponent<BreakableObject>().getMatType()];
+        }
 
     }
+
+
+
 
     public void PlayMusic()
     {

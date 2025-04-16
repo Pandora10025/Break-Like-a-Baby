@@ -14,7 +14,7 @@ public class ObjectManager : MonoBehaviourPun
     //private vars
     //place all BreakableObjects in the scene will be put in here through code
     [Tooltip("Add all breakable objects to here for them to work!")]
-    [SerializeField] private List<GameObject> bObjects = new List<GameObject>();
+    [SerializeField] private static List<GameObject> bObjects = new List<GameObject>();
     private List<GameObject> activeObjects = new List<GameObject>();
 
     //public vars
@@ -24,7 +24,7 @@ public class ObjectManager : MonoBehaviourPun
     [SerializeField] private int numOfStartObjects;
     [SerializeField] private int numOfActiveObjects;
     [SerializeField] private TextMeshProUGUI tmp;
-    [SerializeField] private float breakablePercentage=0.5f;
+    [SerializeField] private float breakablePercentage = 0.5f;
     [SerializeField] GameObject[] emptyImageSlots;
     private void Start()
     {
@@ -42,7 +42,7 @@ public class ObjectManager : MonoBehaviourPun
 
         if (PhotonNetwork.IsMasterClient)
         {
-          
+
             activeObjects = Randomize();
             SyncActiveObjects();
             Debug.Log("Num of actual activeObjects: " + activeObjects.Count);
@@ -50,13 +50,13 @@ public class ObjectManager : MonoBehaviourPun
 
 
 
-       
+
 
         //numOfActiveObjects = numOfStartObjects;
         Debug.Log("NumOfStartObjects: " + numOfStartObjects);
     }
 
-   
+
 
     /// <summary>
     /// Method <c>Randomize</c> picks numOfStartObjects amount of 
@@ -80,25 +80,25 @@ public class ObjectManager : MonoBehaviourPun
             //Debug.Log("aa");
         }
         return g;
-        
+
     }
 
     private void SyncActiveObjects()
     {
-        
+
         int[] activeObjectIndexes = new int[activeObjects.Count];
         for (int i = 0; i < activeObjects.Count; i++)
         {
             activeObjectIndexes[i] = bObjects.IndexOf(activeObjects[i]);
         }
-     
+
         photonView.RPC("ReceiveActiveObjects", RpcTarget.AllBuffered, activeObjectIndexes);
     }
 
     [PunRPC]
     private void ReceiveActiveObjects(int[] activeObjectIndexes)
     {
-       
+
         Activate(bObjects, false);
         activeObjects.Clear();
         foreach (int index in activeObjectIndexes)
@@ -118,7 +118,7 @@ public class ObjectManager : MonoBehaviourPun
     /// </summary>
     private void Activate(List<GameObject> gObjects, Boolean b)
     {
-        foreach(GameObject g in gObjects)
+        foreach (GameObject g in gObjects)
         {
             if (b)
             {
@@ -150,7 +150,7 @@ public class ObjectManager : MonoBehaviourPun
         activeObjects.Remove(child.transform.parent.gameObject);
         Debug.Log("Broken Object: " + activeObjects.ToString());
         numOfActiveObjects--;
-        if(numOfActiveObjects <= 0)
+        if (numOfActiveObjects <= 0)
         {
             GameManager.instance.GameOver(true);
         }
@@ -162,10 +162,10 @@ public class ObjectManager : MonoBehaviourPun
     /// </summary>
     private void UpdateString()
     {
-        
+
         String s = "";
         s += "Objects remaining: " + numOfActiveObjects + "\n";
-        foreach(GameObject g in activeObjects)
+        foreach (GameObject g in activeObjects)
         {
             s += g.name + "\n";
 
@@ -183,5 +183,13 @@ public class ObjectManager : MonoBehaviourPun
         tmp.enabled = b;
     }
 
+    /// <summary>
+    /// Method <c>getBObjNames</c> returns all bObjs
+    /// </summary>
+    /// <returns>List of all bObjs</returns>
+    public static List<GameObject> getBObjNames()
+    {
+        return ObjectManager.bObjects;
+    }
 
 }
