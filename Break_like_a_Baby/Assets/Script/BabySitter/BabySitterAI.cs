@@ -151,7 +151,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
             case BabysitterAIState.PREIDLE:
                 //SetAnim("preidle", true);
-                photonView.RPC("SetAnim", RpcTarget.All, findInArray("preidle"), 1);
+                //photonView.RPC("SetAnim", RpcTarget.All, findInArray("preidle"), 1);
 
                 //anim.SetBool("preidle", true);
                 calculatedWaitDelay = UnityEngine.Random.Range(idleWaitMinAndMax.x, idleWaitMinAndMax.y);
@@ -169,7 +169,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 break;
 
             case BabysitterAIState.IDLE:
-                photonView.RPC("SetAnim", RpcTarget.All, findInArray("preidle"), 0);
+                //photonView.RPC("SetAnim", RpcTarget.All, findInArray("preidle"), 0);
                 //SetAnim("preidle", false);
                 //anim.SetBool("preidle", false);
 
