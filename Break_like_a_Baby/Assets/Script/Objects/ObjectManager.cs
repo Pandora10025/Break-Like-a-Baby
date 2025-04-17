@@ -12,6 +12,7 @@ using TMPro;
 public class ObjectManager : MonoBehaviourPun
 {
     //private vars
+    int pos_index;
     //place all BreakableObjects in the scene will be put in here through code
     [Tooltip("Add all breakable objects to here for them to work!")]
     [SerializeField] private List<GameObject> bObjects = new List<GameObject>();
@@ -49,7 +50,7 @@ public class ObjectManager : MonoBehaviourPun
         }
 
 
-
+        pos_index = 0;
        
 
         //numOfActiveObjects = numOfStartObjects;
@@ -72,6 +73,7 @@ public class ObjectManager : MonoBehaviourPun
             if (!g.Contains(bObjects[j]))
             {
                 g.Add(bObjects[j]);
+                
             }
             else
             {
