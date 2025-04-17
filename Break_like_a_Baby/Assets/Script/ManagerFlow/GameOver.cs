@@ -9,7 +9,7 @@ public class GameOver : MonoBehaviourPunCallbacks
     [SerializeField] GameObject wonOverlay,lossOverlay, setButton;
     [SerializeField] string waitingForMaster = "Waiting for host to restart!";
     [SerializeField] TextMeshProUGUI scoreText;
-
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {

@@ -26,8 +26,8 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        ClearReadyFlag();
-        UpdateReadyDisplay();
+        //ClearReadyFlag();
+        //UpdateReadyDisplay();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -37,6 +37,11 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
+        UpdateReadyDisplay();
+    }
+    public override void OnJoinedRoom()
+    {
+        ClearReadyFlag(); 
         UpdateReadyDisplay();
     }
 
@@ -49,6 +54,7 @@ public class Lobby : MonoBehaviourPunCallbacks
             {
                 PhotonNetwork.CurrentRoom.IsOpen = false;
                 PhotonNetwork.CurrentRoom.IsVisible = false;
+                photonView.RPC("clearAllFlags", RpcTarget.All);
                 PhotonNetwork.LoadLevel(gameSceneName);
             }
         }
@@ -97,13 +103,13 @@ public class Lobby : MonoBehaviourPunCallbacks
     }
     public void ClearReadyFlag()
     {
-        if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Ready"))
-        {
-            ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable
-        {
-            { "Ready", null } // Setting to null removes the key
-        };
-            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
-        }
+        ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable();
+        props["Ready"] = null; // Removing the key
+        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+    }
+    [PunRPC]
+    void clearAllFlags()
+    {
+        ClearReadyFlag();
     }
 }

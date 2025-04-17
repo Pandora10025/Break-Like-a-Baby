@@ -12,7 +12,7 @@ public class CameraFollow : MonoBehaviour
     public Vector3 offset = new Vector3(-0.3f, 0.3f, -20f);  // Base offset from the player (distance behind and above)
     public float smoothSpeed = 0.125f;  // How quickly the camera moves to follow the player
     public float rotationSpeed = 5f;  // Speed at which the camera rotates to follow the player
-
+    GameObject pl;
 
     private Vector3 velocity = Vector3.zero;  // For storing the velocity in SmoothDamp method
 
@@ -25,7 +25,12 @@ public class CameraFollow : MonoBehaviour
         }
         else
         {
-            player = FindLocalPlayer().transform;
+            pl = FindLocalPlayer();
+            if (pl)
+                player = pl.transform;
+            else
+                this.enabled = false;
+          
         }
     }
 
@@ -59,8 +64,8 @@ public class CameraFollow : MonoBehaviour
         float tiltAngleZ = moveInput.x * 10f;  // Tilt around Z-axis (left/right movement)
 
         // Clamp the tilt angles to prevent excessive tilting
-        tiltAngleX = Mathf.Clamp(tiltAngleX, -20f, 20f); // Limit X-axis tilt to ±15 degrees
-        tiltAngleZ = Mathf.Clamp(tiltAngleZ, -20f, 20f); // Limit Z-axis tilt to ±15 degrees
+        tiltAngleX = Mathf.Clamp(tiltAngleX, -20f, 20f); // Limit X-axis tilt to ?15 degrees
+        tiltAngleZ = Mathf.Clamp(tiltAngleZ, -20f, 20f); // Limit Z-axis tilt to ?15 degrees
 
         // Create a tilt rotation based on the tilt angles
         Quaternion tiltRotation = Quaternion.Euler(tiltAngleX, 0f, tiltAngleZ);
