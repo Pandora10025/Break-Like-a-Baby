@@ -26,6 +26,7 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        ClearReadyFlag();
         UpdateReadyDisplay();
     }
 
@@ -93,5 +94,16 @@ public class Lobby : MonoBehaviourPunCallbacks
             }
         }
         return true;
+    }
+    public void ClearReadyFlag()
+    {
+        if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("Ready"))
+        {
+            ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable
+        {
+            { "Ready", null } // Setting to null removes the key
+        };
+            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+        }
     }
 }

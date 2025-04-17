@@ -72,4 +72,11 @@ public class GameOver : MonoBehaviourPunCallbacks
     {
         GameManager.instance.restartLevel();
     }
+    public void ToLobby()
+    {
+        if(PhotonNetwork.IsMasterClient)
+        GameManager.instance.LeaveGameForAll();
+        else
+            GameManager.instance.ReturnToLobby();
+    }
 }

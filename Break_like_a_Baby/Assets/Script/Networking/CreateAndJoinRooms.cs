@@ -14,6 +14,9 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     [SerializeField]
     string roomJoin;
     bool characterSet;
+    [SerializeField]
+    RectTransform highlight, buttonA, buttonB;
+
     void Start()
     {
         UpdateStatus("Waiting for input...");
@@ -102,6 +105,7 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     public void characterA()
     {
         SelectCharacter(0);
+        highlight.position = buttonA.position;
         
         
     }
@@ -109,7 +113,8 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     public void characterB()
     {
         SelectCharacter(1);
-        
+        highlight.position = buttonB.position;
+
     }
 
     public void setName()

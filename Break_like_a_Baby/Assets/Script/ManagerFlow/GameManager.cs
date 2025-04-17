@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public Transform respawnPos;
     int roomedCount;
-    int playerCount;
+    public int playerCount;
 
    
     public Color[] playerColors;
@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     [SerializeField] CaughtPlayerOverlay caughtOverlay;
 
+    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
@@ -41,7 +43,7 @@ public class GameManager : MonoBehaviourPunCallbacks
        
 
         gameStarted = true;
-        
+        playerCount= GameObject.FindGameObjectsWithTag("Player").Length;
     }
 
     // Update is called once per frame
@@ -179,5 +181,32 @@ void RequestRestart()
         roomedCount++;
     }
 
+    public void ReturnToLobby()
+    {
+        // Close the room if you're the Master Client
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            PhotonNetwork.CurrentRoom.IsVisible = false;
+        }
 
+        
+        PhotonNetwork.LeaveRoom();
+    }
+    public override void OnLeftRoom()
+    {
+        
+        SceneManager.LoadScene("Lobby"); 
+    }
+
+    public void LeaveGameForAll()
+    {
+        photonView.RPC("LeaveRoomRPC", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void LeaveRoomRPC()
+    {
+        ReturnToLobby();
+    }
 }
