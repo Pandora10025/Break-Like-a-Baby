@@ -46232,6 +46232,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Breakable
       objectReference: {fileID: 0}
+    - target: {fileID: 8148810531900233867, guid: b6afdba407b304415919bc8c63b3da49, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -47206,6 +47210,10 @@ PrefabInstance:
       propertyPath: tmp
       value: 
       objectReference: {fileID: 1480050531}
+    - target: {fileID: 573844923914009964, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
+      propertyPath: iconList
+      value: 
+      objectReference: {fileID: 923443032}
     - target: {fileID: 573844923914009964, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: bObjects.Array.size
       value: 14

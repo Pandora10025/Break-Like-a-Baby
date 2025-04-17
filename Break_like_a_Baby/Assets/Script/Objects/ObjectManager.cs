@@ -27,6 +27,7 @@ public class ObjectManager : MonoBehaviourPun
     [SerializeField] private TextMeshProUGUI tmp;
     [SerializeField] private float breakablePercentage=0.5f;
     [SerializeField] GameObject[] emptyImageSlots;
+    [SerializeField] GameObject iconList;
     private void Start()
     {
         instance = this;
@@ -191,7 +192,9 @@ public class ObjectManager : MonoBehaviourPun
     /// </summary>
     public void ToggleText(bool b)
     {
-        tmp.enabled = b;
+        //tmp.enabled = b;
+        iconList.SetActive(b);
+
     }
 
 
