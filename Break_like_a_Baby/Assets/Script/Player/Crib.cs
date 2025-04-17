@@ -40,7 +40,7 @@ public class Crib : MonoBehaviourPunCallbacks
     public void babyBedded(int colorID)
     {
 
-        photonView.RPC("babyBed", RpcTarget.AllBuffered, colorID);
+        photonView.RPC("babyBed", RpcTarget.All, colorID);
     }
 
     public void Break()
@@ -64,8 +64,7 @@ public class Crib : MonoBehaviourPunCallbacks
         babys[babyBeddedCount].GetComponent<SpriteRenderer>().sprite = babySleeping[colorID];
         babyBeddedCount++;
         if (babyBeddedCount >= GameObject.FindGameObjectsWithTag("Player").Length) { GameManager.instance.GameOver(false); }
-       
-        
+
     }
 
     void respawnCrib()
