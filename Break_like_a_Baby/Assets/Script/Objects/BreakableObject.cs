@@ -32,7 +32,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
     [SerializeField] GameObject shatteredMesh, originalMesh;
     [SerializeField] float shatterWeight = 10f;
-    public Image breakImage;
+    public Sprite breakImage;
     //enum and state manager
     private enum objectState
     {
