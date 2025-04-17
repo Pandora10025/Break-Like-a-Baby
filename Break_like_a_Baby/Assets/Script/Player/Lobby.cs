@@ -27,7 +27,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     private void Start()
     {
         //ClearReadyFlag();
-        //UpdateReadyDisplay();
+        UpdateReadyDisplay();
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
