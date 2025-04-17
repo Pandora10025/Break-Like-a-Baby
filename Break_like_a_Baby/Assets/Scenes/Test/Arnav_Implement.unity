@@ -32739,6 +32739,10 @@ MonoBehaviour:
   patrolPercentEachPatrolMinAndMax: {x: 0.1, y: 1}
   deathCountdownMaxTime: 0.3
   deathTimer: 0
+  boredCountdownMaxTime: 3
+  boredTimer: 0
+  chaseCooldownMaxTime: 3
+  chaseCooldownTimer: 0
   patrolPoints:
   - {fileID: 1052710319}
   - {fileID: 530666668}
@@ -32753,6 +32757,7 @@ MonoBehaviour:
   viewingDistance: 3
   escapeDistance: 4
   catchingDistance: 1.5
+  offMeshDistance: 0.8
   playerWeAreCurrentlyChasing: {fileID: 0}
   playerCloseEnoughToBeGrabbed: {fileID: 0}
   LayersWeCanSee:
@@ -49099,7 +49104,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &6182368780755059728
 MonoBehaviour:
   m_ObjectHideFlags: 0

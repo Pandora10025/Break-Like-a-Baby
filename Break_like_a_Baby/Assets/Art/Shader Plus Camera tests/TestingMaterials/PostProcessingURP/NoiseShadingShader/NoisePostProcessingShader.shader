@@ -150,7 +150,7 @@ Shader "Custom/NoisePostProcessingShader"
 
             //Now we're going to try using the pixelated version to do some dithering! 
 
-            float noiseToAdd = ( (secondNoiseValue )*2 -.7)*.05 ;
+            float noiseToAdd = ( (secondNoiseValue )*2 -.7)*.01 ;
 
             float3 samplePlusNoise =  ConvertFromHSV(   ConvertToHSV(pixelColor) + pixelDitherAmount* float3( 0, 0, noiseToAdd) );
 

@@ -50,6 +50,11 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
     public float deathTimer = 0f;
 
 
+    public float boredCountdownMaxTime = 3f;
+    public float boredTimer = 0f;
+
+    public float chaseCooldownMaxTime = 3f;
+    public float chaseCooldownTimer = 0f;
 
     private float calculatedWaitDelay = 0;
     private float waitTimer = 0;
@@ -65,6 +70,8 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
     public float viewingDistance = 1;
     public float escapeDistance = 1;
     public float catchingDistance = 1;
+
+    public float offMeshDistance = .8f;
 
     public Transform playerWeAreCurrentlyChasing;
     public Transform playerCloseEnoughToBeGrabbed;
@@ -83,7 +90,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
     public GameObject babyOrb;
 
     [SerializeField] string[] animNames;
-
+     
     void Awake() {
 
         Debug.Log(gameObject);
@@ -117,6 +124,8 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
         deathTimer = deathCountdownMaxTime;
 
+        //chaseCooldownTimer = chaseCooldownMaxTime;
+
     }
 
     // Update is called once per frame
@@ -128,6 +137,13 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
         if (!PhotonNetwork.IsMasterClient)
             return;
+
+
+        if (chaseCooldownTimer < chaseCooldownMaxTime)
+        {
+            chaseCooldownTimer += Time.deltaTime;
+        }
+
 
         Transform spottedPlayer = ScanForPlayers();
 
@@ -165,6 +181,9 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
                 //currentState = BabysitterAIState.IDLE;
                 photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.IDLE);
+
+
+                boredTimer = 0;
 
                 break;
 
@@ -222,7 +241,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 //currentState = BabysitterAIState.PATROL;
                 photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.PATROL);
 
-
+                boredTimer = 0;
 
                 break;
 
@@ -349,6 +368,8 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 //anim.SetBool("chasing", true);
 
 
+                
+
                 if (playerDist > escapeDistance)
                 {
                     playerWeAreCurrentlyChasing = null;
@@ -362,6 +383,79 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 }
                 else
                 {
+
+
+                    boredTimer += Time.deltaTime;
+
+
+                    NavMeshHit navMeshHit;
+
+                    bool checkOnMesh = NavMesh.SamplePosition(
+                        playerWeAreCurrentlyChasing.position,
+                        out navMeshHit,
+                        offMeshDistance,
+                        NavMesh.AllAreas
+                        );
+
+                    Debug.Log("ON MESH=" + checkOnMesh);
+
+
+                    //This is where we check if the babysitter
+                    //has been chasing the baby for too long!
+                    //If so, we're going to have the babysitter disengage.
+                    //If the baby is also hiding (off the navmesh) then
+                    //the babysitter will also immediately go into prepatrol.
+                    if ( boredTimer > boredCountdownMaxTime)
+                    {
+
+                        boredTimer = 0;
+
+                        chaseCooldownTimer = 0;
+
+                        StopMoving();
+
+
+                        
+
+                        if (!checkOnMesh)
+                        {
+                            //Send the babysitter into pre-patrol!
+
+                            //Make the babysitter pre-idle!
+
+                            playerWeAreCurrentlyChasing = null;
+                            photonView.RPC("SetTargetPlayer", RpcTarget.AllBuffered, -1);
+
+                            //currentState = BabysitterAIState.PREIDLE;
+                            photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.PREPATROL);
+
+                        }
+                        else
+                        {
+                            //Make the babysitter pre-idle!
+
+                            playerWeAreCurrentlyChasing = null;
+                            photonView.RPC("SetTargetPlayer", RpcTarget.AllBuffered, -1);
+
+                            //currentState = BabysitterAIState.PREIDLE;
+                            photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.PREIDLE);
+
+                            
+
+                        }
+
+                        return;
+
+                    }
+
+
+
+                    
+                    
+
+
+
+
 
                     float angleToPlayer = Vector3.Angle(transform.forward, (playerWeAreCurrentlyChasing.position - transform.position).normalized);
 
@@ -688,7 +782,15 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
 
         GameObject closestPlayer = null;
+
+        
+
         float closestDist = viewingDistance;
+        if (chaseCooldownTimer < chaseCooldownMaxTime)
+        {
+            closestDist = .5f;
+        }
+
 
 
         for (int i = 0; i < players.Length; i++)
