@@ -45,14 +45,24 @@ public class Crib : MonoBehaviourPunCallbacks
 
     public void Break()
     {
-        babyBeddedCount--;
+        photonView.RPC("RPC_BreakCrib", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void RPC_BreakCrib()
+    {
+        // now this runs on ALL clients!
+        babyBeddedCount = Mathf.Max(0, babyBeddedCount - 1);
+
         foreach (GameObject baby in babys)
         {
             baby.SetActive(false);
         }
-        GameManager.instance.playerCaught.GetComponent<PlayerCatching>().changeState(PlayerCatching.playerCatchState.free);
-        
 
+        if (GameManager.instance.playerCaught != null)
+        {
+            GameManager.instance.playerCaught.GetComponent<PlayerCatching>().changeState(PlayerCatching.playerCatchState.free);
+        }
     }
 
     [PunRPC]
@@ -63,10 +73,28 @@ public class Crib : MonoBehaviourPunCallbacks
         babys[babyBeddedCount].SetActive(true);
         babys[babyBeddedCount].GetComponent<SpriteRenderer>().sprite = babySleeping[colorID];
         babyBeddedCount++;
-        if (babyBeddedCount >= PhotonNetwork.CurrentRoom.PlayerCount) { GameManager.instance.GameOver(false); }
+        if (PhotonNetwork.IsMasterClient && babyBeddedCount >= PhotonNetwork.CurrentRoom.PlayerCount) { GameManager.instance.GameOver(false); }
 
     }
+    void CheckGameOver()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
+        int totalCaught = 0;
+        foreach (GameObject player in players)
+        {
+            PlayerCatching catching = player.GetComponent<PlayerCatching>();
+            if (catching != null && catching.catchState == PlayerCatching.playerCatchState.roomed)
+            {
+                totalCaught++;
+            }
+        }
+
+        if (totalCaught >= players.Length)
+        {
+            GameManager.instance.GameOver(false);
+        }
+    }
     void respawnCrib()
     {
 

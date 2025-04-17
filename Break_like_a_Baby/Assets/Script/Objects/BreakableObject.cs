@@ -122,10 +122,10 @@ public class BreakableObject : MonoBehaviourPunCallbacks
             health += 0.05f;
         slider.value = health;
 
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            Explode();
-        }
+        //if (Input.GetKeyDown(KeyCode.B))
+        //{
+            //Explode();
+        //}
 
     }
     public void TakeDamage(int pvId)
