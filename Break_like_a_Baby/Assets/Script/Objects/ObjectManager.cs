@@ -161,17 +161,29 @@ public class ObjectManager : MonoBehaviourPun
     /// </summary>
     private void UpdateString()
     {
-        
-        String s = "";
-        s += "Objects remaining: " + numOfActiveObjects + "\n";
-        foreach(GameObject g in activeObjects)
-        {
-            s += g.name + "\n";
 
-            //g.transform.GetChild(0).GetComponent<BreakableObject>().breakImage;
+        //String s = "";
+        //s += "Objects remaining: " + numOfActiveObjects + "\n";
+        //foreach(GameObject g in activeObjects)
+        //{
+        //s += g.name + "\n";
+
+        //g.transform.GetChild(0).GetComponent<BreakableObject>().breakImage;
+        //}
+
+        //tmp.text = s;
+
+        int i=0;
+        foreach (GameObject g in activeObjects)
+        {
+            emptyImageSlots[i].GetComponent<Image>().sprite= g.transform.GetChild(0).GetComponent<BreakableObject>().breakImage;
+            i++;
+        }
+        for(int j = i; j < emptyImageSlots.Length; j++)
+        {
+            emptyImageSlots[i].GetComponent<Image>().enabled=false;
         }
 
-        tmp.text = s;
     }
 
     /// <summary>
