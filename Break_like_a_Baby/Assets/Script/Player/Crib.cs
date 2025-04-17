@@ -63,7 +63,7 @@ public class Crib : MonoBehaviourPunCallbacks
         babys[babyBeddedCount].SetActive(true);
         babys[babyBeddedCount].GetComponent<SpriteRenderer>().sprite = babySleeping[colorID];
         babyBeddedCount++;
-        if (babyBeddedCount >= GameObject.FindGameObjectsWithTag("Player").Length) { GameManager.instance.GameOver(false); }
+        if (babyBeddedCount >= PhotonNetwork.CurrentRoom.PlayerCount) { GameManager.instance.GameOver(false); }
 
     }
 
