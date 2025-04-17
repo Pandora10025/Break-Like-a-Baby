@@ -153,13 +153,14 @@ public void restartLevel()
     {
         photonView.RPC("caughtPlayerO", RpcTarget.All,pvID);
     }
+
     [PunRPC]
     void caughtPlayerO(int pvID)
     {
         PhotonView playerPhotonView = PhotonView.Find(pvID);
         if (playerPhotonView)
         {
-            caughtOverlay.overlayOn(2f, playerPhotonView.Owner.NickName + " has been caught!");
+            caughtOverlay.overlayOn(5f, playerPhotonView.Owner.NickName + " has been caught!");
            
         }
        

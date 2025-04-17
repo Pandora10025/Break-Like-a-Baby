@@ -173,7 +173,7 @@ public class ObjectManager : MonoBehaviourPun
         //}
 
         //tmp.text = s;
-
+      
         int i=0;
         foreach (GameObject g in activeObjects)
         {
@@ -182,7 +182,7 @@ public class ObjectManager : MonoBehaviourPun
         }
         for(int j = i; j < emptyImageSlots.Length; j++)
         {
-            emptyImageSlots[i].GetComponent<Image>().enabled=false;
+            emptyImageSlots[j].GetComponent<Image>().enabled=false;
         }
 
     }
