@@ -464,10 +464,10 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                     {
 
 
-                        if (playerDist < .25)
-                        {
+                        //if (playerDist < .25)
+                        //{
                             //StopMoving();
-                        }
+                        //}
 
 
                         //Below is only temporarily disabled so that we can add alternative behavior with a timer until we implement the really interesting game over mechanics!
