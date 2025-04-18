@@ -466,7 +466,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
                         if (playerDist < .25)
                         {
-                            StopMoving();
+                            //StopMoving();
                         }
 
 
