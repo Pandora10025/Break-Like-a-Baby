@@ -57,14 +57,6 @@ public class ObjectManager : MonoBehaviourPun
         
     }
 
-/*    private void Update()
-    {
-        if (AreBObjsAwake())
-        {
-            AudioManager.instance.Populate();
-        }
-    }*/
-
     /// <summary>
     /// Method <c>Randomize</c> picks numOfStartObjects amount of 
     /// breakableObjects from a list of all breakableObjects in the scene
@@ -155,7 +147,7 @@ public class ObjectManager : MonoBehaviourPun
         //break and remove from List
         child.GetComponent<BreakableObject>().Break();
         activeObjects.Remove(child.transform.parent.gameObject);
-        Debug.Log("Broken Object: " + activeObjects.ToString());
+        //Debug.Log("Broken Object: " + activeObjects.ToString());
         numOfActiveObjects--;
         if (numOfActiveObjects <= 0)
         {

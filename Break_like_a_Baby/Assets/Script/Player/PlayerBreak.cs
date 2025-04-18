@@ -33,7 +33,8 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
     {
         if (inRange && (Input.GetKeyDown(KeyCode.Space) || playerControl.isSpamTriggered()) && photonView.IsMine){
 
-            aud.Play();
+            //audio here!
+            AudioManager.instance.PlaySFX(aud, transform.position);
             breakable.GetComponent<BreakableObject>().TakeDamage(photonView.ViewID);
             
         }

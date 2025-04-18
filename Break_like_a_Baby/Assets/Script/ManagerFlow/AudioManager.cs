@@ -90,6 +90,10 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Method <c>PlaySFX</c> deprecated. Do not call.
+    /// </summary>
+    /// <param name="clip"></param> audio clip to be played
     public void PlaySFX(AudioClip clip)
     {
         SFX.PlayOneShot(clip);
@@ -99,12 +103,22 @@ public class AudioManager : MonoBehaviour
     /// Method <c>PlaySFX</c> is an overload of <c>PlaySFX(AudioClip clip)</c> 
     /// As per inbuilt Unity method <c>PlayClipAtPoint</c>, <br/> it will create a 
     /// temporary AudioClip and place it at <paramref name="position"/>. The sound
-    /// will be based off of the inputted <paramref name="name"/>.
+    /// will be based off of the inputted <paramref name="name"/>. <b>Used for objects.</b>
     /// </summary>
     /// if game is lagging, this might be the culprit. it's quite costly.
     public void PlaySFX(string name, Vector3 position)
     {
         AudioSource.PlayClipAtPoint(sfxDict[name], position);
+    }
+    
+    /// <summary>
+    /// Method <c>PlaySFX</c> is an overload that takes in <paramref name="position"/> of the <b>Player</b> and <paramref name="aud"/> on the <b>Player</b>. <br/>
+    /// It will create a temporary AudioClip and place it at the <b>Player's</b> location.
+    /// </summary>
+    /// <param name="position"></param> Current position of <b>Player</b>
+    public void PlaySFX(AudioSource aud, Vector3 position)
+    {
+        AudioSource.PlayClipAtPoint(aud.clip, position);
     }
 
     public void PauseMusic()
