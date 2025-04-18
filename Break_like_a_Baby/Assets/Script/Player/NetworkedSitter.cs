@@ -20,6 +20,8 @@ public class NetworkedSitter : MonoBehaviourPun, IPunObservable
     void Awake()
     {
         //anim = GetComponent<Animator>();
+        PhotonNetwork.SendRate = 100;          // Default is 50, lower reduces network lag
+        PhotonNetwork.SerializationRate = 100;
     }
 
     void FixedUpdate()

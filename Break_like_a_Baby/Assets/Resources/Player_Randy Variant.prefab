@@ -433,10 +433,12 @@ MonoBehaviour:
   rotationSpeed: 10
   moveDirection: {x: 0, y: 0, z: 0}
   inRange: 0
+  breakables: []
   aud: {fileID: 0}
   brokenList: 
   viewId: 0
   breakCount: 0
+  canBreak: 1
 --- !u!82 &3533941397440801381
 AudioSource:
   m_ObjectHideFlags: 0

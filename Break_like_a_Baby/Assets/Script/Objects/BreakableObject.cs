@@ -33,12 +33,12 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     [SerializeField] GameObject shatteredMesh, originalMesh;
     [SerializeField] float shatterWeight = 10f;
 
-    public Image breakImage;
-
     //for sounds
     [Range(0, 4)]
     [Tooltip("glass, wood, metal, porcelain, soft")][SerializeField] private int matType;
 
+    // variables for Break List UI
+    public Sprite breakImage;
     //enum and state manager
     private enum objectState
     {
@@ -135,10 +135,10 @@ public class BreakableObject : MonoBehaviourPunCallbacks
             health += 0.05f;
         slider.value = health;
 
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            Explode();
-        }
+        //if (Input.GetKeyDown(KeyCode.B))
+        //{
+            //Explode();
+        //}
 
     }
     public void TakeDamage(int pvId)
@@ -259,7 +259,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player" && myState == (int)objectState.active)
         {
             playersInRange.Add(other.gameObject);
             other.GetComponent<PlayerBreak>().breakableInRange(true, gameObject);
@@ -275,6 +275,12 @@ public class BreakableObject : MonoBehaviourPunCallbacks
             playersInRange.Remove(other.gameObject);
 
         }
+    }
+
+    public void removeSelf(GameObject g)
+    {
+        playersInRange.Remove(g);
+        
     }
 
     void disableColOnFragments()

@@ -26,6 +26,7 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        //ClearReadyFlag();
         UpdateReadyDisplay();
     }
 
@@ -38,6 +39,11 @@ public class Lobby : MonoBehaviourPunCallbacks
     {
         UpdateReadyDisplay();
     }
+    public override void OnJoinedRoom()
+    {
+        ClearReadyFlag(); 
+        UpdateReadyDisplay();
+    }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
@@ -48,6 +54,7 @@ public class Lobby : MonoBehaviourPunCallbacks
             {
                 PhotonNetwork.CurrentRoom.IsOpen = false;
                 PhotonNetwork.CurrentRoom.IsVisible = false;
+                photonView.RPC("clearAllFlags", RpcTarget.All);
                 PhotonNetwork.LoadLevel(gameSceneName);
             }
         }
@@ -93,5 +100,16 @@ public class Lobby : MonoBehaviourPunCallbacks
             }
         }
         return true;
+    }
+    public void ClearReadyFlag()
+    {
+        ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable();
+        props["Ready"] = null; // Removing the key
+        PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+    }
+    [PunRPC]
+    void clearAllFlags()
+    {
+        ClearReadyFlag();
     }
 }

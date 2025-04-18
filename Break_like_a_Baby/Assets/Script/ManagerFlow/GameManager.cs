@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public Transform respawnPos;
     int roomedCount;
-    int playerCount;
+    public int playerCount;
 
    
     public Color[] playerColors;
@@ -27,6 +27,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     public Crib crib;
 
     public GameObject playerCaught;
+
+    [SerializeField] CaughtPlayerOverlay caughtOverlay;
+
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
@@ -39,7 +43,7 @@ public class GameManager : MonoBehaviourPunCallbacks
        
 
         gameStarted = true;
-        
+        playerCount= GameObject.FindGameObjectsWithTag("Player").Length;
     }
 
     // Update is called once per frame
@@ -147,8 +151,22 @@ public void restartLevel()
     }
    
      
+    public void caughtPlayerOverlay(int pvID)
+    {
+        photonView.RPC("caughtPlayerO", RpcTarget.All,pvID);
+    }
 
-    
+    [PunRPC]
+    void caughtPlayerO(int pvID)
+    {
+        PhotonView playerPhotonView = PhotonView.Find(pvID);
+        if (playerPhotonView)
+        {
+            caughtOverlay.overlayOn(5f, playerPhotonView.Owner.NickName + " has been caught!");
+           
+        }
+       
+    }
 
 [PunRPC]
 void RequestRestart()
@@ -163,5 +181,32 @@ void RequestRestart()
         roomedCount++;
     }
 
+    public void ReturnToLobby()
+    {
+        // Close the room if you're the Master Client
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            PhotonNetwork.CurrentRoom.IsVisible = false;
+        }
 
+        
+        PhotonNetwork.LeaveRoom();
+    }
+    public override void OnLeftRoom()
+    {
+        
+        SceneManager.LoadScene("Lobby"); 
+    }
+
+    public void LeaveGameForAll()
+    {
+        photonView.RPC("LeaveRoomRPC", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void LeaveRoomRPC()
+    {
+        ReturnToLobby();
+    }
 }

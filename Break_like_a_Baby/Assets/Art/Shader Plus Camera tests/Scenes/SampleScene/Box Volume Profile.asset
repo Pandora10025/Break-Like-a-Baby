@@ -41,7 +41,7 @@ MonoBehaviour:
     m_Value: 10
   noiseResolution:
     m_OverrideState: 1
-    m_Value: 216
+    m_Value: 200
   outlineGlobalSizeMultiplier:
     m_OverrideState: 1
     m_Value: 2

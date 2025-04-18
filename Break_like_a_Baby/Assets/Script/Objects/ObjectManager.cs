@@ -12,6 +12,7 @@ using TMPro;
 public class ObjectManager : MonoBehaviourPun
 {
     //private vars
+    int pos_index;
     //place all BreakableObjects in the scene will be put in here through code
     [Tooltip("Add all breakable objects to here for them to work!")]
     [SerializeField] private List<GameObject> bObjects = new List<GameObject>();
@@ -27,6 +28,7 @@ public class ObjectManager : MonoBehaviourPun
     [UnityEngine.RangeAttribute(0, 1)]
     [SerializeField] private float breakablePercentage = 0.5f;
     [SerializeField] GameObject[] emptyImageSlots;
+    
     private void Awake()
     {
         instance = this;
@@ -48,10 +50,8 @@ public class ObjectManager : MonoBehaviourPun
             Debug.Log("Num of actual activeObjects: " + activeObjects.Count);
         }
 
-
-
-
-
+        pos_index = 0;
+       
         //numOfActiveObjects = numOfStartObjects;
         Debug.Log("NumOfStartObjects: " + numOfStartObjects);
         
@@ -71,6 +71,7 @@ public class ObjectManager : MonoBehaviourPun
             if (!g.Contains(bObjects[j]))
             {
                 g.Add(bObjects[j]);
+                
             }
             else
             {
@@ -122,7 +123,7 @@ public class ObjectManager : MonoBehaviourPun
             if (b)
             {
                 g.transform.GetChild(0).GetComponent<BreakableObject>().Active();
-                g.transform.GetChild(0).GetComponent<BoxRockerTest>().EnabledOutlines();
+                g.transform.GetChild(0).GetComponent<BoxRockerTest>().DisableOutlines();
             }
             else
             {
@@ -161,17 +162,17 @@ public class ObjectManager : MonoBehaviourPun
     /// </summary>
     private void UpdateString()
     {
-
-        String s = "";
-        s += "Objects remaining: " + numOfActiveObjects + "\n";
+        int i=0;
         foreach (GameObject g in activeObjects)
         {
-            s += g.name + "\n";
-
-            //g.transform.GetChild(0).GetComponent<BreakableObject>().breakImage;
+            emptyImageSlots[i].GetComponent<Image>().sprite= g.transform.GetChild(0).GetComponent<BreakableObject>().breakImage;
+            i++;
+        }
+        for(int j = i; j < emptyImageSlots.Length; j++)
+        {
+            emptyImageSlots[j].GetComponent<Image>().enabled=false;
         }
 
-        tmp.text = s;
     }
 
     /// <summary>
@@ -179,7 +180,9 @@ public class ObjectManager : MonoBehaviourPun
     /// </summary>
     public void ToggleText(bool b)
     {
-        tmp.enabled = b;
+        //tmp.enabled = b;
+        iconList.SetActive(b);
+
     }
 
     /// <summary>
