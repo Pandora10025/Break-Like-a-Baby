@@ -38,7 +38,6 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     //for sounds
     [Range(0, 4)]
     [Tooltip("glass, wood, metal, porcelain, soft")][SerializeField] private int matType;
-    
 
     //enum and state manager
     private enum objectState
@@ -54,6 +53,9 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     [SerializeField] float onShatterAlarmRadius = 88;
 
     private int myState = (int)objectState.inactive;
+
+    //used for audMan
+    public bool awake = false;
 
     private void Awake()
     {
@@ -82,15 +84,22 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         slider.minValue = 0;
         health = maxHealth;
         pv = GetComponent<PhotonView>();
-        Debug.Log((pv == null) + gameObject.transform.parent.name);
+        //Debug.Log((pv == null) + gameObject.transform.parent.name);
         meshRenderer = GetComponent<MeshRenderer>();
         //this.GetComponent<MeshRenderer>().material = inactiveMat;
         if (photonView.Owner == null)
         {
             photonView.TransferOwnership(PhotonNetwork.MasterClient);
         }
-
+        Debug.Log("My matType is: " + matType);
+        awake = true;
     }
+
+    public bool isAwake()
+    {
+        return awake;
+    }
+
     #region state changer
     public void Inactive()
     {

@@ -19,7 +19,7 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
     public int viewId;
     public int breakCount;
     
-    private void Start()
+    private void Awake()
     {
         rb = this.GetComponent<Rigidbody>();
         aud = this.GetComponent<AudioSource>();

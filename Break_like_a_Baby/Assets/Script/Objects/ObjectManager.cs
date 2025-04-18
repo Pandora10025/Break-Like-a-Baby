@@ -27,10 +27,9 @@ public class ObjectManager : MonoBehaviourPun
     [UnityEngine.RangeAttribute(0, 1)]
     [SerializeField] private float breakablePercentage = 0.5f;
     [SerializeField] GameObject[] emptyImageSlots;
-    private void Start()
+    private void Awake()
     {
         instance = this;
-
         if (!PhotonNetwork.IsMasterClient)
         {
             Debug.Log("break");
@@ -55,9 +54,16 @@ public class ObjectManager : MonoBehaviourPun
 
         //numOfActiveObjects = numOfStartObjects;
         Debug.Log("NumOfStartObjects: " + numOfStartObjects);
+        
     }
 
-
+/*    private void Update()
+    {
+        if (AreBObjsAwake())
+        {
+            AudioManager.instance.Populate();
+        }
+    }*/
 
     /// <summary>
     /// Method <c>Randomize</c> picks numOfStartObjects amount of 
@@ -144,7 +150,7 @@ public class ObjectManager : MonoBehaviourPun
     public void Break(GameObject child)
     {
         //sound stuff, fix param 1
-        AudioManager.instance.PlaySFX(child.transform.GetChild(0).name, child.transform.position);
+        AudioManager.instance.PlaySFX(child.transform.parent.name, child.transform.position);
 
         //break and remove from List
         child.GetComponent<BreakableObject>().Break();
@@ -190,7 +196,15 @@ public class ObjectManager : MonoBehaviourPun
     /// <returns>List of all bObjs</returns>
     public List<GameObject> getBObjs()
     {
-        return bObjects;
+        return activeObjects;
     }
 
+    public bool AreBObjsAwake()
+    {
+        foreach (GameObject g in activeObjects)
+        {
+            return g.transform.GetChild(0).GetComponent<BreakableObject>().isAwake();
+        }
+        return true;
+    }
 }

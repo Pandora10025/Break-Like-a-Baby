@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -27,6 +28,9 @@ public class AudioManager : MonoBehaviour
     public List<AudioClip> breakSfxs;
     //data structures for holding audio clips and assigning
     private static Dictionary<string, AudioClip> sfxDict = new Dictionary<string, AudioClip>();
+    public bool populated = false;
+    
+    //for my reference only
     private enum materialType
     {
         glass,
@@ -36,8 +40,7 @@ public class AudioManager : MonoBehaviour
         soft
     }
 
-
-    private void Awake()
+    private void Start()
     {
         if (instance == null)
         {
@@ -50,17 +53,22 @@ public class AudioManager : MonoBehaviour
 
         PlayAmbience();
         PlayMusic();
-
+        Populate();
+}
+    
+    private void Populate()
+    {
         List<GameObject> bObjects = ObjectManager.instance.getBObjs();
+
         //set key/value pair based off of material set on value set in scene
-        foreach(GameObject g in bObjects)
+        foreach (GameObject g in bObjects)
         {
-            sfxDict[g.name] = breakSfxs[g.GetComponent<BreakableObject>().getMatType()];
+            sfxDict[g.name] = breakSfxs[g.transform.GetChild(0).GetComponent<BreakableObject>().getMatType()];
+            Debug.Log("inside dict: " + g.name);
         }
-
+        Debug.Log("pop = true");
+        populated = true;
     }
-
-
 
 
     public void PlayMusic()
