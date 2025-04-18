@@ -298,7 +298,7 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}>
       propertyPath: nameTag
       value: 
       objectReference: {fileID: 4303716930247438860}
@@ -398,7 +398,6 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 7963881908580842595}
-  - {fileID: 0}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -497,7 +496,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
