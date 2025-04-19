@@ -5606,6 +5606,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: matType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: originalMesh
       value: 
       objectReference: {fileID: 0}
@@ -7008,6 +7012,10 @@ PrefabInstance:
     - target: {fileID: 302837905148455249, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: m_Name
       value: Ball
+      objectReference: {fileID: 0}
+    - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: matType
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: breakImage
@@ -14396,6 +14404,10 @@ PrefabInstance:
       value: Sofa
       objectReference: {fileID: 0}
     - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: matType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: breakImage
       value: 
       objectReference: {fileID: 21300000, guid: b1932016b8e01be4f945e6d44ea961d0, type: 3}
@@ -16238,6 +16250,10 @@ PrefabInstance:
     - target: {fileID: 302837905148455249, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: m_Name
       value: Tub
+      objectReference: {fileID: 0}
+    - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: matType
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: breakImage
@@ -18476,6 +18492,13 @@ MonoBehaviour:
   startGameSfx: {fileID: 0}
   hitSFX: {fileID: 0}
   caughtSFX: {fileID: 0}
+  breakSfxs:
+  - {fileID: 8300000, guid: 9df3f40602ed3034e9811407e869a7c9, type: 3}
+  - {fileID: 8300000, guid: 1453338336e77964880e3320be9d973a, type: 3}
+  - {fileID: 8300000, guid: e5b4b556c4a6c184688712a1652a351e, type: 3}
+  - {fileID: 8300000, guid: f91d986dfb362af498c60ecd2e21a9bb, type: 3}
+  - {fileID: 8300000, guid: 64ea9aea48b02af4d8a84796462b3cb4, type: 3}
+  populated: 0
 --- !u!65 &759184097
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21470,6 +21493,10 @@ PrefabInstance:
     - target: {fileID: 302837905148455249, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: m_Name
       value: Oven
+      objectReference: {fileID: 0}
+    - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: matType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: breakImage
@@ -34032,6 +34059,10 @@ PrefabInstance:
       value: Sink
       objectReference: {fileID: 0}
     - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: matType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: breakImage
       value: 
       objectReference: {fileID: 21300000, guid: 55ed7d5f644d00b47861c052cb1a7b63, type: 3}
@@ -37253,6 +37284,10 @@ PrefabInstance:
       value: Plant
       objectReference: {fileID: 0}
     - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: matType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: breakImage
       value: 
       objectReference: {fileID: 21300000, guid: e92f1210aba0d684abca739767b517d8, type: 3}
@@ -39680,6 +39715,10 @@ PrefabInstance:
       value: Chair
       objectReference: {fileID: 0}
     - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: matType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: breakImage
       value: 
       objectReference: {fileID: 21300000, guid: eeb16b6c590d0cd4f9a7bcb217658725, type: 3}
@@ -40605,6 +40644,10 @@ PrefabInstance:
     - target: {fileID: 302837905148455249, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: m_Name
       value: Fridge
+      objectReference: {fileID: 0}
+    - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: matType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: breakImage
@@ -41953,6 +41996,10 @@ PrefabInstance:
     - target: {fileID: 302837905148455249, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: m_Name
       value: TV
+      objectReference: {fileID: 0}
+    - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: matType
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: breakImage
@@ -44467,6 +44514,10 @@ PrefabInstance:
       value: DressingTable
       objectReference: {fileID: 0}
     - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: matType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: breakImage
       value: 
       objectReference: {fileID: 21300000, guid: dc2aa66fca9751c42a4787a28876acc0, type: 3}
@@ -45555,6 +45606,10 @@ PrefabInstance:
     - target: {fileID: 302837905148455249, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: m_Name
       value: Wardrobe
+      objectReference: {fileID: 0}
+    - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: matType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: breakImage
@@ -48208,6 +48263,10 @@ PrefabInstance:
     - target: {fileID: 302837905148455249, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: m_Name
       value: Toilet
+      objectReference: {fileID: 0}
+    - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
+      propertyPath: matType
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: breakImage
