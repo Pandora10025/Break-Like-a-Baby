@@ -9,7 +9,7 @@ public class AudioManager : MonoBehaviour
 
     [Header("Audio Sources")]
 
-    [SerializeField] private AudioSource music;
+    [SerializeField] private AudioSource[] musics;
     [SerializeField] private AudioSource ambience;
     [SerializeField] private AudioSource footsteps;
     [SerializeField] private AudioSource SFX;
@@ -31,6 +31,7 @@ public class AudioManager : MonoBehaviour
     public bool populated = false;
 
     //for my reference only
+    //sfx zone
     private enum materialType
     {
         glass,
@@ -38,6 +39,25 @@ public class AudioManager : MonoBehaviour
         metal,
         porcelain,
         soft
+    }
+
+    //bgm zone
+    private int _bgmState = (int) bgmState.intro;
+    public enum bgmState
+    {
+        intro,
+        mid,
+        end
+    }
+
+    /// <summary>
+    /// Method <c>switchState</c> changes local bgmState and music to inputted <paramref name="state"/>. <br/>
+    /// Call with AudioManager.instance.bgmState.x where x is intro, mid, or end.
+    /// </summary>
+    /// <param name="state"></param> use AudioManager.instance.bgmState.x; x = intro, mid, or end
+    public void switchState(bgmState state)
+    {
+        _bgmState = (int)state;
     }
 
     private void Start()
@@ -52,7 +72,7 @@ public class AudioManager : MonoBehaviour
         }
 
         PlayAmbience();
-        PlayMusic();
+        //PlayMusic();
         Populate();
     }
 
@@ -70,15 +90,17 @@ public class AudioManager : MonoBehaviour
         populated = true;
     }
 
+    //make a coroutine that does a transition every measure. i think separate instruments still.
 
-    public void PlayMusic()
+    
+    /*public void PlayMusic()
     {
         if (!music.isPlaying)
         {
             music.clip = backgroundMusic;
             music.Play();
         }
-    }
+    }*/
 
     public void PlayAmbience()
     {
@@ -121,9 +143,9 @@ public class AudioManager : MonoBehaviour
         AudioSource.PlayClipAtPoint(aud.clip, position);
     }
 
-    public void PauseMusic()
+    /*public void PauseMusic()
     {
         music.Stop();
-    }
+    }*/
 
 }
