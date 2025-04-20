@@ -24,7 +24,7 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
 
     public bool canBreak = true;
     
-    private void Awake()
+    private void Start()
     {
         rb = this.GetComponent<Rigidbody>();
         aud = this.GetComponent<AudioSource>();
@@ -38,8 +38,7 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
     {
         if (inRange && (Input.GetKeyDown(KeyCode.Space) || playerControl.isSpamTriggered()) && photonView.IsMine){
 
-            //audio here!
-            AudioManager.instance.PlaySFX(aud, transform.position);
+            aud.Play();
             breakable.GetComponent<BreakableObject>().TakeDamage(photonView.ViewID);
             
         }

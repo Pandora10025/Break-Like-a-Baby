@@ -25,13 +25,13 @@ public class ObjectManager : MonoBehaviourPun
     [SerializeField] private int numOfStartObjects;
     [SerializeField] private int numOfActiveObjects;
     [SerializeField] private TextMeshProUGUI tmp;
-    [UnityEngine.RangeAttribute(0, 1)]
-    [SerializeField] private float breakablePercentage = 0.5f;
+    [SerializeField] private float breakablePercentage=0.5f;
     [SerializeField] GameObject[] emptyImageSlots;
-    
-    private void Awake()
+    [SerializeField] GameObject iconList;
+    private void Start()
     {
         instance = this;
+
         if (!PhotonNetwork.IsMasterClient)
         {
             Debug.Log("break");
@@ -44,18 +44,21 @@ public class ObjectManager : MonoBehaviourPun
 
         if (PhotonNetwork.IsMasterClient)
         {
-
+          
             activeObjects = Randomize();
             SyncActiveObjects();
             Debug.Log("Num of actual activeObjects: " + activeObjects.Count);
         }
 
+
         pos_index = 0;
        
+
         //numOfActiveObjects = numOfStartObjects;
         Debug.Log("NumOfStartObjects: " + numOfStartObjects);
-        
     }
+
+   
 
     /// <summary>
     /// Method <c>Randomize</c> picks numOfStartObjects amount of 
@@ -77,28 +80,28 @@ public class ObjectManager : MonoBehaviourPun
             {
                 i--;
             }
-            //Debug.Log("aa");
+            Debug.Log("aa");
         }
         return g;
-
+        
     }
 
     private void SyncActiveObjects()
     {
-
+        
         int[] activeObjectIndexes = new int[activeObjects.Count];
         for (int i = 0; i < activeObjects.Count; i++)
         {
             activeObjectIndexes[i] = bObjects.IndexOf(activeObjects[i]);
         }
-
+     
         photonView.RPC("ReceiveActiveObjects", RpcTarget.AllBuffered, activeObjectIndexes);
     }
 
     [PunRPC]
     private void ReceiveActiveObjects(int[] activeObjectIndexes)
     {
-
+       
         Activate(bObjects, false);
         activeObjects.Clear();
         foreach (int index in activeObjectIndexes)
@@ -118,7 +121,7 @@ public class ObjectManager : MonoBehaviourPun
     /// </summary>
     private void Activate(List<GameObject> gObjects, Boolean b)
     {
-        foreach (GameObject g in gObjects)
+        foreach(GameObject g in gObjects)
         {
             if (b)
             {
@@ -136,21 +139,18 @@ public class ObjectManager : MonoBehaviourPun
 
 
     /// <summary>
-    /// Method <c>Break</c> informs the ObjectManager that this <paramref name="child"/> is broken
+    /// Method <c>Break</c> informs the ObjectManager that this <param>child</param> is broken
     /// and sets flags accordingly
     /// </summary>
 
     public void Break(GameObject child)
     {
-        //sound stuff, fix param 1
-        AudioManager.instance.PlaySFX(child.transform.parent.name, child.transform.position);
-
-        //break and remove from List
+        ///LUKAS PUT ANY SIGNALS IN THIS FUNCTION; ANY ORDER!
         child.GetComponent<BreakableObject>().Break();
         activeObjects.Remove(child.transform.parent.gameObject);
-        //Debug.Log("Broken Object: " + activeObjects.ToString());
+        Debug.Log("Broken Object: " + activeObjects.ToString());
         numOfActiveObjects--;
-        if (numOfActiveObjects <= 0)
+        if(numOfActiveObjects <= 0)
         {
             GameManager.instance.GameOver(true);
         }
@@ -162,6 +162,18 @@ public class ObjectManager : MonoBehaviourPun
     /// </summary>
     private void UpdateString()
     {
+
+        //String s = "";
+        //s += "Objects remaining: " + numOfActiveObjects + "\n";
+        //foreach(GameObject g in activeObjects)
+        //{
+        //s += g.name + "\n";
+
+        //g.transform.GetChild(0).GetComponent<BreakableObject>().breakImage;
+        //}
+
+        //tmp.text = s;
+      
         int i=0;
         foreach (GameObject g in activeObjects)
         {
@@ -185,21 +197,5 @@ public class ObjectManager : MonoBehaviourPun
 
     }
 
-    /// <summary>
-    /// Method <c>getBObjs</c> returns all bObjs
-    /// </summary>
-    /// <returns>List of all bObjs</returns>
-    public List<GameObject> getBObjs()
-    {
-        return activeObjects;
-    }
 
-    public bool AreBObjsAwake()
-    {
-        foreach (GameObject g in activeObjects)
-        {
-            return g.transform.GetChild(0).GetComponent<BreakableObject>().isAwake();
-        }
-        return true;
-    }
 }

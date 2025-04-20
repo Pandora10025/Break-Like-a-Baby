@@ -24,7 +24,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     [SerializeField]
     GameObject shatterable;
     List<Rigidbody> breakableRb = new List<Rigidbody>();
-    public float explosionForce = 10f;
+    public float explosionForce = 10f;  
     public float explosionRadius = 5f;
     public float upwardsModifier = 1f;
 
@@ -32,10 +32,6 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
     [SerializeField] GameObject shatteredMesh, originalMesh;
     [SerializeField] float shatterWeight = 10f;
-
-    //for sounds
-    [Range(0, 4)]
-    [Tooltip("glass, wood, metal, porcelain, soft")][SerializeField] private int matType;
 
     // variables for Break List UI
     public Sprite breakImage;
@@ -47,15 +43,13 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         broken
     }
 
+
     [SerializeField] bool debugShowRadii = false;
     [SerializeField] float onHitAlarmRadius = 8;
     //Thought I'd also add a super duper radius for when you break an object. It's obviously going to be a bit louder!
     [SerializeField] float onShatterAlarmRadius = 88;
 
     private int myState = (int)objectState.inactive;
-
-    //used for audMan
-    public bool awake = false;
 
     private void Awake()
     {
@@ -64,7 +58,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
             // Collect all Rigidbody components in the children of the public object
             breakableRb.AddRange(shatterable.GetComponentsInChildren<Rigidbody>());
         }
-
+      
 
         foreach (Rigidbody rb in breakableRb)
         {
@@ -72,8 +66,8 @@ public class BreakableObject : MonoBehaviourPunCallbacks
             rb.mass = shatterWeight;
         }
 
-        if (shatteredMesh != null)
-            shatteredMesh.SetActive(false);
+        if(shatteredMesh!=null)
+        shatteredMesh.SetActive(false);
     }
     void Start()
     {
@@ -84,22 +78,15 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         slider.minValue = 0;
         health = maxHealth;
         pv = GetComponent<PhotonView>();
-        //Debug.Log((pv == null) + gameObject.transform.parent.name);
+        Debug.Log((pv == null) + gameObject.transform.parent.name);
         meshRenderer = GetComponent<MeshRenderer>();
         //this.GetComponent<MeshRenderer>().material = inactiveMat;
         if (photonView.Owner == null)
         {
             photonView.TransferOwnership(PhotonNetwork.MasterClient);
         }
-        Debug.Log("My matType is: " + matType);
-        awake = true;
-    }
 
-    public bool isAwake()
-    {
-        return awake;
     }
-
     #region state changer
     public void Inactive()
     {
@@ -144,7 +131,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     public void TakeDamage(int pvId)
     {
         Debug.Log("taking damage!");
-
+        
 
         photonView.RPC("DamageObject", RpcTarget.AllBuffered, pvId);
     }
@@ -155,7 +142,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         Debug.Log("among us");
         if (myState == (int)objectState.active)
         {
-
+               
             if (photonView == null)
             {
                 Debug.LogWarning("photonView is null in DamageObject");
@@ -174,7 +161,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
                 //THIS IS LUKAS!!! Here, I'm making it so that the babysitter is alarmed.
                 alarmBabysitter(onHitAlarmRadius);
-
+                
                 Vector3 playerPos = playerT.position;
                 Vector3 playerRight = playerT.right;
 
@@ -203,8 +190,8 @@ public class BreakableObject : MonoBehaviourPunCallbacks
                     ObjectManager.instance.Break(this.gameObject);
                 }
                 Explode();
-
-
+               
+                
                 foreach (GameObject player in playersInRange)
                 {
                     player.GetComponent<PlayerBreak>().breakableInRange(false, gameObject);
@@ -217,9 +204,9 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
     void Explode()
     {
+       
 
-
-        if (originalMesh != null && shatteredMesh != null)
+        if(originalMesh!=null && shatteredMesh != null)
         {
             originalMesh.SetActive(false);
             shatteredMesh.SetActive(true);
@@ -227,7 +214,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
         foreach (Rigidbody rb in breakableRb)
         {
-
+          
 
             if (rb != null)
             {
@@ -285,12 +272,12 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
     void disableColOnFragments()
     {
-        foreach (Rigidbody rb in breakableRb)
+        foreach( Rigidbody rb in breakableRb)
         {
             Collider col = rb.gameObject.GetComponent<Collider>();
-            if (col != null)
+            if (col!=null)
             {
-
+               
             }
             rb.mass = 1f;
         }
@@ -298,7 +285,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
     void alarmBabysitter(float radius) {
 
-        if (Vector3.Distance(GameManager.instance.babySitter.transform.position, transform.position) < radius)
+        if ( Vector3.Distance( GameManager.instance.babySitter.transform.position, transform.position) < radius   )
         {
             GameManager.instance.babySitter.GetComponent<BabySitterAI>().PathfindToPos(transform.position);
 
@@ -328,15 +315,9 @@ public class BreakableObject : MonoBehaviourPunCallbacks
             }
         }
 
-
+        
 
 
     }
-
-    public int getMatType()
-    {
-        return matType;
-    }
-
 
 }
