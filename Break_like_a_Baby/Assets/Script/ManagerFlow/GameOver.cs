@@ -19,8 +19,12 @@ public class GameOver : MonoBehaviourPunCallbacks
             setButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = waitingForMaster;
 
         }
-        wonOverlay.SetActive(false);
-        lossOverlay.SetActive(false);
+        if (wonOverlay!=null)
+        {
+            wonOverlay.SetActive(false);
+            lossOverlay.SetActive(false);
+        }
+        
 
         gameObject.SetActive(false);
 

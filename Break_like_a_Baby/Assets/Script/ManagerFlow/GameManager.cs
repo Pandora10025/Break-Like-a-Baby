@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     [SerializeField] CaughtPlayerOverlay caughtOverlay;
 
-    
+    [SerializeField] GameObject gOverlay;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
@@ -79,7 +79,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         if(!gameOver)
         photonView.RPC("GameOverRPC", RpcTarget.AllBuffered, won);
     }
+    public void toggleGOverlay(bool t)
+    {
 
+
+        gOverlay.SetActive(t);
+        
+    }
     [PunRPC]
     void GameOverRPC(bool won)
     {

@@ -24,6 +24,8 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
 
     public bool canBreak = true;
 
+    bool toggledOnScreen = false;
+
     private void Start()
     {
         rb = this.GetComponent<Rigidbody>();
@@ -43,7 +45,19 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
             breakable.GetComponent<BreakableObject>().TakeDamage(photonView.ViewID);
 
         }
-
+        if (Input.GetKeyDown(KeyCode.Escape) && photonView.IsMine)
+        {
+            if (toggledOnScreen)
+            {
+                GameManager.instance.toggleGOverlay(false);
+                toggledOnScreen = false;
+            }
+            else
+            {
+                GameManager.instance.toggleGOverlay(true);
+                toggledOnScreen = true; 
+            }
+        }
         //check to show the tablist
         if (photonView.IsMine)
         {
