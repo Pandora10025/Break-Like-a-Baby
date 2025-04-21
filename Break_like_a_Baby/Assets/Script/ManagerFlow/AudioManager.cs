@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UIElements;
 
 public class AudioManager : MonoBehaviour
@@ -13,6 +14,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource ambience;
     [SerializeField] private AudioSource footsteps;
     [SerializeField] private AudioSource SFX;
+    [SerializeField] private AudioMixer mixer;
 
     [Space]
 

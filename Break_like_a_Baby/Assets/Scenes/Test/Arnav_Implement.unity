@@ -710,7 +710,7 @@ GameObject:
   - component: {fileID: 73820960}
   - component: {fileID: 73820961}
   m_Layer: 0
-  m_Name: musicMid
+  m_Name: middle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18619,6 +18619,7 @@ MonoBehaviour:
   ambience: {fileID: 699728463}
   footsteps: {fileID: 1597029603}
   SFX: {fileID: 1429954922}
+  mixer: {fileID: 0}
   backgroundMusic: {fileID: 0}
   gameOverMusic: {fileID: 0}
   ambienceSFX: {fileID: 0}
@@ -45120,7 +45121,7 @@ GameObject:
   - component: {fileID: 1999436938}
   - component: {fileID: 1999436939}
   m_Layer: 0
-  m_Name: musicIntro
+  m_Name: melody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45151,8 +45152,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: cf2f569c6f0c63f46aac860213d34ce4, type: 3}
-  m_Resource: {fileID: 8300000, guid: cf2f569c6f0c63f46aac860213d34ce4, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 7bf141257e8ca7944923e42b61e81388, type: 3}
+  m_Resource: {fileID: 8300000, guid: 7bf141257e8ca7944923e42b61e81388, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.1
   m_Pitch: 1
@@ -49109,7 +49110,7 @@ GameObject:
   - component: {fileID: 2145340383}
   - component: {fileID: 2145340384}
   m_Layer: 0
-  m_Name: musicEnd
+  m_Name: drums
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
