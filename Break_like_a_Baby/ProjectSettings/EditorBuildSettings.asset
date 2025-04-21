@@ -6,15 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Scenes/Test/CutScene.unity
+    guid: b4b837db883adc54cb261d22caf9f9a8
+  - enabled: 1
     path: Assets/Scenes/Networking/Loading.unity
     guid: 9705d6b7bb0ec401898b08ea59504d80
   - enabled: 1
     path: Assets/Scenes/Networking/Lobby.unity
     guid: 955ada8a358fc4404808df107be648e2
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Test/NewEnvironment.unity
     guid: bf6d5ce48749700429041d6fefbe865e
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Test/Arnav_Implement.unity
     guid: 1d1f61f8ddf6946558c30a478ecfafbc
   - enabled: 1
@@ -23,9 +26,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameLevels/GameLost.unity
     guid: 1bdef3e4db20c41f9aebf883d33d46c1
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Test/Lobby 1.unity
     guid: 7b10cc502a0ba4f5e85d9f437a9d000f
+  - enabled: 1
+    path: Assets/Scenes/Scenes/Test/Lobby 1.unity
+    guid: e0e85a7ae0d04cd4991c1ef82b055ce0
+  - enabled: 1
+    path: Assets/Scenes/Scenes/Test/Arnav_Implement.unity
+    guid: b03f0db0f22dcc44da198ec6eff589a0
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

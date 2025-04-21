@@ -54,7 +54,7 @@ MonoBehaviour:
   moveSpeed: 3
   sprintSpeed: 6
   rotationSpeed: 10
-  acceleration: 3
+  acceleration: 5
   deceleration: 5
   previousAngle: 0
   currentAngle: 0
