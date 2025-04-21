@@ -14,6 +14,8 @@ public class TutorialScreen : MonoBehaviour
     private int currentSlideIndex = 0;
     private float timer;
 
+    [SerializeField] RectTransform[] buttons;
+    [SerializeField] RectTransform highlight;
     private void Start()
     {
         ShowSlide(currentSlideIndex);
@@ -57,7 +59,16 @@ public class TutorialScreen : MonoBehaviour
     {
         for (int i = 0; i < slides.Count; i++)
         {
-            slides[i].SetActive(i == index);
+           if(i == index)
+            {
+                slides[i].SetActive(true);
+                highlight.position = buttons[i].position;
+            }
+            else
+            {
+                slides[i].SetActive(false);
+            }
+           
         }
     }
 

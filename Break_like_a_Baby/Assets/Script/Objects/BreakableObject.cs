@@ -11,7 +11,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 {
     [SerializeField] public UnityEngine.UI.Slider slider;
     [SerializeField] public Canvas canvas;
-    [SerializeField] private float maxHealth = 10f;
+    [SerializeField] private float maxHealth = 20f;
     [SerializeField] public Material activeMat, inactiveMat, boykissedMaterialSponsoredByJayVik;
     private float health;
     private Transform startPos;
@@ -56,6 +56,8 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
     //used for audMan
     public bool awake = false;
+
+    string breakableLayer = "Shatters";
 
     private void Awake()
     {
@@ -231,6 +233,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
             if (rb != null)
             {
+                rb.gameObject.layer = LayerMask.NameToLayer(breakableLayer);
                 rb.isKinematic = false;
                 rb.AddExplosionForce(explosionForce, explosionPosition.position, explosionRadius, upwardsModifier, ForceMode.Impulse);
             }
@@ -286,7 +289,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
             {
 
             }
-            rb.mass = 1f;
+            rb.mass = 0.5f;
         }
     }
 
