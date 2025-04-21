@@ -29,6 +29,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Test/Lobby 1.unity
     guid: 7b10cc502a0ba4f5e85d9f437a9d000f
+  - enabled: 1
+    path: Assets/Scenes/Scenes/Test/Lobby 1.unity
+    guid: e0e85a7ae0d04cd4991c1ef82b055ce0
+  - enabled: 1
+    path: Assets/Scenes/Scenes/Test/Arnav_Implement.unity
+    guid: b03f0db0f22dcc44da198ec6eff589a0
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
