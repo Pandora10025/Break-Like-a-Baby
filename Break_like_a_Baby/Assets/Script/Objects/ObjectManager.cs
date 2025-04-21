@@ -30,6 +30,8 @@ public class ObjectManager : MonoBehaviourPun
     [SerializeField] private float breakablePercentage = 0.5f;
     [SerializeField] GameObject[] emptyImageSlots;
     [SerializeField] GameObject iconList;
+    [SerializeField] GameObject line;
+    private List<GameObject> startingObjects = new List<GameObject>();
     private void Awake()
     {
         instance = this;
@@ -112,6 +114,7 @@ public class ObjectManager : MonoBehaviourPun
         }
 
         Activate(activeObjects, true);
+        startingObjects = new List<GameObject>(activeObjects);
         UpdateString();
     }
 
@@ -164,17 +167,56 @@ public class ObjectManager : MonoBehaviourPun
     /// </summary>
     private void UpdateString()
     {
+        foreach (GameObject slot in emptyImageSlots)
+        {
+            foreach (Transform child in slot.transform)
+            {
+                Destroy(child.gameObject);
+            }
+        }
 
-        int i = 0;
-        foreach (GameObject g in activeObjects)
+        Debug.Log(startingObjects.Count);
+        
+        for (int i = 0; i < startingObjects.Count; i++)
         {
-            emptyImageSlots[i].GetComponent<Image>().sprite = g.transform.GetChild(0).GetComponent<BreakableObject>().breakImage;
-            i++;
+            GameObject slot = emptyImageSlots[i];
+            GameObject obj = startingObjects[i];
+
+            slot.SetActive(true);
+
+            if (i == 2)
+            {
+                Debug.Log(startingObjects[i].transform.parent.name);
+            }
+            Image img = slot.GetComponent<Image>();
+            img.sprite = obj.transform.GetChild(0).GetComponent<BreakableObject>().breakImage;
+
+            
+            if (!activeObjects.Contains(obj))
+            {
+                InstantiateCrossOnSlot(slot);
+            }
         }
-        for (int j = i; j < emptyImageSlots.Length; j++)
+
+        
+        for (int j = startingObjects.Count; j < emptyImageSlots.Length; j++)
         {
-            emptyImageSlots[j].GetComponent<Image>().enabled = false;
+            emptyImageSlots[j].SetActive(false);
         }
+    }
+    private void InstantiateCrossOnSlot(GameObject slot)
+    {
+        GameObject cross = Instantiate(line, slot.transform); 
+        RectTransform crossRect = cross.GetComponent<RectTransform>();
+
+       
+        crossRect.anchorMin = Vector2.zero;
+        crossRect.anchorMax = Vector2.one;
+        crossRect.offsetMin = Vector2.zero;
+        crossRect.offsetMax = Vector2.zero;
+        crossRect.localScale = Vector3.one;
+
+        cross.transform.SetAsLastSibling();
     }
 
     /// <summary>

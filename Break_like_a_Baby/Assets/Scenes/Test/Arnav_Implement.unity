@@ -21636,7 +21636,7 @@ PrefabInstance:
     - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: breakImage
       value: 
-      objectReference: {fileID: 21300000, guid: 4ac65374891deda4396ccaff7249780c, type: 3}
+      objectReference: {fileID: 21300000, guid: ffbdfed81f136814ebc8f0eb2d37ab01, type: 3}
     - target: {fileID: 1219368637440931146, guid: d44b21918457fdd4c9369241000e1048, type: 3}
       propertyPath: shatterable
       value: 
@@ -47697,6 +47697,10 @@ PrefabInstance:
       propertyPath: tmp
       value: 
       objectReference: {fileID: 1480050531}
+    - target: {fileID: 573844923914009964, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
+      propertyPath: line
+      value: 
+      objectReference: {fileID: 4608939110022673386, guid: 39a3ea0cfcd4342f9a4b616f714b4135, type: 3}
     - target: {fileID: 573844923914009964, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: iconList
       value: 
