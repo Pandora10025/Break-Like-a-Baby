@@ -105,7 +105,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             stats = stats + playerPhotonView.Owner.NickName+ " Broke " + allPbreaks[i].breakCount +" items: " + allPbreaks[i].brokenList.Substring(0, allPbreaks[i].brokenList.Length-2) + ". Got Caught "+ allPbreaks[i].GetComponent<PlayerCatching>().catchCount + " times, and broke the crib " + allPbreaks[i].cribCount +" times."+"\n\n";
         }
 
-        stats = "Stats: \n With" + timerUItext + " remaining: \n" + stats + " \n The Total Score is:" + score;
+        stats = "With" + timerUItext + " remaining: \n" + stats;
+        totalS.text = "Score:\t" + score;
         gameOverScreen.GetComponent<GameOver>().setScore(stats);
         //gameOverScreen.GetComponent<GameOver>().GameSet(won);
         if (won)
