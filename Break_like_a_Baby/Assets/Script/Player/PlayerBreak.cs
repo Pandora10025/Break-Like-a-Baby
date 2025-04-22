@@ -23,8 +23,10 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
     public int breakCount;
 
     public bool canBreak = true;
+    public int cribCount;
 
     bool toggledOnScreen = false;
+    
 
     private void Start()
     {
@@ -112,6 +114,7 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
     public void AddToList(string objectName)
     {
         brokenList = objectName + ", " + brokenList;
+        Debug.Log(brokenList);
         breakCount++;
     }
 

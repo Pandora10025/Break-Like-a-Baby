@@ -19,6 +19,8 @@ public class PlayerCatching : MonoBehaviourPun
     SpriteRenderer mySpr;
 
     public bool grabbable=true;
+
+    public int catchCount;
    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -68,6 +70,7 @@ public class PlayerCatching : MonoBehaviourPun
                 //mySpr.sortingOrder = pushedSpriteOrder;
                 mySpr.enabled = false;
                 GameManager.instance.caughtPlayerOverlay(photonView.ViewID);
+                catchCount++;
                 break;
             case playerCatchState.roomed:
                 GetComponent<PlayerBreak>().canBreak = false;

@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     [SerializeField] GameObject gOverlay;
 
+    [SerializeField] TextMeshProUGUI totalS;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
@@ -94,15 +95,17 @@ public class GameManager : MonoBehaviourPunCallbacks
         PlayerBreak[] allPbreaks = Object.FindObjectsOfType<PlayerBreak>();
         string stats = "";
 
+        int score = 0;
         for (int i = 0; i < allPbreaks.Length; i++)
         {
 
             PhotonView playerPhotonView = PhotonView.Find(allPbreaks[i].viewId);
 
-
-            stats= stats + playerPhotonView.Owner.NickName+ " Broke " + allPbreaks[i].breakCount +" items: " + allPbreaks[i].brokenList +"\n";
+            score = score + allPbreaks[i].breakCount-allPbreaks[i].GetComponent<PlayerCatching>().catchCount+ allPbreaks[i].cribCount + (int)(totalTime/20);
+            stats = stats + playerPhotonView.Owner.NickName+ " Broke " + allPbreaks[i].breakCount +" items: " + allPbreaks[i].brokenList.Substring(0, allPbreaks[i].brokenList.Length-2) + ". Got Caught "+ allPbreaks[i].GetComponent<PlayerCatching>().catchCount + " times, and broke the crib " + allPbreaks[i].cribCount +" times."+"\n\n";
         }
 
+        stats = "Stats: \n With" + timerUItext + " remaining: \n" + stats + " \n The Total Score is:" + score;
         gameOverScreen.GetComponent<GameOver>().setScore(stats);
         //gameOverScreen.GetComponent<GameOver>().GameSet(won);
         if (won)
