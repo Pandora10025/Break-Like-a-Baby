@@ -41,6 +41,10 @@ public class ObjectManager : MonoBehaviourPun
         }
         Debug.Log("break Start");
 
+        //stop prev music
+        CarrySoundOver.instance.stopMusic();
+
+
 
         numOfStartObjects = (int)MathF.Ceiling(breakablePercentage * bObjects.Count);
         numOfActiveObjects = numOfStartObjects;
