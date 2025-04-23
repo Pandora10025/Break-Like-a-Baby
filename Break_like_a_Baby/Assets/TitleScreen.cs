@@ -10,6 +10,7 @@ public class TitleScreen : MonoBehaviour
     {
         screenText.SetActive(false);
         rb.isKinematic = true;
+        buttonB.GetComponent<Rigidbody>().isKinematic = true;
         buttonB.SetActive(false);
     }
 
@@ -23,7 +24,8 @@ public class TitleScreen : MonoBehaviour
     {
         
         buttonB.SetActive(true);
-        Invoke("show", 0.25f);
+        buttonB.GetComponent<Rigidbody>().isKinematic = false;
+        Invoke("show", 0.5f);
         button.SetActive(false);
 
     }

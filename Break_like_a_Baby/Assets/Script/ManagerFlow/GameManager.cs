@@ -102,10 +102,10 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonView playerPhotonView = PhotonView.Find(allPbreaks[i].viewId);
 
             score = score + allPbreaks[i].breakCount-allPbreaks[i].GetComponent<PlayerCatching>().catchCount+ allPbreaks[i].cribCount + (int)(totalTime/20);
-            stats = stats + playerPhotonView.Owner.NickName+ " Broke " + allPbreaks[i].breakCount +" items: " + allPbreaks[i].brokenList.Substring(0, allPbreaks[i].brokenList.Length-2) + ". Got Caught "+ allPbreaks[i].GetComponent<PlayerCatching>().catchCount + " times, and broke the crib " + allPbreaks[i].cribCount +" times."+"\n\n";
+            stats = stats + playerPhotonView.Owner.NickName+ " Broke " + allPbreaks[i].breakCount +" items: " + allPbreaks[i].brokenList.Substring(0, Mathf.Max(allPbreaks[i].brokenList.Length-2,0)) + ". Got Caught "+ allPbreaks[i].GetComponent<PlayerCatching>().catchCount + " times, and broke the crib " + allPbreaks[i].cribCount +" times."+"\n\n";
         }
 
-        stats = "With" + timerUItext + " remaining: \n" + stats;
+        stats = "With " + timerUItext + " remaining: \n" + stats;
         totalS.text = "Score:\t" + score;
         gameOverScreen.GetComponent<GameOver>().setScore(stats);
         //gameOverScreen.GetComponent<GameOver>().GameSet(won);
