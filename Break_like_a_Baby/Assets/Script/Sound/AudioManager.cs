@@ -26,11 +26,17 @@ public class AudioManager : MonoBehaviour
     public AudioClip startGameSfx;
     public AudioClip hitSFX;
     public AudioClip caughtSFX;
+    public AudioClip seenSFX;
 
     public List<AudioClip> breakSfxs;
     //data structures for holding audio clips and assigning
     private static Dictionary<string, AudioClip> sfxDict = new Dictionary<string, AudioClip>();
     public bool populated = false;
+
+    [Header("Babysitter")]
+    [SerializeField] private GameObject babysitter;
+    private int stateLastFrame = 0;
+    private int stateThisFrame = 0;
 
     //for my reference only
     //sfx zone
@@ -43,6 +49,41 @@ public class AudioManager : MonoBehaviour
         soft
     }
 
+    private void Start()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        PlayAmbience();
+        //PlayMusic();
+        stateLastFrame = (int) babysitter.GetComponent<BabySitterAI>().currentState;
+
+    }
+
+    private void Update()
+    {
+        stateThisFrame = (int)babysitter.GetComponent<BabySitterAI>().currentState;
+
+        //if the babysitter's state is different from last frame then...
+        if (stateThisFrame != stateLastFrame)
+        {
+            if (stateThisFrame == (int)BabySitterAI.BabysitterAIState.CHASE)
+            {//enums are default static
+                AudioSource.PlayClipAtPoint(seenSFX, (Vector3)babysitter.transform.position);
+                Debug.Log("BAM!");
+            }
+        }
+
+
+        stateLastFrame = (int)babysitter.GetComponent<BabySitterAI>().currentState;
+    }
+   
     //bgm zone
     private int _bgmState = (int) bgmState.intro;
     public enum bgmState
@@ -62,22 +103,11 @@ public class AudioManager : MonoBehaviour
         _bgmState = (int)state;
     }
 
-    private void Start()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
 
-        PlayAmbience();
-        //PlayMusic();
-        Populate();
-    }
-
+    /// <summary>
+    /// Method <c>Populate</c> adds all active objects to the list of sounds available,
+    /// and sets the type of sounds accordingly.
+    /// </summary>
     public void Populate()
     {
         List<GameObject> bObjects = ObjectManager.instance.getBObjs();
@@ -112,15 +142,6 @@ public class AudioManager : MonoBehaviour
             ambience.Play();
 
         }
-    }
-
-    /// <summary>
-    /// Method <c>PlaySFX</c> deprecated. Do not call.
-    /// </summary>
-    /// <param name="clip"></param> audio clip to be played
-    public void PlaySFX(AudioClip clip)
-    {
-        SFX.PlayOneShot(clip);
     }
 
     /// <summary>
