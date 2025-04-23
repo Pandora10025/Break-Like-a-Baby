@@ -27,7 +27,7 @@ public class OutlineRenderFeature : ScriptableRendererFeature
 
         if ( renderingData.cameraData.cameraType == CameraType.Game)
         {
-            outlineRenderPass.ConfigureInput(ScriptableRenderPassInput.Normal);
+            outlineRenderPass.ConfigureInput(ScriptableRenderPassInput.Normal | ScriptableRenderPassInput.Motion);
 
            
             renderer.EnqueuePass(outlineRenderPass);

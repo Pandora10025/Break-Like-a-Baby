@@ -4,17 +4,27 @@ using UnityEngine;
 public class CarrySoundOver : MonoBehaviour
 {
     public static CarrySoundOver instance;
+    private AudioSource aud;
     private void Awake()
     {
         instance = this;
+        aud = GetComponent<AudioSource>();
         DontDestroyOnLoad(this);
     }
 
-    public void stopMusic()
+    public void PlayMusic()
     {
-        Destroy(this);
+        if (aud.isPlaying) return;
+        aud.Play();
     }
 
-    
+    public void StopMusic() 
+    {
+        aud.Stop();
+    }
+
+
+
+
 
 }

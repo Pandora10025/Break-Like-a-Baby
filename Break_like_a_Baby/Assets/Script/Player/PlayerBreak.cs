@@ -26,7 +26,7 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
     public int cribCount;
 
     bool toggledOnScreen = false;
-    
+
 
     private void Start()
     {
@@ -57,7 +57,7 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
             else
             {
                 GameManager.instance.toggleGOverlay(true);
-                toggledOnScreen = true; 
+                toggledOnScreen = true;
             }
         }
         //check to show the tablist

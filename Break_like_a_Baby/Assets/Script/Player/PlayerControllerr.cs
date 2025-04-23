@@ -382,6 +382,6 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public bool isTaskTriggered()
     {
-        return tasksInput.IsPressed();
+        return tasksInput.triggered;
     }
 }

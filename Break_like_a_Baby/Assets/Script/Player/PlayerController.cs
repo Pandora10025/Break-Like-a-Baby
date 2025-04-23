@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviourPun
             }
         }
         // Get Input
-     
+
     }
 
     void FixedUpdate()
