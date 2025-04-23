@@ -12,7 +12,8 @@ using TMPro;
 public class ObjectManager : MonoBehaviourPun
 {
     //private vars
-    int pos_index;
+    private int pos_index;
+
     //place all BreakableObjects in the scene will be put in here through code
     [Tooltip("Add all breakable objects to here for them to work!")]
     [SerializeField] private List<GameObject> bObjects = new List<GameObject>();
@@ -25,14 +26,16 @@ public class ObjectManager : MonoBehaviourPun
     [SerializeField] private int numOfStartObjects;
     [SerializeField] private int numOfActiveObjects;
     [SerializeField] private TextMeshProUGUI tmp;
-    [SerializeField] private float breakablePercentage=0.5f;
+    [UnityEngine.RangeAttribute(0, 1)]
+    [SerializeField] private float breakablePercentage = 0.5f;
     [SerializeField] GameObject[] emptyImageSlots;
     [SerializeField] GameObject iconList;
-    private void Start()
+    [SerializeField] GameObject line;
+    private List<GameObject> startingObjects = new List<GameObject>();
+    private void Awake()
     {
         CarrySoundOver.instance.StopMusic();
         instance = this;
-
         if (!PhotonNetwork.IsMasterClient)
         {
             Debug.Log("break");
@@ -41,12 +44,14 @@ public class ObjectManager : MonoBehaviourPun
 
         //stop prev music
 
+
+
         numOfStartObjects = (int)MathF.Ceiling(breakablePercentage * bObjects.Count);
         numOfActiveObjects = numOfStartObjects;
 
         if (PhotonNetwork.IsMasterClient)
         {
-          
+
             activeObjects = Randomize();
             SyncActiveObjects();
             Debug.Log("Num of actual activeObjects: " + activeObjects.Count);
@@ -54,13 +59,12 @@ public class ObjectManager : MonoBehaviourPun
 
 
         pos_index = 0;
-       
+
 
         //numOfActiveObjects = numOfStartObjects;
         Debug.Log("NumOfStartObjects: " + numOfStartObjects);
-    }
 
-   
+    }
 
     /// <summary>
     /// Method <c>Randomize</c> picks numOfStartObjects amount of 
@@ -76,34 +80,33 @@ public class ObjectManager : MonoBehaviourPun
             if (!g.Contains(bObjects[j]))
             {
                 g.Add(bObjects[j]);
-                
             }
             else
             {
                 i--;
             }
-            Debug.Log("aa");
+            //Debug.Log("aa");
         }
         return g;
-        
+
     }
 
     private void SyncActiveObjects()
     {
-        
+
         int[] activeObjectIndexes = new int[activeObjects.Count];
         for (int i = 0; i < activeObjects.Count; i++)
         {
             activeObjectIndexes[i] = bObjects.IndexOf(activeObjects[i]);
         }
-     
+
         photonView.RPC("ReceiveActiveObjects", RpcTarget.AllBuffered, activeObjectIndexes);
     }
 
     [PunRPC]
     private void ReceiveActiveObjects(int[] activeObjectIndexes)
     {
-       
+
         Activate(bObjects, false);
         activeObjects.Clear();
         foreach (int index in activeObjectIndexes)
@@ -115,6 +118,7 @@ public class ObjectManager : MonoBehaviourPun
         }
 
         Activate(activeObjects, true);
+        startingObjects = new List<GameObject>(activeObjects);
         UpdateString();
         AudioManager.instance.Populate();
     }
@@ -124,14 +128,14 @@ public class ObjectManager : MonoBehaviourPun
     /// </summary>
     private void Activate(List<GameObject> gObjects, Boolean b)
     {
-        foreach(GameObject g in gObjects)
+        foreach (GameObject g in gObjects)
         {
             if (b)
             {
                 g.transform.GetChild(0).GetComponent<BreakableObject>().Active();
                 g.transform.GetChild(0).GetComponent<BoxRockerTest>().DisableOutlines();
             }
-            else
+            else//TODO: why are these more-or-less the same?
             {
 
                 g.transform.GetChild(0).GetComponent<BreakableObject>().Inactive();
@@ -142,18 +146,21 @@ public class ObjectManager : MonoBehaviourPun
 
 
     /// <summary>
-    /// Method <c>Break</c> informs the ObjectManager that this <param>child</param> is broken
+    /// Method <c>Break</c> informs the ObjectManager that this <paramref name="child"/> is broken
     /// and sets flags accordingly
     /// </summary>
 
     public void Break(GameObject child)
     {
-        ///LUKAS PUT ANY SIGNALS IN THIS FUNCTION; ANY ORDER!
+        //sound stuff, fix param 1
+        AudioManager.instance.PlaySFX(child.transform.parent.name, child.transform.position);
+
+        //break and remove from List
         child.GetComponent<BreakableObject>().Break();
         activeObjects.Remove(child.transform.parent.gameObject);
-        Debug.Log("Broken Object: " + activeObjects.ToString());
+        //Debug.Log("Broken Object: " + activeObjects.ToString());
         numOfActiveObjects--;
-        if(numOfActiveObjects <= 0)
+        if (numOfActiveObjects <= 0)
         {
             GameManager.instance.GameOver(true);
         }
@@ -165,29 +172,56 @@ public class ObjectManager : MonoBehaviourPun
     /// </summary>
     private void UpdateString()
     {
-
-        //String s = "";
-        //s += "Objects remaining: " + numOfActiveObjects + "\n";
-        //foreach(GameObject g in activeObjects)
-        //{
-        //s += g.name + "\n";
-
-        //g.transform.GetChild(0).GetComponent<BreakableObject>().breakImage;
-        //}
-
-        //tmp.text = s;
-      
-        int i=0;
-        foreach (GameObject g in activeObjects)
+        foreach (GameObject slot in emptyImageSlots)
         {
-            emptyImageSlots[i].GetComponent<Image>().sprite= g.transform.GetChild(0).GetComponent<BreakableObject>().breakImage;
-            i++;
-        }
-        for(int j = i; j < emptyImageSlots.Length; j++)
-        {
-            emptyImageSlots[j].GetComponent<Image>().enabled=false;
+            foreach (Transform child in slot.transform)
+            {
+                Destroy(child.gameObject);
+            }
         }
 
+        Debug.Log(startingObjects.Count);
+
+        for (int i = 0; i < startingObjects.Count; i++)
+        {
+            GameObject slot = emptyImageSlots[i];
+            GameObject obj = startingObjects[i];
+
+            slot.SetActive(true);
+
+            if (i == 2)
+            {
+                Debug.Log(startingObjects[i].transform.parent.name);
+            }
+            Image img = slot.GetComponent<Image>();
+            img.sprite = obj.transform.GetChild(0).GetComponent<BreakableObject>().breakImage;
+
+
+            if (!activeObjects.Contains(obj))
+            {
+                InstantiateCrossOnSlot(slot);
+            }
+        }
+
+
+        for (int j = startingObjects.Count; j < emptyImageSlots.Length; j++)
+        {
+            emptyImageSlots[j].SetActive(false);
+        }
+    }
+    private void InstantiateCrossOnSlot(GameObject slot)
+    {
+        GameObject cross = Instantiate(line, slot.transform);
+        RectTransform crossRect = cross.GetComponent<RectTransform>();
+
+
+        crossRect.anchorMin = Vector2.zero;
+        crossRect.anchorMax = Vector2.one;
+        crossRect.offsetMin = Vector2.zero;
+        crossRect.offsetMax = Vector2.zero;
+        crossRect.localScale = Vector3.one;
+
+        cross.transform.SetAsLastSibling();
     }
 
     /// <summary>
@@ -195,10 +229,24 @@ public class ObjectManager : MonoBehaviourPun
     /// </summary>
     public void ToggleText(bool b)
     {
-        //tmp.enabled = b;
         iconList.SetActive(b);
-
     }
 
+    /// <summary>
+    /// Method <c>getBObjs</c> returns all bObjs
+    /// </summary>
+    /// <returns>List of all bObjs</returns>
+    public List<GameObject> getBObjs()
+    {
+        return activeObjects;
+    }
 
+    public bool AreBObjsAwake()
+    {
+        foreach (GameObject g in activeObjects)
+        {
+            return g.transform.GetChild(0).GetComponent<BreakableObject>().isAwake();
+        }
+        return true;
+    }
 }
