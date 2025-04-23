@@ -49,7 +49,7 @@ public class AudioManager : MonoBehaviour
         soft
     }
 
-    private void Start()
+    private void Awake()
     {
         if (instance == null)
         {
@@ -59,6 +59,10 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+    private void Start()
+    {
+        
 
         PlayAmbience();
         //PlayMusic();

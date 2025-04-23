@@ -49,6 +49,10 @@ public class ObjectManager : MonoBehaviourPun
         numOfStartObjects = (int)MathF.Ceiling(breakablePercentage * bObjects.Count);
         numOfActiveObjects = numOfStartObjects;
 
+       
+    }
+    private void Start()
+    {
         if (PhotonNetwork.IsMasterClient)
         {
 
@@ -120,7 +124,9 @@ public class ObjectManager : MonoBehaviourPun
         Activate(activeObjects, true);
         startingObjects = new List<GameObject>(activeObjects);
         UpdateString();
+        
         AudioManager.instance.Populate();
+        
     }
 
     /// <summary>
