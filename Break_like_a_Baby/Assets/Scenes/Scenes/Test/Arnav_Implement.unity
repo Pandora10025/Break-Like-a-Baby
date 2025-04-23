@@ -19140,6 +19140,7 @@ MonoBehaviour:
   startGameSfx: {fileID: 0}
   hitSFX: {fileID: 0}
   caughtSFX: {fileID: 0}
+  seenSFX: {fileID: 8300000, guid: f9662e7009ca0454d913910217fbe742, type: 3}
   breakSfxs:
   - {fileID: 8300000, guid: 9df3f40602ed3034e9811407e869a7c9, type: 3}
   - {fileID: 8300000, guid: 1453338336e77964880e3320be9d973a, type: 3}
@@ -19147,6 +19148,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f91d986dfb362af498c60ecd2e21a9bb, type: 3}
   - {fileID: 8300000, guid: 64ea9aea48b02af4d8a84796462b3cb4, type: 3}
   populated: 0
+  babysitter: {fileID: 1461944887}
 --- !u!65 &759184097
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -46518,7 +46520,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 7bf141257e8ca7944923e42b61e81388, type: 3}
+  m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 7bf141257e8ca7944923e42b61e81388, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.1
@@ -50519,7 +50521,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: f39fb69ca1dc7be4e800b60eb8e68441, type: 3}
+  m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: f39fb69ca1dc7be4e800b60eb8e68441, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
