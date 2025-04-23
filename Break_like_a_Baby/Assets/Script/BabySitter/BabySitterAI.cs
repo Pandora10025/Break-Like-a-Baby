@@ -783,7 +783,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
         GameObject closestPlayer = null;
 
-        
+
 
         float closestDist = viewingDistance;
         if (chaseCooldownTimer < chaseCooldownMaxTime)
@@ -812,12 +812,22 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
                 if (Mathf.Abs(angleDifference) <= fieldOfViewDegrees / 2f)
                 {
+
                     if (Physics.Raycast(transform.position, lookDirection.normalized * currentDist, out hit, 888, LayersWeCanSee))
                     {
 
+                        NavMeshHit navMeshHit;
+
+                        bool checkOnMesh = NavMesh.SamplePosition(
+                            currentPlayer.transform.position,
+                            out navMeshHit,
+                            offMeshDistance,
+                            NavMesh.AllAreas
+                            );
+
 
                         //&& hit.rigidbody.name == currentPlayer.name
-                        if (currentDist < closestDist && hit.transform.tag == "Player")
+                        if (currentDist < closestDist && hit.transform.tag == "Player" && checkOnMesh)
                         {
                             closestDist = currentDist;
                             closestPlayer = currentPlayer;
