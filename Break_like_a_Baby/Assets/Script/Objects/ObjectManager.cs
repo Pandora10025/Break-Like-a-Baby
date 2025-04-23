@@ -30,6 +30,7 @@ public class ObjectManager : MonoBehaviourPun
     [SerializeField] GameObject iconList;
     private void Start()
     {
+        CarrySoundOver.instance.StopMusic();
         instance = this;
 
         if (!PhotonNetwork.IsMasterClient)
@@ -38,6 +39,7 @@ public class ObjectManager : MonoBehaviourPun
         }
         Debug.Log("break Start");
 
+        //stop prev music
 
         numOfStartObjects = (int)MathF.Ceiling(breakablePercentage * bObjects.Count);
         numOfActiveObjects = numOfStartObjects;
@@ -114,6 +116,7 @@ public class ObjectManager : MonoBehaviourPun
 
         Activate(activeObjects, true);
         UpdateString();
+        AudioManager.instance.Populate();
     }
 
     /// <summary>
