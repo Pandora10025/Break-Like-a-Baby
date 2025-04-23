@@ -18,8 +18,10 @@ public class PlayerCatching : MonoBehaviourPun
 
     SpriteRenderer mySpr;
 
-    public bool grabbable=true;
-   
+    public bool grabbable = true;
+
+    public int catchCount;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -46,17 +48,17 @@ public class PlayerCatching : MonoBehaviourPun
         }
     }
 
-    public void changeState( playerCatchState pc)
+    public void changeState(playerCatchState pc)
     {
         catchState = pc;
         switch (pc)
         {
-            
+
             case playerCatchState.free:
                 playerC.enableMove = true;
                 GetComponent<Collider>().enabled = true;
                 transform.position = new Vector3(GameManager.instance.respawnPos.position.x, transform.position.y, GameManager.instance.respawnPos.position.z);
-                mySpr.enabled=true;
+                mySpr.enabled = true;
                 grabbable = true;
                 GetComponent<PlayerBreak>().canBreak = true;
                 break;
@@ -68,6 +70,7 @@ public class PlayerCatching : MonoBehaviourPun
                 //mySpr.sortingOrder = pushedSpriteOrder;
                 mySpr.enabled = false;
                 GameManager.instance.caughtPlayerOverlay(photonView.ViewID);
+                catchCount++;
                 break;
             case playerCatchState.roomed:
                 GetComponent<PlayerBreak>().canBreak = false;
@@ -82,6 +85,6 @@ public class PlayerCatching : MonoBehaviourPun
                 transform.position = new Vector3(cribPos.x, transform.position.y, cribPos.z);
                 break;
         }
-        
+
     }
 }

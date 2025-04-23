@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 {
     public static GameManager instance { get; private set; }
 
-    bool gameOver=false;
+    bool gameOver = false;
     public string timerUItext;
     [SerializeField] float totalTime;
     [SerializeField] bool gameStarted;
@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     int roomedCount;
     public int playerCount;
 
-   
+
     public Color[] playerColors;
 
     public GameObject babySitter;
@@ -30,8 +30,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     [SerializeField] CaughtPlayerOverlay caughtOverlay;
 
-    
+    [SerializeField] GameObject gOverlay;
 
+    [SerializeField] TextMeshProUGUI totalS;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
@@ -40,10 +41,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     void Start()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
-       
+
 
         gameStarted = true;
-        playerCount= GameObject.FindGameObjectsWithTag("Player").Length;
+        playerCount = GameObject.FindGameObjectsWithTag("Player").Length;
     }
 
     // Update is called once per frame
@@ -67,7 +68,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         int minutes = Mathf.FloorToInt(totalTime / 60);
         int seconds = Mathf.FloorToInt(totalTime % 60);
 
-       
+
 
         timerUItext = string.Format("{0:00}:{1:00}", minutes, seconds);
 
@@ -76,10 +77,16 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void GameOver(bool won)
     {
-        if(!gameOver)
-        photonView.RPC("GameOverRPC", RpcTarget.AllBuffered, won);
+        if (!gameOver)
+            photonView.RPC("GameOverRPC", RpcTarget.AllBuffered, won);
     }
+    public void toggleGOverlay(bool t)
+    {
 
+
+        gOverlay.SetActive(t);
+
+    }
     [PunRPC]
     void GameOverRPC(bool won)
     {
@@ -88,15 +95,18 @@ public class GameManager : MonoBehaviourPunCallbacks
         PlayerBreak[] allPbreaks = Object.FindObjectsOfType<PlayerBreak>();
         string stats = "";
 
+        int score = 0;
         for (int i = 0; i < allPbreaks.Length; i++)
         {
 
             PhotonView playerPhotonView = PhotonView.Find(allPbreaks[i].viewId);
 
-
-            stats= stats + playerPhotonView.Owner.NickName+ " Broke " + allPbreaks[i].breakCount +" items: " + allPbreaks[i].brokenList +"\n";
+            score = score + allPbreaks[i].breakCount - allPbreaks[i].GetComponent<PlayerCatching>().catchCount + allPbreaks[i].cribCount + (int)(totalTime / 20);
+            stats = stats + playerPhotonView.Owner.NickName + " Broke " + allPbreaks[i].breakCount + " items: " + allPbreaks[i].brokenList.Substring(0, Mathf.Max(allPbreaks[i].brokenList.Length - 2, 0)) + ". Got Caught " + allPbreaks[i].GetComponent<PlayerCatching>().catchCount + " times, and broke the crib " + allPbreaks[i].cribCount + " times." + "\n\n";
         }
 
+        stats = "With " + timerUItext + " remaining: \n" + stats;
+        totalS.text = "Score:\t" + score;
         gameOverScreen.GetComponent<GameOver>().setScore(stats);
         //gameOverScreen.GetComponent<GameOver>().GameSet(won);
         if (won)
@@ -123,7 +133,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-   
+
     [PunRPC]
     void SyncTimer(float time)
     {
@@ -135,7 +145,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (stream.IsWriting)
         {
             stream.SendNext(totalTime);
-           
+
         }
         else
         {
@@ -144,16 +154,16 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-public void restartLevel()
+    public void restartLevel()
     {
 
         photonView.RPC("RequestRestart", RpcTarget.All);
     }
-   
-     
+
+
     public void caughtPlayerOverlay(int pvID)
     {
-        photonView.RPC("caughtPlayerO", RpcTarget.All,pvID);
+        photonView.RPC("caughtPlayerO", RpcTarget.All, pvID);
     }
 
     [PunRPC]
@@ -163,18 +173,18 @@ public void restartLevel()
         if (playerPhotonView)
         {
             caughtOverlay.overlayOn(5f, playerPhotonView.Owner.NickName + " has been caught!");
-           
+
         }
-       
+
     }
 
-[PunRPC]
-void RequestRestart()
-{
+    [PunRPC]
+    void RequestRestart()
+    {
 
-    PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().name);
+        PhotonNetwork.LoadLevel(SceneManager.GetActiveScene().name);
 
-}
+    }
 
     public void playerRoomed()
     {
@@ -190,13 +200,13 @@ void RequestRestart()
             PhotonNetwork.CurrentRoom.IsVisible = false;
         }
 
-        
+
         PhotonNetwork.LeaveRoom();
     }
     public override void OnLeftRoom()
     {
-        
-        SceneManager.LoadScene("Lobby"); 
+
+        SceneManager.LoadScene("Lobby");
     }
 
     public void LeaveGameForAll()

@@ -16,14 +16,18 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
     public bool inRange = false;
     GameObject breakable;
     [SerializeField]
-    List<GameObject> breakables=new List<GameObject>();
+    List<GameObject> breakables = new List<GameObject>();
     [SerializeField] public AudioSource aud;
     public string brokenList;
     public int viewId;
     public int breakCount;
 
     public bool canBreak = true;
-    
+    public int cribCount;
+
+    bool toggledOnScreen = false;
+
+
     private void Start()
     {
         rb = this.GetComponent<Rigidbody>();
@@ -36,13 +40,26 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (inRange && (Input.GetKeyDown(KeyCode.Space) || playerControl.isSpamTriggered()) && photonView.IsMine){
+        if (inRange && (Input.GetKeyDown(KeyCode.Space) || playerControl.isSpamTriggered()) && photonView.IsMine)
+        {
 
-            aud.Play();
+            AudioManager.instance.PlaySFX(aud, transform.position);
             breakable.GetComponent<BreakableObject>().TakeDamage(photonView.ViewID);
-            
-        }
 
+        }
+        if (Input.GetKeyDown(KeyCode.Escape) && photonView.IsMine)
+        {
+            if (toggledOnScreen)
+            {
+                GameManager.instance.toggleGOverlay(false);
+                toggledOnScreen = false;
+            }
+            else
+            {
+                GameManager.instance.toggleGOverlay(true);
+                toggledOnScreen = true;
+            }
+        }
         //check to show the tablist
         if (photonView.IsMine)
         {
@@ -68,18 +85,18 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
             addToList(breakableObj);
             //if (breakable)
             //{
-                //breakable.GetComponent<BreakableObject>().removeSelf(gameObject);
-                //breakable.GetComponent<BoxRockerTest>().DisableOutlines();
+            //breakable.GetComponent<BreakableObject>().removeSelf(gameObject);
+            //breakable.GetComponent<BoxRockerTest>().DisableOutlines();
             //}
 
             breakable = breakableObj;
-            if(photonView.IsMine)
-            breakable.GetComponent<BoxRockerTest>().EnabledOutlines();
+            if (photonView.IsMine)
+                breakable.GetComponent<BoxRockerTest>().EnabledOutlines();
         }
-        if (!isInRange )
+        if (!isInRange)
         {
-            if(breakable == breakableObj)
-            removeFromList(breakable);
+            if (breakable == breakableObj)
+                removeFromList(breakable);
             else
             {
                 breakables.Remove(breakableObj);
@@ -96,20 +113,21 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
 
     public void AddToList(string objectName)
     {
-        brokenList = objectName +", " +brokenList;
+        brokenList = objectName + ", " + brokenList;
+        Debug.Log(brokenList);
         breakCount++;
     }
 
     void addToList(GameObject b)
     {
-        
-        for(int i = 0; i < breakables.Count; i++)
+
+        for (int i = 0; i < breakables.Count; i++)
         {
             if (photonView.IsMine)
             {
                 breakables[i].GetComponent<BoxRockerTest>().DisableOutlines();
             }
-           
+
         }
         breakables.Add(b);
 
@@ -117,7 +135,7 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
 
     void removeFromList(GameObject b)
     {
-        int newIndex = breakables.IndexOf(b)-1;
+        int newIndex = breakables.IndexOf(b) - 1;
         if (newIndex < 0)
         {
             breakable = null;
@@ -126,14 +144,14 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
         else
         {
             breakable = breakables[newIndex];
-            if(photonView.IsMine)
-            breakable.GetComponent<BoxRockerTest>().EnabledOutlines();
+            if (photonView.IsMine)
+                breakable.GetComponent<BoxRockerTest>().EnabledOutlines();
         }
-        if(photonView.IsMine)
-        b.GetComponent<BoxRockerTest>().DisableOutlines();
+        if (photonView.IsMine)
+            b.GetComponent<BoxRockerTest>().DisableOutlines();
 
         breakables.Remove(b);
-       
+
     }
 
 }
