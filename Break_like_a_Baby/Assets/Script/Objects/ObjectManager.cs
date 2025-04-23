@@ -120,6 +120,7 @@ public class ObjectManager : MonoBehaviourPun
         Activate(activeObjects, true);
         startingObjects = new List<GameObject>(activeObjects);
         UpdateString();
+        AudioManager.instance.Populate();
     }
 
     /// <summary>

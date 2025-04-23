@@ -78,7 +78,7 @@ public class AudioManager : MonoBehaviour
         Populate();
     }
 
-    private void Populate()
+    public void Populate()
     {
         List<GameObject> bObjects = ObjectManager.instance.getBObjs();
 
