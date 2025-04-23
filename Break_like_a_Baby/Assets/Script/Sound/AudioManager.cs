@@ -75,7 +75,7 @@ public class AudioManager : MonoBehaviour
 
         PlayAmbience();
         //PlayMusic();
-        Populate();
+        //Populate();
     }
 
     public void Populate()
