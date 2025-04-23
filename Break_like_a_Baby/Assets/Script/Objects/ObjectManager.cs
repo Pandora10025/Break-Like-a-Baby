@@ -34,6 +34,7 @@ public class ObjectManager : MonoBehaviourPun
     private List<GameObject> startingObjects = new List<GameObject>();
     private void Awake()
     {
+        CarrySoundOver.instance.StopMusic();
         instance = this;
         if (!PhotonNetwork.IsMasterClient)
         {
@@ -42,7 +43,6 @@ public class ObjectManager : MonoBehaviourPun
         Debug.Log("break Start");
 
         //stop prev music
-        CarrySoundOver.instance.stopMusic();
 
 
 
