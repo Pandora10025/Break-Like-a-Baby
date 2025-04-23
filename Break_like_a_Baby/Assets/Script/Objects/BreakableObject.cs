@@ -193,15 +193,14 @@ public class BreakableObject : MonoBehaviourPunCallbacks
                 if (playerPhotonView != null)
                 {
                     Transform playerT = playerPhotonView.transform;
-                    if (GetComponent<Crib>() != null)
-                    {
+                    if(GetComponent<Crib>() != null){
                         playerT.gameObject.GetComponent<PlayerBreak>().cribCount++;
                     }
                     else
                     {
                         playerT.gameObject.GetComponent<PlayerBreak>().AddToList(transform.parent.name);
                     }
-
+                   
                 }
                 if (GetComponent<Crib>() != null)
                 {

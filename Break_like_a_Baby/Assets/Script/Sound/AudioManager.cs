@@ -62,7 +62,7 @@ public class AudioManager : MonoBehaviour
 
         PlayAmbience();
         //PlayMusic();
-        stateLastFrame = (int)babysitter.GetComponent<BabySitterAI>().currentState;
+        stateLastFrame = (int) babysitter.GetComponent<BabySitterAI>().currentState;
 
     }
 
@@ -83,9 +83,9 @@ public class AudioManager : MonoBehaviour
 
         stateLastFrame = (int)babysitter.GetComponent<BabySitterAI>().currentState;
     }
-
+   
     //bgm zone
-    private int _bgmState = (int)bgmState.intro;
+    private int _bgmState = (int) bgmState.intro;
     public enum bgmState
     {
         intro,
@@ -124,7 +124,7 @@ public class AudioManager : MonoBehaviour
 
     //make a coroutine that does a transition every measure. i think separate instruments still.
 
-
+    
     /*public void PlayMusic()
     {
         if (!music.isPlaying)

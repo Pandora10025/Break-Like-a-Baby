@@ -6,10 +6,10 @@ using UnityEngine.UI;
 public class GameOver : MonoBehaviourPunCallbacks
 {
     [SerializeField] string GameRoom = "Arnav_Implement";
-    [SerializeField] GameObject wonOverlay, lossOverlay, setButton;
+    [SerializeField] GameObject wonOverlay,lossOverlay, setButton;
     [SerializeField] string waitingForMaster = "Waiting for host to restart!";
     [SerializeField] TextMeshProUGUI scoreText;
-
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -19,12 +19,12 @@ public class GameOver : MonoBehaviourPunCallbacks
             setButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = waitingForMaster;
 
         }
-        if (wonOverlay != null)
+        if (wonOverlay!=null)
         {
             wonOverlay.SetActive(false);
             lossOverlay.SetActive(false);
         }
-
+        
 
         gameObject.SetActive(false);
 
@@ -33,7 +33,7 @@ public class GameOver : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     public void GameSet(bool won)
@@ -45,7 +45,7 @@ public class GameOver : MonoBehaviourPunCallbacks
     //[PunRPC]
     void gameSetRPC(bool won)
     {
-
+        
         if (won)
         {
             wonOverlay.SetActive(true);
@@ -57,7 +57,7 @@ public class GameOver : MonoBehaviourPunCallbacks
         }
     }
 
-    public void gameWon()
+   public void gameWon()
     {
         wonOverlay.SetActive(true);
         Debug.Log("won");
@@ -78,8 +78,8 @@ public class GameOver : MonoBehaviourPunCallbacks
     }
     public void ToLobby()
     {
-        if (PhotonNetwork.IsMasterClient)
-            GameManager.instance.LeaveGameForAll();
+        if(PhotonNetwork.IsMasterClient)
+        GameManager.instance.LeaveGameForAll();
         else
             GameManager.instance.ReturnToLobby();
     }

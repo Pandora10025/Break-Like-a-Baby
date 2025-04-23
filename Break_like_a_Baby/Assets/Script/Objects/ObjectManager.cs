@@ -120,7 +120,6 @@ public class ObjectManager : MonoBehaviourPun
         Activate(activeObjects, true);
         startingObjects = new List<GameObject>(activeObjects);
         UpdateString();
-        if(AudioManager.instance)
         AudioManager.instance.Populate();
     }
 
@@ -182,7 +181,7 @@ public class ObjectManager : MonoBehaviourPun
         }
 
         Debug.Log(startingObjects.Count);
-
+        
         for (int i = 0; i < startingObjects.Count; i++)
         {
             GameObject slot = emptyImageSlots[i];
@@ -197,14 +196,14 @@ public class ObjectManager : MonoBehaviourPun
             Image img = slot.GetComponent<Image>();
             img.sprite = obj.transform.GetChild(0).GetComponent<BreakableObject>().breakImage;
 
-
+            
             if (!activeObjects.Contains(obj))
             {
                 InstantiateCrossOnSlot(slot);
             }
         }
 
-
+        
         for (int j = startingObjects.Count; j < emptyImageSlots.Length; j++)
         {
             emptyImageSlots[j].SetActive(false);
@@ -212,10 +211,10 @@ public class ObjectManager : MonoBehaviourPun
     }
     private void InstantiateCrossOnSlot(GameObject slot)
     {
-        GameObject cross = Instantiate(line, slot.transform);
+        GameObject cross = Instantiate(line, slot.transform); 
         RectTransform crossRect = cross.GetComponent<RectTransform>();
 
-
+       
         crossRect.anchorMin = Vector2.zero;
         crossRect.anchorMax = Vector2.one;
         crossRect.offsetMin = Vector2.zero;
