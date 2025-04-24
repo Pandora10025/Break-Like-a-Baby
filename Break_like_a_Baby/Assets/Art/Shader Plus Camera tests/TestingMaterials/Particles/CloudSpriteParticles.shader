@@ -2,13 +2,23 @@ Shader "Custom/CloudSpriteParticles"
 {
     Properties
     {
+       
+        _Color("Color", Color) = (1,1,1,1)
+        _ShadowColor("ShadowColor", Color) = (1,1,1,1)
+        _shadingBands ("ShadingBandsNumber", int) = 2
+        _GradientSize ("GradientSize", Range(0,1)) = 0.5
+        _shadowBias("ShadowBias", float) = 0
+
+
         _MainTex("Diffuse", 2D) = "white" {}
         _MaskTex("Mask", 2D) = "white" {}
         _NormalMap("Normal Map", 2D) = "bump" {}
         _ZWrite("ZWrite", Float) = 0
+        _normalIntensity ("normal intensity", float) = 1
+        
 
         // Legacy properties. They're here so that materials using this shader can gracefully fallback to the legacy sprite shader.
-        [HideInInspector] _Color("Tint", Color) = (1,1,1,1)
+        //[HideInInspector] _Color("Tint", Color) = (1,1,1,1)
         [HideInInspector] _RendererColor("RendererColor", Color) = (1,1,1,1)
         [HideInInspector] _AlphaTex("External Alpha", 2D) = "white" {}
         [HideInInspector] _EnableExternalAlpha("Enable External Alpha", Float) = 0
@@ -219,6 +229,13 @@ Shader "Custom/CloudSpriteParticles"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Debug/Debugging2D.hlsl"
             #endif
 
+            
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/2D/Include/NormalsRenderingShared.hlsl"
+
+
             #pragma vertex UnlitVertex
             #pragma fragment UnlitFragment
 
@@ -229,6 +246,8 @@ Shader "Custom/CloudSpriteParticles"
                 float3 positionOS   : POSITION;
                 float4 color        : COLOR;
                 float2 uv           : TEXCOORD0;
+                float3 normal : NORMAL;
+                float4 tangent : TANGENT;
 
                 UNITY_SKINNED_VERTEX_INPUTS
                 UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -255,6 +274,16 @@ Shader "Custom/CloudSpriteParticles"
             // NOTE: Do not ifdef the properties here as SRP batcher can not handle different layouts.
             CBUFFER_START( UnityPerMaterial )
                 half4 _Color;
+                
+                float4 _ShadowColor;
+                float4 _BaseMap_ST;
+                int _shadingBands;
+                float _GradientSize;
+            
+                float _shadowBias;
+
+
+                float _normalIntensity;
             CBUFFER_END
 
             Varyings UnlitVertex(Attributes attributes)
@@ -271,6 +300,27 @@ Shader "Custom/CloudSpriteParticles"
                 #endif
                 o.uv = attributes.uv;
                 o.color = attributes.color * _Color * unity_SpriteColor;
+
+                //NEW STUFF DOWN HERE!!!
+                //o.normalWS = -GetViewForwardDir();
+                o.normalWS = TransformObjectToWorldNormal( attributes.normal.xyz );
+                // //o.normalWS = normalize(TransformObjectToWorldDir( (attributes.normal.xyz) ));
+                // //o.normalWS = ( normalize(attributes.normal.xyz) );
+                
+                // //o.tangentWS = TransformObjectToWorldDir(attributes.tangent.xyz);
+                // o.tangentWS = TransformObjectToWorldNormal(attributes.tangent.xyz);
+
+                // //o.bitangentWS = TransformObjectToWorldNormal(attributes.tangent.xyz); 
+                // //o.tangentWS = cross(o.normalWS, o.bitangentWS) * attributes.tangent.w;
+
+
+                // o.bitangentWS = cross(o.normalWS, o.tangentWS) * attributes.tangent.w;
+                
+                //o.normalWS = -GetViewForwardDir();
+                o.tangentWS = TransformObjectToWorldNormal(-attributes.tangent.xyz);
+                o.bitangentWS = cross(o.normalWS, o.tangentWS) * attributes.tangent.w;
+
+
                 return o;
             }
 
@@ -278,23 +328,113 @@ Shader "Custom/CloudSpriteParticles"
             {
                 float4 mainTex = i.color * SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
 
-                #if defined(DEBUG_DISPLAY)
-                SurfaceData2D surfaceData;
-                InputData2D inputData;
-                half4 debugColor = 0;
+                float3 color;
 
-                InitializeSurfaceData(mainTex.rgb, mainTex.a, surfaceData);
-                InitializeInputData(i.uv, inputData);
-                SETUP_DEBUG_TEXTURE_DATA_2D_NO_TS(inputData, i.positionWS, i.positionCS, _MainTex);
+                //#if defined(DEBUG_DISPLAY)
+                //SurfaceData2D surfaceData;
+                //InputData2D inputData;
+                //half4 debugColor = 0;
 
-                if(CanDebugOverrideOutputColor(surfaceData, inputData, debugColor))
-                {
-                    return debugColor;
-                }
-                #endif
+                //InitializeSurfaceData(mainTex.rgb, mainTex.a, surfaceData);
+                //InitializeInputData(i.uv, inputData);
+                //SETUP_DEBUG_TEXTURE_DATA_2D_NO_TS(inputData, i.positionWS, i.positionCS, _MainTex);
 
-                return mainTex;
-                //return float4(1,0,0,1);
+                // if(CanDebugOverrideOutputColor(surfaceData, inputData, debugColor))
+                // {
+                //     return debugColor;
+                // }
+                // #endif
+
+
+                float3 tangentWSSpaceNormal = UnpackNormal(SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv));
+                tangentWSSpaceNormal = normalize(lerp(float3(0, 0, 1), tangentWSSpaceNormal, _normalIntensity));
+                
+                float3x3 tangentWSToWorld = float3x3 
+                (
+                    i.tangentWS.x, i.bitangentWS.x, i.normalWS.x,
+                    i.tangentWS.y, i.bitangentWS.y, i.normalWS.y,
+                    i.tangentWS.z, i.bitangentWS.z, i.normalWS.z
+                );
+
+                float3 normal = mul(tangentWSToWorld, tangentWSSpaceNormal);
+
+
+
+                const half3 normalTS = UnpackNormal(SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv));
+
+                float3 calculatedNormals = NormalsRenderingShared(mainTex, normalTS, i.tangentWS.xyz, i.bitangentWS.xyz, i.normalWS.xyz);
+
+                Light mainLight = GetMainLight();
+
+
+                float3 lightdirection = mainLight.direction;
+                float3 lightcolor = mainLight.color; // includes intensity
+
+               // float3 viewdirection = normalize(_worldspacecamerapos.xyz - in.posworld);
+                //float3 halfdirection = normalize(viewdirection + lightdirection);
+
+                //float shadowAmount = MainLightRealtimeShadow(TransformWorldToShadowCoord( IN.positionWS));
+                
+
+                float ndotl = (dot(normal, lightdirection)+1)/2;
+                
+                //ndotl = min(shadowAmount, ndotl);
+
+                ndotl = pow( ndotl, _shadowBias );
+
+
+
+                float diffusefalloff = floor( ndotl* (_shadingBands) )/(_shadingBands-1);
+
+                //float distanceFromNearestEdge = abs((ndotl-diffusefalloff));
+               
+                //float amountToOffset = 
+
+                //float diffusefalloffOffset = round( (ndotl + .5  )  * (_shadingBands-1) )/(_shadingBands-1);
+                float diffusefalloffOffset = floor( ndotl* (_shadingBands) + .5 )/(_shadingBands-1);
+
+
+
+                //float distanceFromNearestEdge = ((ndotl+.5-diffusefalloffOffset) * (_shadingBands-1)+.5);
+                float distanceFromNearestEdge = (ndotl*(_shadingBands)-floor( ndotl*(_shadingBands) +.5 ) +.5 );  //(x*4-floor(x*4+1/2)+1/2)
+
+
+                float percentFromNearestEdge = smoothstep( .5 - _GradientSize/2, .5 + _GradientSize/2 , distanceFromNearestEdge);
+
+                float gradientMask = 1-step( _GradientSize/2, abs(distanceFromNearestEdge -.5) );
+
+                float minGradientFalloff = saturate( floor( ndotl* (_shadingBands) - .5)/(_shadingBands-1));
+
+                float maxGradientFalloff = saturate(floor( ndotl* (_shadingBands) + .5)/(_shadingBands-1));
+
+                float gradientFalloff = lerp( minGradientFalloff , maxGradientFalloff  , percentFromNearestEdge );
+                 
+
+                //float3 cellColor = 
+                
+                float falloffPlusGradients = (1-gradientMask) * diffusefalloff + gradientMask * gradientFalloff;
+                //float falloffPlusGradients =  gradientMask * gradientFalloff;
+
+
+                //float specularfalloff = max(0, dot(normal, halfdirection));
+                //specularfalloff = pow(specularfalloff, _gloss * max_specular_power/ _extraspecularmultiplier  + 0.0001) * _gloss;
+
+                //specularfalloff = floor(specularfalloff * _specularlightsteps)/_specularlightsteps;
+
+
+                float3 diffuse =  lerp(  _ShadowColor , _Color , falloffPlusGradients) * lightcolor; // * _surfacecolor;
+                //float3 specular = specularfalloff * lightcolor;
+
+                color = diffuse;// + specular + _ambientcolor;
+
+                return float4(color.rgb, mainTex.a);
+
+
+
+
+                //return mainTex;
+               // return float4( ndotl.rrr,  mainTex.a );
+
             }
             ENDHLSL
         }
