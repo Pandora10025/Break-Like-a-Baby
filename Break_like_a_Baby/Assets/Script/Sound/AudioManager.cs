@@ -11,6 +11,8 @@ public class AudioManager : MonoBehaviour
     [Header("Audio Sources")]
 
     [SerializeField] private AudioSource[] musics;
+    [SerializeField] private int[][] minMaxVolumes;
+
     [SerializeField] private AudioSource ambience;
     [SerializeField] private AudioSource footsteps;
     [SerializeField] private AudioSource SFX;
@@ -49,6 +51,15 @@ public class AudioManager : MonoBehaviour
         soft
     }
 
+    //for the music sources
+    private enum instrument
+    {
+        melody,
+        middle,
+        drums,
+        quiet
+    }
+
     private void Awake()
     {
         if (instance == null)
@@ -62,8 +73,11 @@ public class AudioManager : MonoBehaviour
     }
     private void Start()
     {
+        for(int i = 0; i < musics.Length; i++)
+        {
+            minMaxVolumes[0][i] = 0;
+        }
         
-
         PlayAmbience();
         //PlayMusic();
         stateLastFrame = (int) babysitter.GetComponent<BabySitterAI>().currentState;
@@ -76,18 +90,55 @@ public class AudioManager : MonoBehaviour
 
         //if the babysitter's state is different from last frame then...
         if (stateThisFrame != stateLastFrame)
-        {
-            if (stateThisFrame == (int)BabySitterAI.BabysitterAIState.CHASE)
-            {//enums are default static
+        { 
+            if(stateThisFrame == (int)BabySitterAI.BabysitterAIState.CHASE)
+            {
                 AudioSource.PlayClipAtPoint(seenSFX, (Vector3)babysitter.transform.position);
-                Debug.Log("BAM!");
             }
         }
 
+        if (stateThisFrame == (int)BabySitterAI.BabysitterAIState.CHASE)
+        {//enums are default static
+            //fade this in later
+            musics[(int)instrument.drums].volume = 1;
+        }
+        else
+        {
+            musics[(int)instrument.drums].volume = 0;
+        }
 
         stateLastFrame = (int)babysitter.GetComponent<BabySitterAI>().currentState;
+
+        //and if shift is being pressed than play the melody
+        
     }
-   
+
+    IEnumerator FadeInSound(AudioSource a)
+    {
+        float SecondsToFade = 1.5f;
+        float startVol = a.volume;
+        float rate = 1.0f / SecondsToFade;
+
+        for (float x = 0.0f; x <= 1.0f; x += Time.deltaTime * rate)
+        {
+            a.volume = Mathf.Lerp(startVol, 1.0f, x);
+            yield return null;
+        }
+    }
+
+    IEnumerator FadeOutSound(AudioSource a)
+    {
+        float SecondsToFade = 1.5f;
+        float startVol = a.volume;
+        float rate = 1.0f / SecondsToFade;
+
+        for (float x = 1.0f; x >= 0.0f; x -= Time.deltaTime * rate)
+        {
+            a.volume = Mathf.Lerp(startVol, 0.0f, x);
+            yield return null;
+        }
+    }
+
     //bgm zone
     private int _bgmState = (int) bgmState.intro;
     public enum bgmState
