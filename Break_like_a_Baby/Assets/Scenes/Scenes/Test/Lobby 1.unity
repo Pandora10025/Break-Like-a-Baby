@@ -481,6 +481,7 @@ GameObject:
   m_Component:
   - component: {fileID: 46848792}
   - component: {fileID: 46848793}
+  - component: {fileID: 46848794}
   m_Layer: 5
   m_Name: Video Player
   m_TagString: Untagged
@@ -541,6 +542,20 @@ VideoPlayer:
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
+--- !u!114 &46848794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 46848791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bbf64cf6994e4d7688a89c1ede22a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rawImage: {fileID: 0}
+  videoFileName: 2.mp4
 --- !u!1 &55021220
 GameObject:
   m_ObjectHideFlags: 0
@@ -1519,7 +1534,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -7.4599, y: 19.504}
-  m_SizeDelta: {x: 165.5, y: 167.5}
+  m_SizeDelta: {x: 165.5, y: 119.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &268642059
 MonoBehaviour:
@@ -1566,6 +1581,7 @@ GameObject:
   m_Component:
   - component: {fileID: 312617896}
   - component: {fileID: 312617897}
+  - component: {fileID: 312617898}
   m_Layer: 5
   m_Name: Video Player
   m_TagString: Untagged
@@ -1626,6 +1642,20 @@ VideoPlayer:
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
+--- !u!114 &312617898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 312617895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bbf64cf6994e4d7688a89c1ede22a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rawImage: {fileID: 0}
+  videoFileName: V2_Control_T.webm
 --- !u!1 &320746227
 GameObject:
   m_ObjectHideFlags: 0
@@ -2054,6 +2084,7 @@ GameObject:
   m_Component:
   - component: {fileID: 375835403}
   - component: {fileID: 375835404}
+  - component: {fileID: 375835405}
   m_Layer: 5
   m_Name: Video Player
   m_TagString: Untagged
@@ -2114,6 +2145,20 @@ VideoPlayer:
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
+--- !u!114 &375835405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375835402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bbf64cf6994e4d7688a89c1ede22a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rawImage: {fileID: 0}
+  videoFileName: 3.mp4
 --- !u!1 &395027838
 GameObject:
   m_ObjectHideFlags: 0
@@ -2148,8 +2193,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 18.292568}
-  m_SizeDelta: {x: 164.5, y: 175.1}
+  m_AnchoredPosition: {x: -3.89, y: 18.292568}
+  m_SizeDelta: {x: 156.4, y: 114.92}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &395027840
 MonoBehaviour:
@@ -2700,6 +2745,7 @@ GameObject:
   m_Component:
   - component: {fileID: 612211842}
   - component: {fileID: 612211843}
+  - component: {fileID: 612211844}
   m_Layer: 5
   m_Name: Video Player
   m_TagString: Untagged
@@ -2760,6 +2806,20 @@ VideoPlayer:
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
+--- !u!114 &612211844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612211841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bbf64cf6994e4d7688a89c1ede22a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rawImage: {fileID: 0}
+  videoFileName: 1.mp4
 --- !u!1 &613673198
 GameObject:
   m_ObjectHideFlags: 0
@@ -3393,7 +3453,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 18.292568}
-  m_SizeDelta: {x: 168.3, y: 146.2}
+  m_SizeDelta: {x: 168.3, y: 100.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &806775046
 MonoBehaviour:
@@ -3440,6 +3500,7 @@ GameObject:
   m_Component:
   - component: {fileID: 818633377}
   - component: {fileID: 818633378}
+  - component: {fileID: 818633379}
   m_Layer: 5
   m_Name: Video Player
   m_TagString: Untagged
@@ -3500,6 +3561,20 @@ VideoPlayer:
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
+--- !u!114 &818633379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818633376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bbf64cf6994e4d7688a89c1ede22a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rawImage: {fileID: 0}
+  videoFileName: V2_Control_SPACE.webm
 --- !u!1 &883889077
 GameObject:
   m_ObjectHideFlags: 0
@@ -3989,6 +4064,7 @@ GameObject:
   m_Component:
   - component: {fileID: 954458347}
   - component: {fileID: 954458348}
+  - component: {fileID: 954458349}
   m_Layer: 5
   m_Name: Video Player
   m_TagString: Untagged
@@ -4049,6 +4125,20 @@ VideoPlayer:
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
+--- !u!114 &954458349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954458346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bbf64cf6994e4d7688a89c1ede22a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rawImage: {fileID: 0}
+  videoFileName: 4.mp4
 --- !u!1 &973861314
 GameObject:
   m_ObjectHideFlags: 0
@@ -4096,6 +4186,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1021977514}
   - component: {fileID: 1021977515}
+  - component: {fileID: 1021977516}
   m_Layer: 5
   m_Name: Video Player
   m_TagString: Untagged
@@ -4156,6 +4247,20 @@ VideoPlayer:
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
+--- !u!114 &1021977516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021977513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bbf64cf6994e4d7688a89c1ede22a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rawImage: {fileID: 0}
+  videoFileName: V2_Control_CONTROLLER.webm
 --- !u!1 &1064719597
 GameObject:
   m_ObjectHideFlags: 0
@@ -4282,8 +4387,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 17.74}
-  m_SizeDelta: {x: 259.3, y: 212.9}
+  m_AnchoredPosition: {x: 0, y: 26.6}
+  m_SizeDelta: {x: 259.3, y: 120.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1100571087
 MonoBehaviour:
@@ -5573,6 +5678,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1516381875}
   - component: {fileID: 1516381876}
+  - component: {fileID: 1516381877}
   m_Layer: 5
   m_Name: Video Player
   m_TagString: Untagged
@@ -5633,6 +5739,20 @@ VideoPlayer:
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
+--- !u!114 &1516381877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516381874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bbf64cf6994e4d7688a89c1ede22a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rawImage: {fileID: 0}
+  videoFileName: V2_Control_SHIFT.webm
 --- !u!1 &1591854635
 GameObject:
   m_ObjectHideFlags: 0
@@ -5851,6 +5971,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1714198462}
   - component: {fileID: 1714198463}
+  - component: {fileID: 1714198464}
   m_Layer: 5
   m_Name: Video Player
   m_TagString: Untagged
@@ -5911,6 +6032,20 @@ VideoPlayer:
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
+--- !u!114 &1714198464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1714198461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bbf64cf6994e4d7688a89c1ede22a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rawImage: {fileID: 0}
+  videoFileName: V2_Control_ARROWKEYS.webm
 --- !u!1 &1723987573
 GameObject:
   m_ObjectHideFlags: 0
@@ -6545,8 +6680,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7.9718, y: 18.102}
-  m_SizeDelta: {x: 155.6, y: 163.9}
+  m_AnchoredPosition: {x: 1.2, y: 18.102}
+  m_SizeDelta: {x: 163.47, y: 114.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1908653764
 MonoBehaviour:
@@ -6671,6 +6806,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1934642795}
   - component: {fileID: 1934642796}
+  - component: {fileID: 1934642797}
   m_Layer: 5
   m_Name: Video Player
   m_TagString: Untagged
@@ -6731,6 +6867,20 @@ VideoPlayer:
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
+--- !u!114 &1934642797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934642794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bbf64cf6994e4d7688a89c1ede22a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rawImage: {fileID: 0}
+  videoFileName: V2_Control_WASD.webm
 --- !u!1 &1934671281
 GameObject:
   m_ObjectHideFlags: 0
@@ -6914,6 +7064,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2029110549}
   - component: {fileID: 2029110550}
+  - component: {fileID: 2029110551}
   m_Layer: 5
   m_Name: Video Player
   m_TagString: Untagged
@@ -6974,6 +7125,20 @@ VideoPlayer:
   m_WaitForFirstFrame: 1
   m_FrameReadyEventEnabled: 0
   m_VideoShaders: []
+--- !u!114 &2029110551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2029110548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bbf64cf6994e4d7688a89c1ede22a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rawImage: {fileID: 0}
+  videoFileName: V2_Control_TAB.webm
 --- !u!1 &2072848062
 GameObject:
   m_ObjectHideFlags: 0
@@ -7009,7 +7174,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 18.292568}
-  m_SizeDelta: {x: 143.11, y: 145.1}
+  m_SizeDelta: {x: 143.11, y: 85.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2072848064
 MonoBehaviour:
@@ -7156,7 +7321,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 18.292568}
-  m_SizeDelta: {x: 155.4, y: 146.2}
+  m_SizeDelta: {x: 155.4, y: 86.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2134418739
 MonoBehaviour:
