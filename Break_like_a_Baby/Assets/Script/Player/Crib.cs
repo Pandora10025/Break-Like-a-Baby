@@ -59,6 +59,7 @@ public class Crib : MonoBehaviourPunCallbacks
             baby.SetActive(false);
         }
 
+        GameManager.instance.cribSymbol.SetActive(false);
         if (GameManager.instance.playerCaught != null)
         {
             GameManager.instance.playerCaught.GetComponent<PlayerCatching>().changeState(PlayerCatching.playerCatchState.free);
@@ -68,6 +69,7 @@ public class Crib : MonoBehaviourPunCallbacks
     [PunRPC]
     public void babyBed(int colorID)
     {
+        GameManager.instance.cribSymbol.SetActive(true);
         breakable.resetHealth();
         breakable.Active();
         babys[babyBeddedCount].SetActive(true);

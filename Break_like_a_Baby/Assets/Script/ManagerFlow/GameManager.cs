@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject gOverlay;
 
     [SerializeField] TextMeshProUGUI totalS;
+
+    public GameObject cribSymbol;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
@@ -41,8 +43,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     void Start()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
-       
 
+        cribSymbol.SetActive(false);
         gameStarted = true;
         playerCount= GameObject.FindGameObjectsWithTag("Player").Length;
     }
