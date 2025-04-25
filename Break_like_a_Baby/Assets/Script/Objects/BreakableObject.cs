@@ -34,7 +34,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     [SerializeField] float shatterWeight = 10f;
 
     public Sprite breakImage;
-
+    bool particleOn = false;
     ParticleSystem hitPar,breakPar;
     
     //for sounds
@@ -100,6 +100,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         }
         Debug.Log("My matType is: " + matType);
         awake = true;
+        Invoke("particlesOn", 4f);
     }
 
     public bool isAwake()
@@ -107,6 +108,10 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         return awake;
     }
 
+    void particlesOn()
+    {
+        particleOn = true;
+    }
     #region state changer
     public void Inactive()
     {
@@ -168,7 +173,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
                 Debug.LogWarning("photonView is null in DamageObject");
                 return;
             }
-            if(hitPar)
+            if(hitPar&&particleOn)
             hitPar.Play(true);
             //Debug.Log("player has been sent over!: " + playerTransform.name);
             //shake it!
@@ -196,7 +201,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
             if (health <= 0)//when the object is broken
             {
-                if (breakPar)
+                if (breakPar&&particleOn)
                     breakPar.Play(true);
                 
                 if (playerPhotonView != null)
