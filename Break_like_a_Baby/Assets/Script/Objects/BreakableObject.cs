@@ -35,6 +35,8 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
     public Sprite breakImage;
 
+    ParticleSystem hitPar,breakPar;
+    
     //for sounds
     [Range(0, 4)]
     [Tooltip("glass, wood, metal, porcelain, soft")][SerializeField] private int matType;
@@ -76,6 +78,9 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
         if (shatteredMesh != null)
             shatteredMesh.SetActive(false);
+
+        breakPar = transform.GetChild(0).GetComponent<ParticleSystem>();
+        hitPar = transform.GetChild(1).GetComponent<ParticleSystem>();
     }
     void Start()
     {
@@ -163,7 +168,8 @@ public class BreakableObject : MonoBehaviourPunCallbacks
                 Debug.LogWarning("photonView is null in DamageObject");
                 return;
             }
-
+            if(hitPar)
+            hitPar.Play(true);
             //Debug.Log("player has been sent over!: " + playerTransform.name);
             //shake it!
             PhotonView playerPhotonView = PhotonView.Find(pvId);
@@ -190,6 +196,9 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
             if (health <= 0)//when the object is broken
             {
+                if (breakPar)
+                    breakPar.Play(true);
+                
                 if (playerPhotonView != null)
                 {
                     Transform playerT = playerPhotonView.transform;
