@@ -36,6 +36,8 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     public Sprite breakImage;
     bool particleOn = false;
     ParticleSystem hitPar,breakPar;
+
+    private PlayerControllerr playerController;
     
     //for sounds
     [Range(0, 4)]
@@ -81,6 +83,8 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
         breakPar = transform.GetChild(0).GetComponent<ParticleSystem>();
         hitPar = transform.GetChild(1).GetComponent<ParticleSystem>();
+      
+
     }
     void Start()
     {
@@ -201,6 +205,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
             if (health <= 0)//when the object is broken
             {
+          
                 if (breakPar&&particleOn)
                     breakPar.Play(true);
                 

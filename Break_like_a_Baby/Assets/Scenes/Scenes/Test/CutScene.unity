@@ -3319,6 +3319,7 @@ GameObject:
   m_Component:
   - component: {fileID: 168697644}
   - component: {fileID: 168697645}
+  - component: {fileID: 168697646}
   m_Layer: 0
   m_Name: vCam8
   m_TagString: Untagged
@@ -3334,14 +3335,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 168697643}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.70688146, y: 0.017850237, z: 0.017850237, w: 0.70688146}
+  m_LocalPosition: {x: -8.819946, y: 5.28, z: -0.55999947}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 832658495}
   m_Father: {fileID: 116944521}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 92.893005, y: -90, z: -90}
 --- !u!114 &168697645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3395,6 +3396,28 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   m_ComponentOwner: {fileID: 832658495}
+--- !u!95 &168697646
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 168697643}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b9de3b28798154744b3579f1dea660d2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!65 &181742263
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5223,6 +5246,7 @@ GameObject:
   m_Component:
   - component: {fileID: 264730335}
   - component: {fileID: 264730336}
+  - component: {fileID: 264730337}
   m_Layer: 0
   m_Name: vCam7
   m_TagString: Untagged
@@ -5239,7 +5263,7 @@ Transform:
   m_GameObject: {fileID: 264730334}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.95, y: 3.44, z: -1.51}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5299,6 +5323,28 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   m_ComponentOwner: {fileID: 1742253123}
+--- !u!95 &264730337
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 264730334}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0497a80533576864baba9b7e2ba994a3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!65 &271115227
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25663,7 +25709,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -10.22998, y: 2.42, z: 10.01}
+  m_LocalPosition: {x: 5.0699463, y: 4.9, z: 3.9300003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -33405,6 +33451,8 @@ PlayableDirector:
     value: {fileID: 1453161246}
   - key: {fileID: -86903786273055549, guid: d56ea1c95a6fce944837e7436eeccd2b, type: 2}
     value: {fileID: 983965507}
+  - key: {fileID: -1543892365401053048, guid: d56ea1c95a6fce944837e7436eeccd2b, type: 2}
+    value: {fileID: 992044362}
   m_ExposedReferences:
     m_References:
     - ee3ef956fd586a4469f5e82d4894af6c: {fileID: 1329665595}

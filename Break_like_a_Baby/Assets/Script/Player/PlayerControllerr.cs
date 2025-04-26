@@ -346,11 +346,11 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
     // Stop haptic feedback
 
 
-    void TriggerInteractHapticFeedback()
+    public void TriggerInteractHapticFeedback(float low, float high)
     {
         if (Gamepad.current != null) // Ensure there's a gamepad connected
         {
-            Gamepad.current.SetMotorSpeeds(0.3f, 0.3f);  // Light vibration for feedback
+            Gamepad.current.SetMotorSpeeds(low, high);  // Light vibration for feedback
             StartCoroutine(StopHapticFeedbackAfterDelay());  // Wait for some time before stopping vibration
         }
     }
