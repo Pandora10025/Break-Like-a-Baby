@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     [SerializeField] TextMeshProUGUI totalS;
 
+    [SerializeField] GameObject chaseUI;
     public GameObject cribSymbol;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
@@ -43,7 +44,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     void Start()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
-
+        chaseUI.SetActive(false);
         cribSymbol.SetActive(false);
         gameStarted = true;
         playerCount= GameObject.FindGameObjectsWithTag("Player").Length;
@@ -89,6 +90,21 @@ public class GameManager : MonoBehaviourPunCallbacks
         gOverlay.SetActive(t);
         
     }
+
+    public void enableChaseUI(bool on,int actorN)
+    {
+        photonView.RPC("enableChaseui", RpcTarget.AllBuffered, on,actorN);
+        
+        
+    }
+    [PunRPC]
+    void enableChaseui(bool on , int actorN)
+    {
+        if(PhotonNetwork.LocalPlayer.ActorNumber==actorN)
+        chaseUI.SetActive(on);
+    }
+
+  
     [PunRPC]
     void GameOverRPC(bool won)
     {

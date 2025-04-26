@@ -16,6 +16,8 @@ public class TutorialScreen : MonoBehaviour
 
     [SerializeField] RectTransform[] buttons;
     [SerializeField] RectTransform highlight;
+    [SerializeField] Color nor, bl;
+    [SerializeField] Image b;
     private void Start()
     {
         ShowSlide(currentSlideIndex);
@@ -68,7 +70,15 @@ public class TutorialScreen : MonoBehaviour
             {
                 slides[i].SetActive(false);
             }
-           
+            
+        }
+        if (index == 1)
+        {
+            b.color = bl;
+        }
+        else
+        {
+            b.color = nor;
         }
     }
 
