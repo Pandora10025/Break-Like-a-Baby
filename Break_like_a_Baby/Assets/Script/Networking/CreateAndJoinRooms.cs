@@ -128,4 +128,9 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
             PhotonNetwork.NickName = playerInput.text;
         }
     }
+
+    public void exitG()
+    {
+        Application.Quit();
+    }
 }

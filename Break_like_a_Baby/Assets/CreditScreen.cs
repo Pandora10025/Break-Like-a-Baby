@@ -19,4 +19,9 @@ public class CreditScreen : MonoBehaviour
     {
         transform.GetChild(0).gameObject.SetActive(b);
     }
+
+    public void exitG()
+    {
+        Application.Quit();
+    }
 }
