@@ -14,6 +14,10 @@ public class VideoPlayerUI : MonoBehaviour
     {
         videoPlayer = GetComponent<VideoPlayer>();
         rawImage = transform.parent.GetChild(0).GetComponent<RawImage>();
+        if(rawImage == null)
+        {
+            rawImage = transform.parent.GetChild(2).GetComponent<RawImage>();
+        }
        
         if (videoPlayer == null)
         {

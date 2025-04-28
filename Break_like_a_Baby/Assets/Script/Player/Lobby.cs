@@ -3,6 +3,7 @@ using Photon.Pun;
 using System.Collections.Generic;
 using TMPro;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 public class Lobby : MonoBehaviourPunCallbacks
 {
@@ -89,7 +90,41 @@ public class Lobby : MonoBehaviourPunCallbacks
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
         Debug.Log($"Player {PhotonNetwork.LocalPlayer.ActorNumber} is ready!");
     }
+    public void exitG()
+    {
+        photonView.RPC("clearAllFlags", RpcTarget.All);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            LeaveGameForAll();
+        }
+        else
+        {
+            ReturnToLobby();
+        }
+      
+    }
+    public void ReturnToLobby()
+    { 
 
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public void LeaveGameForAll()
+    {
+        photonView.RPC("LeaveRoomRPC", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void LeaveRoomRPC()
+    {
+        ReturnToLobby();
+    }
+
+    public override void OnLeftRoom()
+    {
+
+        SceneManager.LoadScene("Lobby");
+    }
     private bool AllReady()
     {
         foreach (var player in PhotonNetwork.PlayerList)
@@ -106,6 +141,8 @@ public class Lobby : MonoBehaviourPunCallbacks
         ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable();
         props["Ready"] = null; // Removing the key
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
+        UpdateReadyDisplay();
+
     }
     [PunRPC]
     void clearAllFlags()
