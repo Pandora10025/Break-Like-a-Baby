@@ -143,6 +143,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         timerText.enabled = b;
     }
 
+    public void toggleGOv()
+    {
+        
+            toggleGOverlay(!gOverlay.activeInHierarchy);
+        
+    }
+
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         if (PhotonNetwork.IsMasterClient)
