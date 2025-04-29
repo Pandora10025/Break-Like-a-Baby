@@ -16,6 +16,18 @@ public class CameraFollow : MonoBehaviour
 
     private Vector3 velocity = Vector3.zero;  // For storing the velocity in SmoothDamp method
 
+    [Header("ScreenShake Values")]
+    private float shakeDuration;
+    private float shakeMagnitude;
+    private float shakeFadeout;
+    private float shakeRotation;
+
+    private float rotationMultiplier = 15;
+
+    private float randomXrange;
+    private float randomYrange;
+
+
     void LateUpdate()
     {
         if (player != null)
@@ -32,6 +44,21 @@ public class CameraFollow : MonoBehaviour
                 this.enabled = false;
           
         }
+
+        if (shakeDuration > 0)
+        {
+            shakeDuration -= Time.deltaTime;
+
+            randomXrange = Random.Range(-0.3f, 0.3f) * shakeMagnitude;
+            randomYrange = Random.Range(-0.3f, 0.3f) * shakeMagnitude;
+
+            transform.position += new Vector3(randomXrange, randomYrange, 0f);
+
+            shakeMagnitude = Mathf.MoveTowards(shakeMagnitude, 0f, shakeFadeout * Time.deltaTime);
+            shakeRotation = Mathf.MoveTowards(shakeRotation, 0f, shakeFadeout * rotationMultiplier * Time.deltaTime);
+        }
+        transform.rotation = Quaternion.Euler(90f, 0f, shakeRotation * Random.Range(-1f, 1f));
+
     }
 
    
@@ -111,6 +138,15 @@ public class CameraFollow : MonoBehaviour
 
 
 
+    }
+
+
+    public void TriggerScreenShake(float length, float power)
+    {
+        shakeDuration = length;
+        shakeMagnitude = power;
+        shakeFadeout = power / length;
+        shakeRotation = power * rotationMultiplier;
     }
 
     GameObject FindLocalPlayer()
