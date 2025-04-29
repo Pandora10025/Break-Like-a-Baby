@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     [SerializeField] GameObject chaseUI;
     public GameObject cribSymbol;
+
+    public CameraFollow cam;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {

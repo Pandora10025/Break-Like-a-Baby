@@ -187,7 +187,10 @@ public class BreakableObject : MonoBehaviourPunCallbacks
                 Transform playerT = playerPhotonView.transform;
                 Debug.Log("Player has been sent over!: " + playerT.name);
 
-
+                if (PhotonNetwork.LocalPlayer.ActorNumber == playerPhotonView.Owner.ActorNumber)
+                {
+                    GameManager.instance.cam.TriggerScreenShake(0.1f, 0.2f);
+                }
 
                 //THIS IS LUKAS!!! Here, I'm making it so that the babysitter is alarmed.
                 alarmBabysitter(onHitAlarmRadius);
@@ -205,7 +208,10 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
             if (health <= 0)//when the object is broken
             {
-          
+                if (PhotonNetwork.LocalPlayer.ActorNumber == playerPhotonView.Owner.ActorNumber)
+                {
+                    GameManager.instance.cam.TriggerScreenShake(0.2f, 0.4f);
+                }
                 if (breakPar&&particleOn)
                     breakPar.Play(true);
                 
