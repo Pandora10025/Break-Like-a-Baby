@@ -72,6 +72,10 @@ MonoBehaviour:
   shadowColors: []
   enableMove: 1
   colorId: 0
+  sprintCoolDown: 2
+  sprintRecoveryRate: 0.5
+  sprintDrainRate: 1
+  currentSprintTime: 0
 --- !u!114 &8350054889035711345
 MonoBehaviour:
   m_ObjectHideFlags: 0

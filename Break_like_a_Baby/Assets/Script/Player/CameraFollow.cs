@@ -60,21 +60,21 @@ public class CameraFollow : MonoBehaviour
         Vector2 moveInput = playerController.GetMoveInput();
 
         // Calculate tilt angles based on the player's movement direction
-        float tiltAngleX = -moveInput.y * 2.5f; // Tilt around X-axis (forward/backward movement)
-        float tiltAngleZ = moveInput.x * 2.5f;  // Tilt around Z-axis (left/right movement)
+        float tiltAngleX = -moveInput.y * 5f; // Tilt around X-axis (forward/backward movement)
+        float tiltAngleZ = moveInput.x * 5f;  // Tilt around Z-axis (left/right movement)
 
         // Clamp the tilt angles to prevent excessive tilting
-        tiltAngleX = Mathf.Clamp(tiltAngleX, -5f, 5f); // Limit X-axis tilt to ?15 degrees
-        tiltAngleZ = Mathf.Clamp(tiltAngleZ, -5f, 5f); // Limit Z-axis tilt to ?15 degrees
+        tiltAngleX = Mathf.Clamp(tiltAngleX, -25f, 25f); // Limit X-axis tilt to ?15 degrees
+        tiltAngleZ = Mathf.Clamp(tiltAngleZ, -25f, 25f); // Limit Z-axis tilt to ?15 degrees
 
-        // Create a tilt rotation based on the tilt angles
-        Quaternion tiltRotation = Quaternion.Euler(tiltAngleX, 0f, tiltAngleZ);
-
-        // Define the default top-down rotation (looking down on the Y-axis)
+        // Start from the top-down view
         Quaternion topDownRotation = Quaternion.Euler(90f, 0f, 0f);
 
-        // Combine the default top-down rotation with the tilt rotation
-        Quaternion targetRotation = topDownRotation * tiltRotation;
+        // Apply tilts relative to camera’s local space
+        Quaternion tiltRotation = Quaternion.Euler(tiltAngleX, 0f, 0f) * Quaternion.Euler(0f, 0f, tiltAngleZ);
+
+        // Combine them (reversed order)
+        Quaternion targetRotation = tiltRotation * topDownRotation;
 
         // Smoothly interpolate the camera's rotation towards the target rotation
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);

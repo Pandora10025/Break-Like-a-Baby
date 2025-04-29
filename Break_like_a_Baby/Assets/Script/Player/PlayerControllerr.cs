@@ -73,6 +73,13 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public int colorId;
 
+    public float sprintCoolDown = 5f;
+    public float sprintRecoveryRate = 2f;
+    public float sprintDrainRate = 1f;
+
+    public float currentSprintTime;
+    private bool canSprint = true;
+
     void Awake()
     {
         inputActions = new PlayerControls();
@@ -119,6 +126,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
         view = GetComponent<PhotonView>();
 
+        currentSprintTime = sprintCoolDown;
 
     }
 
@@ -193,9 +201,9 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
         {
             // Fetch input data from the input system
             moveInput = inputActions.Player.Move.ReadValue<Vector2>();  // Get the movement direction
-            isSprinting = inputActions.Player.Sprint.ReadValue<float>() > 0.5f;  // Check if sprinting
-                                                                                 //isInteracting = inputActions.Player.Interact.ReadValue<float>() > 0f; // Check if interacting
-
+            isSprinting = canSprint && inputActions.Player.Sprint.ReadValue<float>() > 0.5f;  // Check if sprinting
+                                                                                              //isInteracting = inputActions.Player.Interact.ReadValue<float>() > 0f; // Check if interacting
+            HandleSprint();
             // Storing previous player angle
             previousAngle = transform.eulerAngles.y;
             MovePlayer();
@@ -246,7 +254,36 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
         }
         */
     //}
+    void HandleSprint()
+    {
+        //Check if player is sprinting
+        if(isSprinting)
+        {
+            // Drain the current sprin time
+            currentSprintTime -=sprintDrainRate * Time.deltaTime;
 
+            // If it is completely drained, 
+            if (currentSprintTime <= 0f)
+            {
+                // Player is unable to sprint
+                currentSprintTime = 0f;
+                canSprint = false;
+                isSprinting = false;
+            }
+        }
+        else
+        {
+            if (currentSprintTime < sprintCoolDown)
+            {
+                currentSprintTime += sprintRecoveryRate * Time.deltaTime;
+                if (currentSprintTime >= sprintCoolDown)
+                {
+                    currentSprintTime = sprintCoolDown;
+                    canSprint = true;
+                }
+            }
+        }
+    }
     private void OnTask(InputAction.CallbackContext context)
     {
         //tasks.ToggleTaskList();

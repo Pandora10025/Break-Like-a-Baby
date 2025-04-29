@@ -999,7 +999,7 @@ MonoBehaviour:
   priority: 0
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: 232aa17978d55ac419147ac38fcad1f3, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 621b11e6f38ac0241b9526e17ae5c161, type: 2}
 --- !u!65 &82671762
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24564,9 +24564,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cb6b8e4d1bf7934796f5e5ab16861ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: 0, y: 6, z: 1}
-  smoothSpeed: 0.125
-  rotationSpeed: 5
+  offset: {x: 1, y: 7, z: 1}
+  smoothSpeed: 0.5
+  rotationSpeed: 2.5
 --- !u!1 &975251585
 GameObject:
   m_ObjectHideFlags: 0
