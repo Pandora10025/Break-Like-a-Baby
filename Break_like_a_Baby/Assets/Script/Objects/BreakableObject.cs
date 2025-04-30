@@ -189,7 +189,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
                 if (PhotonNetwork.LocalPlayer.ActorNumber == playerPhotonView.Owner.ActorNumber)
                 {
-                    GameManager.instance.cam.TriggerScreenShake(0.1f, 0.2f);
+                    GameManager.instance.cam.TriggerScreenShake(0.05f, 0.1f);
                 }
 
                 //THIS IS LUKAS!!! Here, I'm making it so that the babysitter is alarmed.
@@ -210,7 +210,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
             {
                 if (PhotonNetwork.LocalPlayer.ActorNumber == playerPhotonView.Owner.ActorNumber)
                 {
-                    GameManager.instance.cam.TriggerScreenShake(0.2f, 0.4f);
+                    GameManager.instance.cam.TriggerScreenShake(0.3f, 0.6f);
                 }
                 if (breakPar&&particleOn)
                     breakPar.Play(true);

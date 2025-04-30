@@ -56,8 +56,10 @@ public class CameraFollow : MonoBehaviour
 
             shakeMagnitude = Mathf.MoveTowards(shakeMagnitude, 0f, shakeFadeout * Time.deltaTime);
             shakeRotation = Mathf.MoveTowards(shakeRotation, 0f, shakeFadeout * rotationMultiplier * Time.deltaTime);
+
+            transform.rotation = Quaternion.Euler(90f, 0f, shakeRotation * Random.Range(-1f, 1f));
         }
-        transform.rotation = Quaternion.Euler(90f, 0f, shakeRotation * Random.Range(-1f, 1f));
+        
 
     }
 
