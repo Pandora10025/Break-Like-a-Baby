@@ -133,7 +133,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
         currentSprintTime = sprintCoolDown;
 
         photonView.RPC("toggleTrail", RpcTarget.AllBuffered, false);
-        trailM = dustTrail.emissionRate / (sprintCoolDown*sprintCoolDown *sprintCoolDown);
+        trailM = dustTrail.emissionRate / (sprintCoolDown*sprintCoolDown);
     }
 
     IEnumerator SetAnimatorDelayed()
@@ -321,7 +321,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
     [PunRPC]
     void trailSpeed(float t)
     {
-        float scaledSpeed = t * t * t;
+        float scaledSpeed = t * t;
 
         dustTrail.emissionRate = scaledSpeed * trailM;
         
