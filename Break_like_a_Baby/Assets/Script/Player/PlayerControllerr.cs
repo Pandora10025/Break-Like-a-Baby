@@ -80,6 +80,8 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public float currentSprintTime;
     private bool canSprint = true;
 
+    private ParticleSystem dustTrail;
+
     void Awake()
     {
         inputActions = new PlayerControls();
@@ -113,6 +115,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
         //QTE = FindAnyObjectByType<QuickTimeEvent>();
         //tasks = FindAnyObjectByType<TaskList>();
         mainCamera = Camera.main;
+        dustTrail = GetComponentInChildren<ParticleSystem>();
         //cameraFollow = GetComponent<CameraFollow>();
       
            anim = GetComponent<Animator>();
@@ -128,6 +131,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
         currentSprintTime = sprintCoolDown;
 
+        dustTrail.Stop();
     }
 
     IEnumerator SetAnimatorDelayed()
@@ -270,6 +274,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
                 canSprint = false;
                 isSprinting = false;
             }
+            dustTrail.Play();
         }
         else
         {
@@ -282,6 +287,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
                     canSprint = true;
                 }
             }
+            dustTrail.Stop();
         }
     }
     private void OnTask(InputAction.CallbackContext context)
