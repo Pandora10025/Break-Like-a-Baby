@@ -49,7 +49,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
 
     // Store the target rotation angle
-    private float targetAngle = 0f;
+    private float targetAngle = 0f; 
 
     // Input Action variables
     private PlayerControls inputActions;  // Reference to input actions
@@ -81,7 +81,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
     private bool canSprint = true;
 
     private ParticleSystem dustTrail;
-
+    public float trailM=10f;
     void Awake()
     {
         inputActions = new PlayerControls();
@@ -107,6 +107,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     void Start()
     {
+        
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         //audioSearch = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
@@ -131,7 +132,8 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
         currentSprintTime = sprintCoolDown;
 
-        dustTrail.Stop();
+        photonView.RPC("toggleTrail", RpcTarget.AllBuffered, false);
+        trailM = dustTrail.emissionRate / (sprintCoolDown*sprintCoolDown);
     }
 
     IEnumerator SetAnimatorDelayed()
@@ -265,7 +267,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
         {
             // Drain the current sprin time
             currentSprintTime -=sprintDrainRate * Time.deltaTime;
-
+            photonView.RPC("trailSpeed", RpcTarget.AllBuffered, currentSprintTime);
             // If it is completely drained, 
             if (currentSprintTime <= 0f)
             {
@@ -274,7 +276,12 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
                 canSprint = false;
                 isSprinting = false;
             }
-            dustTrail.Play();
+            if (!dustTrail.isPlaying)
+            {
+                dustTrail.Play();
+                photonView.RPC("toggleTrail", RpcTarget.AllBuffered, true);
+            }
+           
         }
         else
         {
@@ -287,8 +294,40 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
                     canSprint = true;
                 }
             }
+            if (dustTrail.isPlaying)
+            {
+                dustTrail.Stop();
+                photonView.RPC("toggleTrail", RpcTarget.AllBuffered, false);
+            }
+            
+           
+        
+    }
+    }
+
+    [PunRPC]
+    void toggleTrail(bool t)
+    {
+        if (t)
+        {
+            dustTrail.Play();
+        }
+        else
+        {
             dustTrail.Stop();
         }
+    }
+
+    [PunRPC]
+    void trailSpeed(float t)
+    {
+        float scaledSpeed = t * t;
+
+        // Optionally clamp to avoid extreme values
+        //scaledSpeed = Mathf.Clamp(scaledSpeed, 0f, 100f);
+
+        dustTrail.emissionRate = scaledSpeed * trailM;
+        
     }
     private void OnTask(InputAction.CallbackContext context)
     {
