@@ -113,32 +113,6 @@ public class AudioManager : MonoBehaviour
         
     }
 
-    IEnumerator FadeInSound(AudioSource a)
-    {
-        float SecondsToFade = 1.5f;
-        float startVol = a.volume;
-        float rate = 1.0f / SecondsToFade;
-
-        for (float x = 0.0f; x <= 1.0f; x += Time.deltaTime * rate)
-        {
-            a.volume = Mathf.Lerp(startVol, 1.0f, x);
-            yield return null;
-        }
-    }
-
-    IEnumerator FadeOutSound(AudioSource a)
-    {
-        float SecondsToFade = 1.5f;
-        float startVol = a.volume;
-        float rate = 1.0f / SecondsToFade;
-
-        for (float x = 1.0f; x >= 0.0f; x -= Time.deltaTime * rate)
-        {
-            a.volume = Mathf.Lerp(startVol, 0.0f, x);
-            yield return null;
-        }
-    }
-
     //bgm zone
     private int _bgmState = (int) bgmState.intro;
     public enum bgmState
@@ -176,18 +150,6 @@ public class AudioManager : MonoBehaviour
         Debug.Log("pop = true");
         populated = true;
     }
-
-    //make a coroutine that does a transition every measure. i think separate instruments still.
-
-    
-    /*public void PlayMusic()
-    {
-        if (!music.isPlaying)
-        {
-            music.clip = backgroundMusic;
-            music.Play();
-        }
-    }*/
 
     public void PlayAmbience()
     {
