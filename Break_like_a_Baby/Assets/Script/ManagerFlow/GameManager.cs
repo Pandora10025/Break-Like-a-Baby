@@ -2,6 +2,7 @@ using UnityEngine;
 using Photon.Pun;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 public class GameManager : MonoBehaviourPunCallbacks
 
 {
@@ -37,7 +38,15 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject chaseUI;
     public GameObject cribSymbol;
 
+    public TextMeshProUGUI[] playerNames, itemsBrokenC, timeBonus, itemsBrokenList, breakoutBonus, timesCaught, brokenT;
+
     public CameraFollow cam;
+
+    public Image[] scoreP;
+
+    public Sprite[] playerP;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
@@ -50,6 +59,16 @@ public class GameManager : MonoBehaviourPunCallbacks
         cribSymbol.SetActive(false);
         gameStarted = true;
         playerCount= GameObject.FindGameObjectsWithTag("Player").Length;
+
+        for(int i = 0; i < 2; i++)
+        {
+            playerNames[i].text = "";
+            itemsBrokenC[i].text = "";
+            itemsBrokenList[i].text = "";
+            breakoutBonus[i].text = "";
+            timesCaught[i].text ="";
+            scoreP[i].color = Color.clear;
+        }
     }
 
     // Update is called once per frame
@@ -113,21 +132,31 @@ public class GameManager : MonoBehaviourPunCallbacks
         gameOver = true;
         gameOverScreen.SetActive(true);
         PlayerBreak[] allPbreaks = Object.FindObjectsOfType<PlayerBreak>();
-        string stats = "";
+        //string stats = "";
 
         int score = 0;
-        for (int i = 0; i < allPbreaks.Length; i++)
+        for (int i = 0; i < (int)Mathf.Min(allPbreaks.Length,2); i++)
         {
-
+            
             PhotonView playerPhotonView = PhotonView.Find(allPbreaks[i].viewId);
 
+            playerNames[i].text = allPbreaks[i].photonView.Owner.NickName;
+            itemsBrokenC[i].text = allPbreaks[i].breakCount.ToString();
+            
+            itemsBrokenList[i].text = allPbreaks[i].brokenList.Substring(0, Mathf.Max(allPbreaks[i].brokenList.Length - 2, 0));
+            breakoutBonus[i].text = allPbreaks[i].cribCount.ToString();
+            timesCaught[i].text = allPbreaks[i].GetComponent<PlayerCatching>().catchCount.ToString();
+            scoreP[i].sprite = playerP[allPbreaks[i].GetComponent<PlayerControllerr>().colorId];
+            scoreP[i].color = Color.white;
             score = score + allPbreaks[i].breakCount*11-(allPbreaks[i].GetComponent<PlayerCatching>().catchCount*9)+ (allPbreaks[i].cribCount*12) + (int)(totalTime/14* (won?1:-1));
-            stats = stats + playerPhotonView.Owner.NickName+ " Broke " + allPbreaks[i].breakCount +" items: " + allPbreaks[i].brokenList.Substring(0, Mathf.Max(allPbreaks[i].brokenList.Length-2,0)) + ". Got Caught "+ allPbreaks[i].GetComponent<PlayerCatching>().catchCount + " times, and broke the crib " + allPbreaks[i].cribCount +" times."+"\n\n";
+            //stats = stats + playerPhotonView.Owner.NickName+ " Broke " + allPbreaks[i].breakCount +" items: " + allPbreaks[i].brokenList.Substring(0, Mathf.Max(allPbreaks[i].brokenList.Length-2,0)) + ". Got Caught "+ allPbreaks[i].GetComponent<PlayerCatching>().catchCount + " times, and broke the crib " + allPbreaks[i].cribCount +" times."+"\n\n";
         }
-
-        stats = "With " + timerUItext + " remaining: \n" + stats;
-        totalS.text = "Score:\t" + score;
-        gameOverScreen.GetComponent<GameOver>().setScore(stats);
+        timeBonus[0].text = "Time Bonus: " + "[" + timerUItext + "]";
+        timeBonus[0].color = won ? brokenT[0].color : timesCaught[0].color;
+        brokenT[0].text = "Items Broken: " + (ObjectManager.instance.numOfStartObjects - ObjectManager.instance.numOfActiveObjects) + "/" + ObjectManager.instance.numOfStartObjects;
+        //stats = "With " + timerUItext + " remaining: \n" + stats;
+        totalS.text = "Total Score:\t" + score;
+        //gameOverScreen.GetComponent<GameOver>().setScore(stats);
         //gameOverScreen.GetComponent<GameOver>().GameSet(won);
         if (won)
         {

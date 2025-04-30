@@ -23,8 +23,8 @@ public class ObjectManager : MonoBehaviourPun
     public static ObjectManager instance { get; private set; }
 
     //serialized fields
-    [SerializeField] private int numOfStartObjects;
-    [SerializeField] private int numOfActiveObjects;
+    [SerializeField] public int numOfStartObjects;
+    [SerializeField] public int numOfActiveObjects;
     [SerializeField] private TextMeshProUGUI tmp;
     [UnityEngine.RangeAttribute(0, 1)]
     [SerializeField] private float breakablePercentage = 0.5f;
