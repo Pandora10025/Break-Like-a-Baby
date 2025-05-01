@@ -291,9 +291,10 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
         }
         else
         {
-           
+          
             if (currentSprintTime < sprintCoolDown)
             {
+                canSprint = false;
                 if (photonView.IsMine)
                 {
                     if (!sprintBar.gameObject.active)
