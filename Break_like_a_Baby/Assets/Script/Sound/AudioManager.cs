@@ -4,14 +4,35 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UIElements;
 
+public class VolMan
+{
+    private float currVolume { get; set; }
+    private float minVolume {  get; set; }
+    private float maxVolume { get; set; }
+    private bool changing {  get; set; }
+
+    public VolMan() { }
+    public VolMan(float _cv, float _minV, float _maxV)
+    {
+        currVolume = _cv;
+        minVolume = _cv;
+        maxVolume = _cv;
+        changing = false;
+    }
+
+    
+}
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance { get; private set; }
 
-    [Header("Audio Sources")]
+    [Header("Background Music Sources")]
 
     [SerializeField] private AudioSource[] musics;
-    [SerializeField] private int[][] minMaxVolumes;
+    private Dictionary<AudioSource, VolMan> volDict = new Dictionary<AudioSource, VolMan>();
+    
+    [Space]
+    [Header("Other Sources")]
 
     [SerializeField] private AudioSource ambience;
     [SerializeField] private AudioSource footsteps;
@@ -73,10 +94,6 @@ public class AudioManager : MonoBehaviour
     }
     private void Start()
     {
-        for(int i = 0; i < musics.Length; i++)
-        {
-            minMaxVolumes[0][i] = 0;
-        }
         
         PlayAmbience();
         //PlayMusic();
