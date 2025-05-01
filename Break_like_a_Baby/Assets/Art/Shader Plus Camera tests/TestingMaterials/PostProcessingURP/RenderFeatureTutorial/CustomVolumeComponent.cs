@@ -24,13 +24,15 @@ public class CustomVolumeComponent : VolumeComponent
     public FloatParameter depthThreshold = new FloatParameter(.005f);
     public FloatParameter acuteDepthDefaultThreshold = new FloatParameter(.005f);
     public FloatParameter acuteAngleStartDot = new FloatParameter(.005f);
+    public FloatParameter _OutlineResolution = new FloatParameter(800);
 
 
 
 
 
 
-    
+
+
 
 }
 

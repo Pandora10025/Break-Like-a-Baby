@@ -83,11 +83,25 @@ Shader "Unlit/SmokyParticles"
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
                 UNITY_SKINNED_VERTEX_COMPUTE(attributes);
 
+
+                //So in this next part we're going to try getting the rightward direction
+                //of the object, so that we can have it ripple in that direction to create a trippy spiral!
+
+
+
+
                 attributes.positionOS = UnityFlipSprite(attributes.positionOS, unity_SpriteProps.xy);
                 o.positionCS = TransformObjectToHClip(attributes.positionOS);
+
+
+
                 #if defined(DEBUG_DISPLAY)
                 o.positionWS = TransformObjectToWorld(attributes.positionOS);
                 #endif
+
+
+
+
                 o.uv = attributes.uv;
                 o.color = attributes.color * _Color * unity_SpriteColor;
                 return o;

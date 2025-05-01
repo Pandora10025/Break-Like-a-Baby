@@ -26,12 +26,14 @@ Shader "Custom/CloudSpriteParticles"
 
     SubShader
     {
-        Tags {"Queue" = "Transparent" "RenderType" = "Transparent" "RenderPipeline" = "UniversalPipeline" }
-
+       Tags {"Queue" = "Transparent" "RenderType" = "Transparent" "RenderPipeline" = "UniversalPipeline" }
+       //Tags {"Queue" = "Geometry" "RenderPipeline" = "UniversalPipeline" }
+        
         Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
         Cull Off
         ZWrite [_ZWrite]
         ZTest Off
+        //ZTest Always
 
         Pass
         {
@@ -235,6 +237,9 @@ Shader "Custom/CloudSpriteParticles"
 
             #include "Packages/com.unity.render-pipelines.universal/Shaders/2D/Include/NormalsRenderingShared.hlsl"
 
+             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
+
+
 
             #pragma vertex UnlitVertex
             #pragma fragment UnlitFragment
@@ -261,15 +266,36 @@ Shader "Custom/CloudSpriteParticles"
                 half3   normalWS        : TEXCOORD1;
                 half3   tangentWS       : TEXCOORD2;
                 half3   bitangentWS     : TEXCOORD3;
-                #if defined(DEBUG_DISPLAY)
+                //#if defined(DEBUG_DISPLAY)
                 float3  positionWS  : TEXCOORD4;
-                #endif
+                //#endif
+                float surfZ : TEXCOORD5;
+
                 UNITY_VERTEX_OUTPUT_STEREO
             };
 
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
             UNITY_TEXTURE_STREAMING_DEBUG_VARS_FOR_TEX(_MainTex);
+
+            float rand (float2 uv) {
+                return frac(sin(dot(uv.xy, float2(12.98908, 78.23003))) * 43758.545354123);
+            }
+
+            float value_noise (float2 uv) {
+                float2 ipos = floor(uv);
+                float2 fpos = frac(uv); 
+                
+                float o  = rand(ipos);
+                float x  = rand(ipos + float2(1, 0));
+                float y  = rand(ipos + float2(0, 1));
+                float xy = rand(ipos + float2(1, 1));
+
+                float2 smooth = smoothstep(0, 1, fpos);
+                return lerp( lerp(o,  x, smooth.x), 
+                                lerp(y, xy, smooth.x), smooth.y);
+            }
+
 
             // NOTE: Do not ifdef the properties here as SRP batcher can not handle different layouts.
             CBUFFER_START( UnityPerMaterial )
@@ -295,30 +321,24 @@ Shader "Custom/CloudSpriteParticles"
 
                 attributes.positionOS = UnityFlipSprite( attributes.positionOS, unity_SpriteProps.xy);
                 o.positionCS = TransformObjectToHClip(attributes.positionOS);
-                #if defined(DEBUG_DISPLAY)
+                //#if defined(DEBUG_DISPLAY)
                 o.positionWS = TransformObjectToWorld(attributes.positionOS);
-                #endif
+                //#endif
                 o.uv = attributes.uv;
                 o.color = attributes.color * _Color * unity_SpriteColor;
 
                 //NEW STUFF DOWN HERE!!!
-                //o.normalWS = -GetViewForwardDir();
-                o.normalWS = TransformObjectToWorldNormal( attributes.normal.xyz );
-                // //o.normalWS = normalize(TransformObjectToWorldDir( (attributes.normal.xyz) ));
-                // //o.normalWS = ( normalize(attributes.normal.xyz) );
-                
-                // //o.tangentWS = TransformObjectToWorldDir(attributes.tangent.xyz);
-                // o.tangentWS = TransformObjectToWorldNormal(attributes.tangent.xyz);
+                o.normalWS = TransformObjectToWorldDir(attributes.normal); ;
+                // float temp = o.normalWS.g;
+                // o.normalWS.g = o.normalWS.z;
+                // o.normalWS.z = temp;
 
-                // //o.bitangentWS = TransformObjectToWorldNormal(attributes.tangent.xyz); 
-                // //o.tangentWS = cross(o.normalWS, o.bitangentWS) * attributes.tangent.w;
-
-
-                // o.bitangentWS = cross(o.normalWS, o.tangentWS) * attributes.tangent.w;
-                
-                //o.normalWS = -GetViewForwardDir();
-                o.tangentWS = TransformObjectToWorldNormal(-attributes.tangent.xyz);
+                o.tangentWS = TransformObjectToWorldDir(attributes.tangent.xyz);
                 o.bitangentWS = cross(o.normalWS, o.tangentWS) * attributes.tangent.w;
+
+
+                o.surfZ = (-TransformWorldToView(o.positionWS)).z;
+
 
 
                 return o;
@@ -326,9 +346,59 @@ Shader "Custom/CloudSpriteParticles"
 
             float4 UnlitFragment(Varyings i) : SV_Target
             {
-                float4 mainTex = i.color * SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
+                
+                float2 normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(i.positionCS.xy);
+
+
+
+                float depth = Linear01Depth(SampleSceneDepth(   normalizedScreenSpaceUV  ), _ZBufferParams);
+                depth /= _ProjectionParams.w;
+
+
+                //float difference = abs( depth - v.surfZ);
+                float difference = (i.surfZ- depth );
+
+
+
 
                 float3 color;
+
+                float2 fracUV = i.uv;
+                fracUV.x = frac(i.uv.x *8);
+                
+                float2 polarUV = (fracUV * 2) -1;
+                
+                float polarLength = length(polarUV);
+                float radians = atan2(polarUV.y, polarUV.x);
+
+                polarUV.x = polarLength;
+                polarUV.y = radians;
+
+                float rotationAmount = .0;//;5*2;
+
+                float rotatedPolarUV = polarUV + float2(0, rotationAmount);
+
+                float2 rotatedNormalUV = (polarUV.x * float2( cos(polarUV.y), sin(polarUV.y) ) );
+
+                rotatedNormalUV = (rotatedNormalUV+1)/2;
+
+
+                float time = _Time.y;
+                
+                //float n = (value_noise((i.uv + time) * 2) - 0.5) * .01;
+                
+                //float deformAmount = lerp( 0, .05, sin( (( fracUV*8  + _Time.y*3) )+1)/2  );
+                
+                float deformAmount = lerp( 0, .0025, value_noise( fracUV*22 + _Time.y )  );
+                
+                //float n = (value_noise((fracUV + time) * 2) );
+
+                i.uv += deformAmount;
+
+                
+
+
+
 
                 //#if defined(DEBUG_DISPLAY)
                 //SurfaceData2D surfaceData;
@@ -346,7 +416,14 @@ Shader "Custom/CloudSpriteParticles"
                 // #endif
 
 
-                float3 tangentWSSpaceNormal = UnpackNormal(SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv));
+                float4 mainTex = i.color * SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
+
+
+
+
+
+                //float3 tangentWSSpaceNormal = UnpackNormal(SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv));
+                float3 tangentWSSpaceNormal = (SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv));
                 tangentWSSpaceNormal = normalize(lerp(float3(0, 0, 1), tangentWSSpaceNormal, _normalIntensity));
                 
                 float3x3 tangentWSToWorld = float3x3 
@@ -360,9 +437,17 @@ Shader "Custom/CloudSpriteParticles"
 
 
 
-                const half3 normalTS = UnpackNormal(SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv));
+                //const half3 normalTS = UnpackNormal(SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv));
+                float3 normalTS = UnpackNormal(SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv));
 
-                float3 calculatedNormals = NormalsRenderingShared(mainTex, normalTS, i.tangentWS.xyz, i.bitangentWS.xyz, i.normalWS.xyz);
+                normal = NormalsRenderingShared(mainTex, normalTS, i.tangentWS.xyz, i.bitangentWS.xyz, i.normalWS.xyz);
+
+
+                //normalTS.r *= -1;
+
+                //float3 maybeNorm = (TransformObjectToWorldNormal( (normalTS ) ) );
+
+                //normal = maybeNorm;
 
                 Light mainLight = GetMainLight();
 
@@ -373,11 +458,14 @@ Shader "Custom/CloudSpriteParticles"
                // float3 viewdirection = normalize(_worldspacecamerapos.xyz - in.posworld);
                 //float3 halfdirection = normalize(viewdirection + lightdirection);
 
-                //float shadowAmount = MainLightRealtimeShadow(TransformWorldToShadowCoord( IN.positionWS));
+                //float shadowAmount = MainLightRealtimeShadow(TransformWorldToShadowCoord( i.positionWS));
                 
 
+                //float ndotl = (dot(normal, lightdirection)+1)/2;
                 float ndotl = (dot(normal, lightdirection)+1)/2;
                 
+                ndotl = saturate(ndotl);
+
                 //ndotl = min(shadowAmount, ndotl);
 
                 ndotl = pow( ndotl, _shadowBias );
@@ -427,14 +515,21 @@ Shader "Custom/CloudSpriteParticles"
 
                 color = diffuse;// + specular + _ambientcolor;
 
-                return float4(color.rgb, mainTex.a);
+                return float4(color.rgb, mainTex.a * saturate( (1-difference*2) ) );
+                //return float4(normal.xyz, mainTex.a);
+                //return float4( polarUV.x , abs(polarUV.y)/3.14, 0 , 1);
+                //return float4( polarUV.x , 0, 0 , 1);
+
+                //float4 rotationTest = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, rotatedNormalUV);
+
+                //return float4(sin( polarUV.y * 8 + value_noise( polarUV*float2( 22,1 ) + _Time.y ) * 3 ),0,0,1);
+                //return float4( difference.rrr,1);
+                
+                //maybeNorm *= .4;
 
 
-
-
-                //return mainTex;
-               // return float4( ndotl.rrr,  mainTex.a );
-
+                // return float4(maybeNorm.rgb, 1 );
+               
             }
             ENDHLSL
         }

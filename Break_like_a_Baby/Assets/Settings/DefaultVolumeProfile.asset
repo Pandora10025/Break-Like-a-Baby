@@ -992,6 +992,9 @@ MonoBehaviour:
   acuteAngleStartDot:
     m_OverrideState: 1
     m_Value: 0.005
+  _OutlineResolution:
+    m_OverrideState: 1
+    m_Value: 800
 --- !u!114 &9001657382290151224
 MonoBehaviour:
   m_ObjectHideFlags: 3
