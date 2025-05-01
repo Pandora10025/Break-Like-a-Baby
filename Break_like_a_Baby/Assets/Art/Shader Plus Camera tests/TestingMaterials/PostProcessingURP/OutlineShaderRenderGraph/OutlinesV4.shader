@@ -26,7 +26,8 @@ Shader "Custom/OutlinesV4"
         float depthDefaultThreshold;
         float acuteDepthDefaultThreshold;
         float acuteAngleStartDot;
-        float resolution;
+        float _OutlineResolution;
+
 
 
 
@@ -71,6 +72,10 @@ Shader "Custom/OutlinesV4"
                // float depth;
                 //DecodeDepthNormal(depthNormals, depth, viewNormal);
 
+
+                #if !UNITY_REVERSED_Z
+                     depthNormals.w = 1.0-depthNormals.w;
+                #endif
                 
 
                 //float2 screenUV = i.screenPos.xy / i.screenPos.w;
@@ -88,30 +93,45 @@ Shader "Custom/OutlinesV4"
 
 
             float3 sobelDepthConvolution (float2 uv, out float verticality){
-                float2 ts = _BlitTexture_TexelSize.xy * outlineGlobalSizeMultiplier;
+                float aspect =  _ScreenParams.x / _ScreenParams.y;
+            
+                
+                float2 ts = _BlitTexture_TexelSize.xy * outlineGlobalSizeMultiplier * aspect;
                 float3 result = 0;
                 
-                //float4 sampleDepthNormals = tex2D(_CameraDepthNormalsTexture, uv );
+                
+                float2 resolution = _OutlineResolution;
 
-                //float4 scaledNormal = (sampleDepthNormals) *2-1;
+                resolution.x *= aspect;
+            
+                float2 pixelUV = uv;
 
-                //float2 screenUV = i.screenPos.xy / i.screenPos.w;
-                //color = Linear01Depth( tex2D(_CameraDepthTexture, screenUV ) );
+        
+                
 
-                //float4 scaledDepth = Linear01Depth(sampleDepthNormals.ba);
+
+                float2 p1Pos = floor( (pixelUV + float2(-1,1)*ts * .707 ) * resolution)/resolution;
+                float2 p2Pos = floor( (pixelUV + float2(0,1)*ts ) * resolution)/resolution;
+                float2 p3Pos = floor( (pixelUV + float2(1,1)*ts * .707 ) * resolution)/resolution;
+                float2 p4Pos = floor( (pixelUV + float2(-1,0)*ts ) * resolution)/resolution;
+                float2 p5Pos = floor(pixelUV * resolution)/resolution;
+                float2 p6Pos = floor( (pixelUV + float2(1,0)*ts ) * resolution)/resolution;
+                float2 p7Pos = floor( (pixelUV + float2(-1,-1)*ts * .707 ) * resolution)/resolution;
+                float2 p8Pos = floor( (pixelUV + float2(0, -1)*ts ) * resolution)/resolution;
+                float2 p9Pos = floor( (pixelUV + float2(1, -1)*ts * .707 ) * resolution)/resolution;
 
 
 
                 
-                float3 p1 = getScaledDepthNormals(uv + float2(-1, 1) * ts).aaa;
-                float3 p2 = getScaledDepthNormals( uv + float2(0, 1) * ts ).aaa;
-                float3 p3 = getScaledDepthNormals( uv + float2(1, 1) * ts ).aaa;
-                float3 p4 = getScaledDepthNormals( uv + float2(-1, 0) * ts ).aaa;
-                float3 p5 = getScaledDepthNormals( uv + float2(0, 0) * ts ).aaa;
-                float3 p6 = getScaledDepthNormals( uv + float2(1, 0) * ts ).aaa;
-                float3 p7 = getScaledDepthNormals( uv + float2(-1, -1) * ts ).aaa;
-                float3 p8 = getScaledDepthNormals( uv + float2(0, -1) * ts ).aaa;
-                float3 p9 = getScaledDepthNormals( uv + float2(1, -1) * ts ).aaa;
+                float3 p1 = getScaledDepthNormals(p1Pos).aaa;
+                float3 p2 = getScaledDepthNormals(p2Pos).aaa;
+                float3 p3 = getScaledDepthNormals(p3Pos).aaa;
+                float3 p4 = getScaledDepthNormals(p4Pos).aaa;
+                float3 p5 = getScaledDepthNormals(p5Pos).aaa;
+                float3 p6 = getScaledDepthNormals(p6Pos).aaa;
+                float3 p7 = getScaledDepthNormals(p7Pos).aaa;
+                float3 p8 = getScaledDepthNormals(p8Pos).aaa;
+                float3 p9 = getScaledDepthNormals(p9Pos).aaa;
 
                 float d = getScaledDepthNormals(uv).w;
 
@@ -124,41 +144,43 @@ Shader "Custom/OutlinesV4"
             }
 
             float3 sobelNormalConvolution (float2 uv){
-                float2 ts = _BlitTexture_TexelSize.xy * outlineGlobalSizeMultiplier;
+                float aspect =  _ScreenParams.x / _ScreenParams.y;
+            
+                
+                float2 ts = _BlitTexture_TexelSize.xy * outlineGlobalSizeMultiplier * aspect;
                 float3 result = 0;
                 
-                //float4 sampleDepthNormals = tex2D(_CameraDepthNormalsTexture, uv );
+                
+                float2 resolution = _OutlineResolution;
 
-                //float4 scaledNormal = (sampleDepthNormals) *2-1;
+                resolution.x *= aspect;
+            
+                float2 pixelUV = uv;
 
-                //float2 screenUV = i.screenPos.xy / i.screenPos.w;
-                //color = Linear01Depth( tex2D(_CameraDepthTexture, screenUV ) );
-
-                //float4 scaledDepth = Linear01Depth(sampleDepthNormals.ab);
+        
+                
 
 
+                float2 p1Pos = floor( (pixelUV + float2(-1,1)*ts * .707) * resolution)/resolution;
+                float2 p2Pos = floor( (pixelUV + float2(0,1)*ts ) * resolution)/resolution;
+                float2 p3Pos = floor( (pixelUV + float2(1,1)*ts * .707) * resolution)/resolution;
+                float2 p4Pos = floor( (pixelUV + float2(-1,0)*ts ) * resolution)/resolution;
+                float2 p5Pos = floor(pixelUV * resolution)/resolution;
+                float2 p6Pos = floor( (pixelUV + float2(1,0)*ts ) * resolution)/resolution;
+                float2 p7Pos = floor( (pixelUV + float2(-1,-1)*ts * .707) * resolution)/resolution;
+                float2 p8Pos = floor( (pixelUV + float2(0, -1)*ts ) * resolution)/resolution;
+                float2 p9Pos = floor( (pixelUV + float2(1, -1)*ts * .707) * resolution)/resolution;
 
                 
-                // float3 p1 = getScaledDepthNormals(uv + float2(-1, 1) * ts).rgb;
-                // float3 p2 = getScaledDepthNormals( uv + float2(0, 1) * ts ).rgb;
-                // float3 p3 = getScaledDepthNormals( uv + float2(1, 1) * ts ).rgb;
-                // float3 p4 = getScaledDepthNormals( uv + float2(-1, 0) * ts ).rgb;
-                // float3 p5 = getScaledDepthNormals( uv + float2(0, 0) * ts ).rgb;
-                // float3 p6 = getScaledDepthNormals( uv + float2(1, 0) * ts ).rgb;
-                // float3 p7 = getScaledDepthNormals( uv + float2(-1, -1) * ts ).rgb;
-                // float3 p8 = getScaledDepthNormals( uv + float2(0, -1) * ts ).rgb;
-                // float3 p9 = getScaledDepthNormals( uv + float2(1, -1) * ts ).rgb;
-                
-                
-                float3 p1 = getScaledDepthNormals(uv + float2(-1, 1) * ts).rgb;
-                float3 p2 = getScaledDepthNormals( uv + float2(0, 1) * ts ).rgb;
-                float3 p3 = getScaledDepthNormals( uv + float2(1, 1) * ts ).rgb;
-                float3 p4 = getScaledDepthNormals( uv + float2(-1, 0) * ts ).rgb;
-                float3 p5 = getScaledDepthNormals( uv + float2(0, 0) * ts ).rgb;
-                float3 p6 = getScaledDepthNormals( uv + float2(1, 0) * ts ).rgb;
-                float3 p7 = getScaledDepthNormals( uv + float2(-1, -1) * ts ).rgb;
-                float3 p8 = getScaledDepthNormals( uv + float2(0, -1) * ts ).rgb;
-                float3 p9 = getScaledDepthNormals( uv + float2(1, -1) * ts ).rgb;
+                float3 p1 = getScaledDepthNormals(p1Pos).rgb;
+                float3 p2 = getScaledDepthNormals(p2Pos).rgb;
+                float3 p3 = getScaledDepthNormals(p3Pos).rgb;
+                float3 p4 = getScaledDepthNormals(p4Pos).rgb;
+                float3 p5 = getScaledDepthNormals(p5Pos).rgb;
+                float3 p6 = getScaledDepthNormals(p6Pos).rgb;
+                float3 p7 = getScaledDepthNormals(p7Pos).rgb;
+                float3 p8 = getScaledDepthNormals(p8Pos).rgb;
+                float3 p9 = getScaledDepthNormals(p9Pos).rgb;
 
                 result = abs( (p1+ (2*p2)+p3)-(p7+(2*p8)+p9) )+ abs( (p3+ (2*p6) +p9 )-(p1+ (2*p4) + p7) );
 

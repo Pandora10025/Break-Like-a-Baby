@@ -28,6 +28,7 @@ public class OutlineRenderPass : ScriptableRenderPass
     private static readonly int depthDefaultThreshold = Shader.PropertyToID("depthDefaultThreshold");
     private static readonly int acuteDepthDefaultThreshold = Shader.PropertyToID("depthDefaultThreshold");
     private static readonly int acuteAngleStartDotDefault = Shader.PropertyToID("acuteAngleStartDot");
+    private static readonly int _OutlineResolutionDefault = Shader.PropertyToID("_OutlineResolution");
     private static readonly int globalTextureID = Shader.PropertyToID("_OutlineTexture");
 
 
@@ -202,6 +203,12 @@ public class OutlineRenderPass : ScriptableRenderPass
         float acuteAngleStartDotValue = volumeComponent.acuteAngleStartDot.overrideState ? volumeComponent.acuteAngleStartDot.value : 0.005f;  
         material.SetFloat (acuteAngleStartDotDefault, acuteAngleStartDotValue);
 
+
+        float _OutlineResolutionValue = volumeComponent._OutlineResolution.overrideState ? volumeComponent._OutlineResolution.value : 0.005f;  
+        material.SetFloat (_OutlineResolutionDefault, _OutlineResolutionValue);
+
+
+       
 
 
 
