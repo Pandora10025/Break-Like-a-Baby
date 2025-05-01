@@ -62,7 +62,7 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (inRange && (Input.GetKeyDown(KeyCode.Space) || playerControl.isSpamTriggered()) && photonView.IsMine && tAllowed)
+        if (inRange && (Input.GetKeyDown(KeyCode.Space) || playerControl.isSpamTriggered()) && photonView.IsMine)
         {
 
             AudioManager.instance.PlaySFX(aud, transform.position);
@@ -85,7 +85,7 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
         //check to show the tablist
         if (photonView.IsMine)
         {
-            if (Input.GetKey(KeyCode.Tab) || playerControl.isTaskTriggered())
+            if ((Input.GetKey(KeyCode.Tab) || playerControl.isTaskTriggered())&& tAllowed)
             {
                 ObjectManager.instance.ToggleText(true);
                 //GameManager.instance.ToggleText(true);

@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public Sprite[] playerP;
 
     public TextMeshProUGUI wLevel,lLevel;
+    bool timerOn = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
@@ -78,14 +79,18 @@ public class GameManager : MonoBehaviourPunCallbacks
             {
                 case 0:
                     totalTime = 200;
+                    timerOn = false;
+                    timerText.gameObject.transform.parent.gameObject.SetActive(false);
                     break;
                 case 1:
                     Debug.Log("Normal Mode");
                     totalTime = 120;
+                    timerOn = true;
                     break;
                 case 2:
                     Debug.Log("Hard Mode");
                     totalTime = 120;
+                    timerOn = true;
                     break;
             }
         }
@@ -98,6 +103,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             if (gameStarted)
             {
+                if(timerOn)
                 totalTime -= Time.deltaTime;
 
                 if (totalTime <= 0)

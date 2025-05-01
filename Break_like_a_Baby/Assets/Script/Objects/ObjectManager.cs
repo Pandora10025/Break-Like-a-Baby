@@ -34,8 +34,9 @@ public class ObjectManager : MonoBehaviourPun
     private List<GameObject> startingObjects = new List<GameObject>();
     private void Awake()
     {
-        CarrySoundOver.instance.StopMusic();
         instance = this;
+        CarrySoundOver.instance.StopMusic();
+       
         if (!PhotonNetwork.IsMasterClient)
         {
             Debug.Log("break");
