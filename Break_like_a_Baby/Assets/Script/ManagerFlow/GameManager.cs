@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             switch (difficulty)
             {
                 case 0:
-                    totalTime = 200;
+                    totalTime = 20;
                     timerOn = false;
                     timerText.gameObject.transform.parent.gameObject.SetActive(false);
                     break;
