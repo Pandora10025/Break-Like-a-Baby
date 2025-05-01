@@ -88,6 +88,26 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     }
     void Start()
     {
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("Difficulty", out object difficultyObj))
+        {
+            int difficulty = (int)difficultyObj;
+
+            switch (difficulty)
+            {
+                case 0:
+                    Debug.Log("Easy Mode");
+                    maxHealth = 10f;
+                    break;
+                case 1:
+                    Debug.Log("Normal Mode");
+                    maxHealth = 20f;
+                    break;
+                case 2:
+                    Debug.Log("Hard Mode");
+                    maxHealth = 30f;
+                    break;
+            }
+        }
         //instantiate sliders and stuff
         slider = this.transform.parent.GetChild(1).GetChild(0).GetComponent<UnityEngine.UI.Slider>();
         slider.maxValue = maxHealth;

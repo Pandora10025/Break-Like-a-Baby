@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Lobby : MonoBehaviourPunCallbacks
 {
@@ -11,6 +12,9 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     public string gameSceneName;
     [SerializeField] TextMeshProUGUI readyText;
+
+    public GameObject bSet;
+    public RectTransform[] b,b1;
 
     void Awake()
     {
@@ -27,6 +31,14 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            bSet.SetActive(false);
+        }
+        else
+        {
+            SetDifficulty(1);
+        }
         //ClearReadyFlag();
         UpdateReadyDisplay();
     }
@@ -44,6 +56,19 @@ public class Lobby : MonoBehaviourPunCallbacks
     {
         ClearReadyFlag(); 
         UpdateReadyDisplay();
+    }
+
+    public void SetDifficulty(int level)
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        b[0].position = b1[level].position;
+        ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable
+    {
+        { "Difficulty", level }
+    };
+        PhotonNetwork.CurrentRoom.SetCustomProperties(props);
+        Debug.Log("Difficulty set to: " + level);
     }
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)

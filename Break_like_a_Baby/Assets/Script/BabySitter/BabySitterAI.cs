@@ -105,6 +105,26 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("Difficulty", out object difficultyObj))
+        {
+            int difficulty = (int)difficultyObj;
+
+            switch (difficulty)
+            {
+                case 0:
+                    Debug.Log("Easy Mode");
+                    GetComponent<NavMeshAgent>().speed = 4f;
+                    break;
+                case 1:
+                    Debug.Log("Normal Mode");
+                    GetComponent<NavMeshAgent>().speed = 5f;
+                    break;
+                case 2:
+                    Debug.Log("Hard Mode");
+                    GetComponent<NavMeshAgent>().speed = 10f;
+                    break;
+            }
+        }
         if (GameManager.instance)
         {
             GameManager.instance.babySitter = gameObject;

@@ -26,10 +26,32 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
     public int cribCount;
 
     bool toggledOnScreen = false;
+
+    bool tAllowed = true;
     
 
     private void Start()
     {
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("Difficulty", out object difficultyObj))
+        {
+            int difficulty = (int)difficultyObj;
+
+            switch (difficulty)
+            {
+                case 0:
+                    Debug.Log("Easy Mode");
+                    tAllowed = true;
+                    break;
+                case 1:
+                    Debug.Log("Normal Mode");
+                    tAllowed = true;
+                    break;
+                case 2:
+                    Debug.Log("Hard Mode");
+                    tAllowed = false;
+                    break;
+            }
+        }
         rb = this.GetComponent<Rigidbody>();
         aud = this.GetComponent<AudioSource>();
         playerControl = this.GetComponent<PlayerControllerr>();
@@ -40,7 +62,7 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (inRange && (Input.GetKeyDown(KeyCode.Space) || playerControl.isSpamTriggered()) && photonView.IsMine)
+        if (inRange && (Input.GetKeyDown(KeyCode.Space) || playerControl.isSpamTriggered()) && photonView.IsMine && tAllowed)
         {
 
             AudioManager.instance.PlaySFX(aud, transform.position);

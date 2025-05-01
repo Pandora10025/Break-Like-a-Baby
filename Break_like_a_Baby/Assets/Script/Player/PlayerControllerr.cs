@@ -85,6 +85,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public float trailM=200f;
     public Slider sprintBar;
     public float minEmiss=15f;
+    bool clDown = true;
     void Awake()
     {
         inputActions = new PlayerControls();
@@ -110,7 +111,31 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     void Start()
     {
-        
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("Difficulty", out object difficultyObj))
+        {
+            int difficulty = (int)difficultyObj;
+
+            switch (difficulty)
+            {
+                case 0:
+                    Debug.Log("Easy Mode");
+                    clDown = false;
+                    break;
+                case 1:
+                    Debug.Log("Normal Mode");
+                    clDown = true;
+                    sprintRecoveryRate = 2.5f;
+                    sprintCoolDown = 10f;
+                    break;
+                case 2:
+                    Debug.Log("Hard Mode");
+                    clDown = true;
+                    sprintRecoveryRate = 1f;
+                    sprintCoolDown = 5f;
+                    break;
+            }
+        }
+
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         //audioSearch = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
@@ -273,6 +298,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
         {
            
             // Drain the current sprin time
+            if(clDown)
             currentSprintTime -=sprintDrainRate * Time.deltaTime;
             photonView.RPC("trailSpeed", RpcTarget.AllBuffered, currentSprintTime);
             // If it is completely drained, 

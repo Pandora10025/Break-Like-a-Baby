@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public Sprite[] playerP;
 
+    public TextMeshProUGUI wLevel,lLevel;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
@@ -151,6 +152,29 @@ public class GameManager : MonoBehaviourPunCallbacks
             score = score + allPbreaks[i].breakCount*10-(allPbreaks[i].GetComponent<PlayerCatching>().catchCount*10)+ (allPbreaks[i].cribCount*20) + (int)(totalTime* (won?1:-1));
             //stats = stats + playerPhotonView.Owner.NickName+ " Broke " + allPbreaks[i].breakCount +" items: " + allPbreaks[i].brokenList.Substring(0, Mathf.Max(allPbreaks[i].brokenList.Length-2,0)) + ". Got Caught "+ allPbreaks[i].GetComponent<PlayerCatching>().catchCount + " times, and broke the crib " + allPbreaks[i].cribCount +" times."+"\n\n";
         }
+        string diff = "";
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("Difficulty", out object difficultyObj))
+        {
+            int difficulty = (int)difficultyObj;
+
+            switch (difficulty)
+            {
+                case 0:
+                    diff = "Easy";
+                    break;
+                case 1:
+                    Debug.Log("Normal Mode");
+                    diff = "Normal";
+                    break;
+                case 2:
+                    Debug.Log("Hard Mode");
+                    diff = "Cry";
+                    break;
+            }
+        }
+        diff += " ";
+        wLevel.text = diff + wLevel.text;
+        lLevel.text = diff + lLevel.text;
         timeBonus[0].text = "Time Bonus: " + "[" + timerUItext + "]";
         timeBonus[0].color = won ? brokenT[0].color : timesCaught[0].color;
         brokenT[0].text = "Items Broken: " + (ObjectManager.instance.numOfStartObjects - ObjectManager.instance.numOfActiveObjects) + "/" + ObjectManager.instance.numOfStartObjects;
@@ -167,6 +191,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             gameOverScreen.GetComponent<GameOver>().gameLost();
         }
         Debug.Log("Game Over RPC: " + won);
+
+
     }
 
     public void ToggleText(bool b)
