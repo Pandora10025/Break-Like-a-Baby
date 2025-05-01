@@ -82,8 +82,9 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
     private bool canSprint = true;
 
     private ParticleSystem dustTrail;
-    public float trailM=10f;
+    public float trailM=200f;
     public Slider sprintBar;
+    public float minEmiss=15f;
     void Awake()
     {
         inputActions = new PlayerControls();
@@ -135,7 +136,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
         currentSprintTime = sprintCoolDown;
 
         photonView.RPC("toggleTrail", RpcTarget.AllBuffered, false);
-        trailM = dustTrail.emissionRate / (sprintCoolDown*sprintCoolDown);
+        
         sprintBar.maxValue = sprintCoolDown;
         
         sprintBar.gameObject.SetActive(false);
@@ -344,10 +345,13 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
     [PunRPC]
     void trailSpeed(float t)
     {
-        float scaledSpeed = t * t;
+        float falloff = Mathf.Pow(t / sprintCoolDown, 2);
+        float scaledEmission = trailM * falloff;
 
-        dustTrail.emissionRate = scaledSpeed * trailM;
-        
+      
+        var emission = dustTrail.emission;
+        emission.rateOverTime = scaledEmission;
+
     }
     private void OnTask(InputAction.CallbackContext context)
     {

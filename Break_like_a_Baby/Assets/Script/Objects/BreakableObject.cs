@@ -123,6 +123,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         myState = (int)objectState.inactive;
         canvas.enabled = false;
         GetComponent<BoxRockerTest>().DisableOutlines();
+        hitPar.gameObject.transform.GetChild(0).gameObject.SetActive(false);
 
     }
     public void Active()
@@ -131,6 +132,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
         myState = (int)objectState.active;
         canvas.enabled = true;
         GetComponent<BoxRockerTest>().EnabledOutlines();
+        hitPar.gameObject.transform.GetChild(0).gameObject.SetActive(true);
 
     }
     public void resetHealth()
@@ -141,6 +143,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     {
         this.GetComponent<MeshRenderer>().material = boykissedMaterialSponsoredByJayVik;
         myState = (int)objectState.broken;
+        hitPar.gameObject.transform.GetChild(0).gameObject.SetActive(false);
     }
 
     #endregion
