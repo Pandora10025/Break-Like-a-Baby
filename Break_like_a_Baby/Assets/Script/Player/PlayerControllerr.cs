@@ -8,6 +8,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
 using TMPro;
+using UnityEngine.UI;
 
 public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
 {
@@ -82,6 +83,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     private ParticleSystem dustTrail;
     public float trailM=10f;
+    public Slider sprintBar;
     void Awake()
     {
         inputActions = new PlayerControls();
@@ -134,6 +136,9 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
         photonView.RPC("toggleTrail", RpcTarget.AllBuffered, false);
         trailM = dustTrail.emissionRate / (sprintCoolDown*sprintCoolDown);
+        sprintBar.maxValue = sprintCoolDown;
+        
+        sprintBar.gameObject.SetActive(false);
     }
 
     IEnumerator SetAnimatorDelayed()
@@ -265,6 +270,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
         //Check if player is sprinting
         if(isSprinting)
         {
+           
             // Drain the current sprin time
             currentSprintTime -=sprintDrainRate * Time.deltaTime;
             photonView.RPC("trailSpeed", RpcTarget.AllBuffered, currentSprintTime);
@@ -285,11 +291,27 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
         }
         else
         {
+           
             if (currentSprintTime < sprintCoolDown)
             {
+                if (photonView.IsMine)
+                {
+                    if (!sprintBar.gameObject.active)
+                    {
+                        sprintBar.gameObject.SetActive(true);
+                        sprintBar.minValue = currentSprintTime;
+                    }
+                      
+                }
                 currentSprintTime += sprintRecoveryRate * Time.deltaTime;
+                sprintBar.value = currentSprintTime;
                 if (currentSprintTime >= sprintCoolDown)
                 {
+                    if (photonView.IsMine)
+                    {
+                        if (sprintBar.gameObject.active)
+                            sprintBar.gameObject.SetActive(false);
+                    }
                     currentSprintTime = sprintCoolDown;
                     canSprint = true;
                 }
