@@ -3094,7 +3094,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 26.59999, y: -117}
+  m_AnchoredPosition: {x: 30, y: -111}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &592803709
@@ -3117,7 +3117,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: BABY WANT BREAK EVERYTHING ON LIST!! NEW LIST EVERY TIME!
+  m_text: BABY WANT <i><b>BREAK EVERYTHING</b></i> ON LIST!! NEW LIST <i><b>EVERY
+    TIME!</b></i>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a28995502c338f14fad158ced2aefc13, type: 2}
   m_sharedMaterial: {fileID: 6720276249112229488, guid: a28995502c338f14fad158ced2aefc13, type: 2}
@@ -3144,8 +3145,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 15
+  m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3182,7 +3183,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 68.11493, w: 0}
+  m_margin: {x: 0, y: 0, z: 62.24111, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -3230,7 +3231,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 1.865}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 39, y: -119}
+  m_AnchoredPosition: {x: 38, y: -112}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &605946409
@@ -3253,7 +3254,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'BABY MUST BE FAST, PARENTS HOME SOON
+  m_text: 'BABY <i><b>MUST BE FAST</b></i>, PARENTS HOME SOON
 
 '
   m_isRightToLeft: 0
@@ -3282,8 +3283,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 15
+  m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4037,7 +4038,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'BABYSITTER TAKE SIBLING!!!!! BREAK CRIB SAVE TWIN '
+  m_text: BABYSITTER TAKE SIBLING!!!!! <i><b>BREAK CRIB SAVE TWIN </b></i>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a28995502c338f14fad158ced2aefc13, type: 2}
   m_sharedMaterial: {fileID: 6720276249112229488, guid: a28995502c338f14fad158ced2aefc13, type: 2}
@@ -4064,8 +4065,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 15
+  m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -7622,7 +7623,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.72}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 44.177948, y: -114.55787}
+  m_AnchoredPosition: {x: 43, y: -114}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1638453915
@@ -7645,7 +7646,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'HATE BABYSITTER!!! SHE HEAR BREAKS!! BABY HIDE UNDER THINGS
+  m_text: 'HATE BABYSITTER!!! <i><b>SHE HEAR</b></i> BREAKS!! BABY <i><b>HIDE UNDER
+    THINGS</b></i>
 
 '
   m_isRightToLeft: 0
@@ -7674,8 +7676,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 15
+  m_fontSizeBase: 15
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -7712,7 +7714,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -5.464279, y: 0, z: 68.11493, w: 0}
+  m_margin: {x: -9.928223, y: 0, z: 55.351585, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
