@@ -70,6 +70,25 @@ public class GameManager : MonoBehaviourPunCallbacks
             timesCaught[i].text ="";
             scoreP[i].color = Color.clear;
         }
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("Difficulty", out object difficultyObj))
+        {
+            int difficulty = (int)difficultyObj;
+
+            switch (difficulty)
+            {
+                case 0:
+                    totalTime = 200;
+                    break;
+                case 1:
+                    Debug.Log("Normal Mode");
+                    totalTime = 120;
+                    break;
+                case 2:
+                    Debug.Log("Hard Mode");
+                    totalTime = 120;
+                    break;
+            }
+        }
     }
 
     // Update is called once per frame
