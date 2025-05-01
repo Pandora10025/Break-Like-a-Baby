@@ -148,7 +148,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             timesCaught[i].text = allPbreaks[i].GetComponent<PlayerCatching>().catchCount.ToString();
             scoreP[i].sprite = playerP[allPbreaks[i].GetComponent<PlayerControllerr>().colorId];
             scoreP[i].color = Color.white;
-            score = score + allPbreaks[i].breakCount*11-(allPbreaks[i].GetComponent<PlayerCatching>().catchCount*9)+ (allPbreaks[i].cribCount*12) + (int)(totalTime/14* (won?1:-1));
+            score = score + allPbreaks[i].breakCount*10-(allPbreaks[i].GetComponent<PlayerCatching>().catchCount*10)+ (allPbreaks[i].cribCount*20) + (int)(totalTime* (won?1:-1));
             //stats = stats + playerPhotonView.Owner.NickName+ " Broke " + allPbreaks[i].breakCount +" items: " + allPbreaks[i].brokenList.Substring(0, Mathf.Max(allPbreaks[i].brokenList.Length-2,0)) + ". Got Caught "+ allPbreaks[i].GetComponent<PlayerCatching>().catchCount + " times, and broke the crib " + allPbreaks[i].cribCount +" times."+"\n\n";
         }
         timeBonus[0].text = "Time Bonus: " + "[" + timerUItext + "]";

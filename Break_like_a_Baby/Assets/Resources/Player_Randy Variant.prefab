@@ -624,7 +624,7 @@ PrefabInstance:
       objectReference: {fileID: 2095004716661089822}
     - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
       propertyPath: sprintRecoveryRate
-      value: 2.5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
       propertyPath: shadowColors.Array.size
