@@ -122,6 +122,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 case 2:
                     Debug.Log("Hard Mode");
                     GetComponent<NavMeshAgent>().speed = 10f;
+                    GetComponent<NavMeshAgent>().angularSpeed = 600f;
                     catchingDistance = 2f;
                     break;
             }

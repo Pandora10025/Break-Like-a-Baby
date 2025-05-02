@@ -30,8 +30,9 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
             return;
         }
 
-        UpdateStatus($"Creating room: {createInput.text}...");
-        PhotonNetwork.CreateRoom(createInput.text);
+        string roomName = createInput.text.ToLower(); // 👈 normalize to lowercase
+        UpdateStatus($"Creating room: {roomName}...");
+        PhotonNetwork.CreateRoom(roomName);
     }
 
     public void JoinRoom()
