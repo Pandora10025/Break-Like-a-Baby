@@ -439,7 +439,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                         StopMoving();
 
 
-                        
+                        photonView.RPC("SetAnim", RpcTarget.All, findInArray("patrol"), 1);
 
                         if (!checkOnMesh)
                         {
