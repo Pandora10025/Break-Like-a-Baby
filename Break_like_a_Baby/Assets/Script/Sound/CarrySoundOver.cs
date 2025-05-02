@@ -34,6 +34,7 @@ public class CarrySoundOver : MonoBehaviour
 
     public void StopMusic() 
     {
+        if(aud)
         aud.Stop();
     }
 
