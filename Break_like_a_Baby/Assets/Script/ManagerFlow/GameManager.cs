@@ -49,6 +49,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     public TextMeshProUGUI wLevel,lLevel;
     bool timerOn = true;
 
+    bool tOn = false;
+    public GameObject bT;
+
+    float bTime = 5f;
+    float bCount;
+    public string[] bTi;
+    int bTii;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
@@ -61,7 +68,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         cribSymbol.SetActive(false);
         gameStarted = true;
         playerCount= GameObject.FindGameObjectsWithTag("Player").Length;
-
+        
         for(int i = 0; i < 2; i++)
         {
             playerNames[i].text = "";
@@ -81,16 +88,23 @@ public class GameManager : MonoBehaviourPunCallbacks
                     totalTime = 20;
                     timerOn = false;
                     timerText.gameObject.transform.parent.gameObject.SetActive(false);
+                    tOn = true;
+                    bT.SetActive(true);
+                    bCount = bTime;
                     break;
                 case 1:
                     Debug.Log("Normal Mode");
                     totalTime = 120;
                     timerOn = true;
+                    tOn = false;
+                    bT.SetActive(false);
                     break;
                 case 2:
                     Debug.Log("Hard Mode");
                     totalTime = 120;
                     timerOn = true;
+                    tOn = false;
+                    bT.SetActive(false);
                     break;
             }
         }
@@ -118,7 +132,17 @@ public class GameManager : MonoBehaviourPunCallbacks
         int minutes = Mathf.FloorToInt(totalTime / 60);
         int seconds = Mathf.FloorToInt(totalTime % 60);
 
-       
+        if (tOn)
+        {
+            bCount += Time.deltaTime;
+            if (bTime <= bCount)
+            {
+                bCount = 0;
+                if (bTii < bTi.Length)
+                    bT.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = bTi[bTii++];
+                else bT.SetActive(false);
+            }
+        }
 
         timerUItext = string.Format("{0:00}:{1:00}", minutes, seconds);
 

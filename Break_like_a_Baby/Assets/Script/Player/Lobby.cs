@@ -16,6 +16,8 @@ public class Lobby : MonoBehaviourPunCallbacks
     public GameObject bSet;
     public RectTransform[] b,b1;
 
+    public GameObject ready;
+
     void Awake()
     {
         if (Instance == null)
@@ -31,6 +33,7 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        ready.SetActive(false);
         if (!PhotonNetwork.IsMasterClient)
         {
             bSet.SetActive(false);
@@ -107,6 +110,7 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     public void SetReady()
     {
+        ready.SetActive(true);
         ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable
         {
             { "Ready", true }
