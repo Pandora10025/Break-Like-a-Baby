@@ -41,9 +41,15 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
     NavMeshAgent nav;
 
+    public float additionalHearing = 1;
 
 
-    public Vector2 idleWaitMinAndMax = new Vector2(3, 10);
+
+    private Vector2 currentIdleWaitMinAndMax = new Vector2(3, 10);
+    public Vector2 normalIdleWaitMinAndMax = new Vector2(3, 10);
+    public Vector2 cribIdleWaitMinAndMax = new Vector2(0, 0);
+
+
     public Vector2 patrolPercentEachPatrolMinAndMax = new Vector2(.1f, 1f);
 
     public float deathCountdownMaxTime = 1f;
@@ -109,20 +115,52 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
         {
             int difficulty = (int)difficultyObj;
 
+            GetComponent<NavMeshAgent>().acceleration = 48f;
+
+            float baseAnimSpeed = 0.9f;
+            
+
+
             switch (difficulty)
             {
+
+               
+                
                 case 0:
                     Debug.Log("Easy Mode");
-                    GetComponent<NavMeshAgent>().speed = 4f;
+                    GetComponent<NavMeshAgent>().speed = 3f;
+                    GetComponent<Animator>().SetFloat("RunSpeed", baseAnimSpeed * GetComponent<NavMeshAgent>().speed/5f);
+                    GetComponent<Animator>().SetFloat("PickupSpeed", baseAnimSpeed);
+                    cribIdleWaitMinAndMax = new Vector2(1f, 1f);
+                    additionalHearing = -1;
+
+
+
+
                     break;
                 case 1:
                     Debug.Log("Normal Mode");
                     GetComponent<NavMeshAgent>().speed = 5f;
+                    GetComponent<Animator>().SetFloat("RunSpeed", baseAnimSpeed);
+                    GetComponent<Animator>().SetFloat("PickupSpeed", baseAnimSpeed);
+
+                    cribIdleWaitMinAndMax = new Vector2(1f , 3f);
+                    additionalHearing = 0;
+
+
                     break;
                 case 2:
                     Debug.Log("Hard Mode");
                     GetComponent<NavMeshAgent>().speed = 10f;
-                    GetComponent<NavMeshAgent>().angularSpeed = 600f;
+                    GetComponent<Animator>().SetFloat("RunSpeed", baseAnimSpeed * GetComponent<NavMeshAgent>().speed / 5f);
+                    GetComponent<Animator>().SetFloat("PickupSpeed", baseAnimSpeed * GetComponent<NavMeshAgent>().speed / 5f);
+                    cribIdleWaitMinAndMax = new Vector2(8, 15f);
+
+                    additionalHearing = 5;
+
+
+                    GetComponent<NavMeshAgent>().angularSpeed = 2000f;
+                    
                     catchingDistance = 2f;
                     break;
             }
@@ -145,6 +183,8 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
 
         deathTimer = deathCountdownMaxTime;
+
+        currentIdleWaitMinAndMax = normalIdleWaitMinAndMax;
 
         //chaseCooldownTimer = chaseCooldownMaxTime;
 
@@ -192,7 +232,9 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 //photonView.RPC("SetAnim", RpcTarget.All, findInArray("preidle"), 1);
 
                 //anim.SetBool("preidle", true);
-                calculatedWaitDelay = UnityEngine.Random.Range(idleWaitMinAndMax.x, idleWaitMinAndMax.y);
+                calculatedWaitDelay = UnityEngine.Random.Range(currentIdleWaitMinAndMax.x, currentIdleWaitMinAndMax.y);
+
+                currentIdleWaitMinAndMax = normalIdleWaitMinAndMax;
 
                 waitTimer = calculatedWaitDelay;
 
@@ -676,6 +718,8 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
                                 //               PlayerCatching player = playerWeAreCurrentlyChasing.GetComponent<PlayerCatching>();
                                 //               player.Roomed();
+
+                                currentIdleWaitMinAndMax = cribIdleWaitMinAndMax;
 
                                 GameManager.instance.crib.babyBedded(playerWeAreCurrentlyChasing.gameObject.GetComponent<PlayerControllerr>().colorId);
                                 //SetAnim("pickup", false);

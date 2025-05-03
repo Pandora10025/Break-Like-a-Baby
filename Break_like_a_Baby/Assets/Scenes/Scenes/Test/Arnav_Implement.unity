@@ -40760,7 +40760,9 @@ MonoBehaviour:
   holdingBaby: 0
   statesIntoAnsync: 010000000300000007000000
   currentState: 0
-  idleWaitMinAndMax: {x: 3, y: 10}
+  currentIdleWaitMinAndMax: {x: 3, y: 10}
+  normalIdleWaitMinAndMax: {x: 3, y: 10}
+  cribIdleWaitMinAndMax: {x: 20, y: 20}
   patrolPercentEachPatrolMinAndMax: {x: 0.1, y: 1}
   deathCountdownMaxTime: 0.3
   deathTimer: 0

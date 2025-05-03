@@ -351,7 +351,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     void alarmBabysitter(float radius)
     {
 
-        if (Vector3.Distance(GameManager.instance.babySitter.transform.position, transform.position) < radius)
+        if (Vector3.Distance(GameManager.instance.babySitter.transform.position, transform.position) < radius + GameManager.instance.babySitter.GetComponent<BabySitterAI>().additionalHearing)
         {
             GameManager.instance.babySitter.GetComponent<BabySitterAI>().PathfindToPos(transform.position);
 
@@ -362,7 +362,7 @@ public class BreakableObject : MonoBehaviourPunCallbacks
     }
 
 
-    //THIS IS LUKAS!!! JUST THOUGHT ID DRAW A GIZMO TO SHOW THE RADIUS OF AN OBJECT!
+    //THIS IS LUKAS!!! JUST THOUGHT ID DRAW A GIZMO TO SHOW THE ALARM RADIUS OF AN OBJECT! (Without the babysitter's hearing bonus)
     private void OnDrawGizmos()
     {
         if (debugShowRadii)
