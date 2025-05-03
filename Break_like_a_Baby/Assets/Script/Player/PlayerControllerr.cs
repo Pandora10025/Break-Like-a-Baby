@@ -86,6 +86,8 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public Slider sprintBar;
     public float minEmiss=15f;
     bool clDown = true;
+
+    
     void Awake()
     {
         inputActions = new PlayerControls();
