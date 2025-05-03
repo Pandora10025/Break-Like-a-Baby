@@ -96,6 +96,9 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
     public GameObject babyOrb;
 
     [SerializeField] string[] animNames;
+
+    float pickUpDelay = 0.65f;
+    bool pickUpDelayOn = false;
      
     void Awake() {
 
@@ -129,7 +132,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 case 0:
                     Debug.Log("Easy Mode");
                     GetComponent<NavMeshAgent>().speed = 3f;
-                    GetComponent<Animator>().SetFloat("RunSpeed", baseAnimSpeed * GetComponent<NavMeshAgent>().speed/5f);
+                    GetComponent<Animator>().SetFloat("RunSpeed", baseAnimSpeed * GetComponent<NavMeshAgent>().speed/4f);
                     GetComponent<Animator>().SetFloat("PickupSpeed", baseAnimSpeed);
                     cribIdleWaitMinAndMax = new Vector2(1f, 1f);
                     additionalHearing = -1;
@@ -152,8 +155,8 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 case 2:
                     Debug.Log("Hard Mode");
                     GetComponent<NavMeshAgent>().speed = 10f;
-                    GetComponent<Animator>().SetFloat("RunSpeed", baseAnimSpeed * GetComponent<NavMeshAgent>().speed / 5f);
-                    GetComponent<Animator>().SetFloat("PickupSpeed", baseAnimSpeed * GetComponent<NavMeshAgent>().speed / 5f);
+                    GetComponent<Animator>().SetFloat("RunSpeed", baseAnimSpeed * GetComponent<NavMeshAgent>().speed / 8f);
+                    GetComponent<Animator>().SetFloat("PickupSpeed", baseAnimSpeed * GetComponent<NavMeshAgent>().speed / 8f);
                     cribIdleWaitMinAndMax = new Vector2(8, 15f);
 
                     additionalHearing = 5;
@@ -627,8 +630,9 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 //anim.SetBool("prepickup", true);
 
                 //currentState = BabysitterAIState.PICKUP;
+           
                 photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.PICKUP);
-
+              
                 break;
 
             case BabysitterAIState.PICKUP:
@@ -651,7 +655,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
                 //holdingBaby = true;
                 //photonView.RPC("SetAnim", RpcTarget.All, findInArray("patrol"), 0);
-                photonView.RPC("SetAnim", RpcTarget.All, findInArray("pickup"), 1);
+
                 //photonView.RPC("SetAnim", RpcTarget.All, findInArray("prepickup"), 0);
                 //SetAnim("patrol", false);
                 //SetAnim("chasing", false);
@@ -661,13 +665,24 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 //anim.SetBool("chasing", false);
                 //anim.SetBool("prepickup", false);
 
+                if(!pickUpDelayOn)
+                StartCoroutine(HandlePickup());
+                //photonView.RPC("SetAnim", RpcTarget.All, findInArray("pickup"), 1);
+                
+               
                 // Togle on pickup animation
 
                 //SetAnim("pickup", true);
                 //anim.SetBool("pickup", true);
 
-                photonView.RPC("pickUp", RpcTarget.AllBuffered);
-                PathfindToPos(GameManager.instance.crib.placePos.position);
+                //photonView.RPC("pickUp", RpcTarget.AllBuffered);
+                //while (pickUpDelayCount <= pickUpDelay)
+                //{
+                    //pickUpDelayCount += Time.deltaTime;
+                    //Debug.Log(pickUpDelayCount);
+                //}
+                //pickUpDelayCount = 0f;
+                ///PathfindToPos(GameManager.instance.crib.placePos.position);
 
 
                 //currentState = BabysitterAIState.PATHFIND;
@@ -1104,5 +1119,28 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
             }
         }
         return -1;
+    }
+
+    private IEnumerator HandlePickup()
+    {
+        // Disable pre-pickup anims
+        //SetAnim("prepickup", false);
+        //anim.SetBool("patrol", false);
+        //anim.SetBool("chasing", false);
+        //anim.SetBool("prepickup", false);
+        pickUpDelayOn = true;
+        photonView.RPC("SetAnim", RpcTarget.All, findInArray("pickup"), 1);
+
+        // Play pickup RPC
+        photonView.RPC("pickUp", RpcTarget.AllBuffered);
+
+        // Wait for the delay
+        yield return new WaitForSeconds(pickUpDelay);
+
+        // Pathfind to crib
+        PathfindToPos(GameManager.instance.crib.placePos.position);
+        pickUpDelayOn = false;
+        // Optionally set state
+        //currentState = BabysitterAIState.PATHFIND;
     }
 }
