@@ -360,6 +360,8 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
     [PunRPC]
     void toggleTrail(bool t)
     {
+        if (!dustTrail)
+            return;
         if (t)
         {
             dustTrail.Play();
