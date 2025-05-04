@@ -22363,7 +22363,7 @@ MonoBehaviour:
   gameOverSFX: {fileID: 0}
   startGameSfx: {fileID: 0}
   hitSFX: {fileID: 0}
-  caughtSFX: {fileID: 0}
+  caughtSFX: {fileID: 8300000, guid: 49b4d5fdb4576c04a94b948512c7dbed, type: 3}
   seenSFX: {fileID: 8300000, guid: f9662e7009ca0454d913910217fbe742, type: 3}
   breakSfxs:
   - {fileID: 8300000, guid: 9df3f40602ed3034e9811407e869a7c9, type: 3}
