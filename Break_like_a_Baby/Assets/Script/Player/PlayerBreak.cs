@@ -17,7 +17,12 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
     GameObject breakable;
     [SerializeField]
     List<GameObject> breakables = new List<GameObject>();
-    [SerializeField] public AudioSource aud;
+
+    [Header("Sound")]
+    [SerializeField] private AudioClip onSpace;
+    [SerializeField] private AudioClip onSpam;
+    [Space]
+
     public string brokenList;
     public int viewId;
     public int breakCount;
@@ -53,7 +58,6 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
             }
         }
         rb = this.GetComponent<Rigidbody>();
-        aud = this.GetComponent<AudioSource>();
         playerControl = this.GetComponent<PlayerControllerr>();
         brokenList = "";
         viewId = photonView.ViewID;
@@ -64,11 +68,23 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
     {
         if (inRange && (Input.GetKeyDown(KeyCode.Space) || playerControl.isSpamTriggered()) && photonView.IsMine)
         {
-
-            AudioManager.instance.PlaySFX(aud, transform.position);
             breakable.GetComponent<BreakableObject>().TakeDamage(photonView.ViewID);
 
         }
+
+        //sound stuff
+        if (inRange && (Input.GetKeyDown(KeyCode.Space)))
+        {
+            AudioManager.instance.PlaySFX(onSpace, transform.position);
+            Debug.Log("Space");
+        }
+        if(inRange && (Input.GetKeyDown(KeyCode.Space)) && playerControl.isSpamTriggered())
+        {
+            AudioManager.instance.PlaySFX(onSpam, transform.position);
+            Debug.Log("Spam");
+        }
+
+
         if (Input.GetKeyDown(KeyCode.Escape) && photonView.IsMine)
         {
             if (toggledOnScreen)

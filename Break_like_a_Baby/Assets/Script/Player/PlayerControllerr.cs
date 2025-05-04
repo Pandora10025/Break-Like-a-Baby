@@ -54,8 +54,9 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     // Input Action variables
     private PlayerControls inputActions;  // Reference to input actions
-    private InputAction spamInput;
-    private InputAction tasksInput;
+    [Header("playerInput")]
+    [SerializeField] private InputAction spamInput;
+    [SerializeField] private InputAction tasksInput;
 
   
 

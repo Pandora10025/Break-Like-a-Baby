@@ -199,9 +199,9 @@ public class AudioManager : MonoBehaviour
     /// It will create a temporary AudioClip and place it at the <b>Player's</b> location.
     /// </summary>
     /// <param name="position"></param> Current position of <b>Player</b>
-    public void PlaySFX(AudioSource aud, Vector3 position)
+    public void PlaySFX(AudioClip clip, Vector3 position)
     {
-        AudioSource.PlayClipAtPoint(aud.clip, position);
+        AudioSource.PlayClipAtPoint(clip, position);
     }
 
     /*public void PauseMusic()
