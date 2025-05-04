@@ -4,7 +4,8 @@ public class TitleScreen : MonoBehaviour
 {
     [SerializeField] GameObject screenText;
     [SerializeField] Rigidbody rb;
-    [SerializeField] GameObject button, buttonB;
+    [SerializeField] GameObject button, buttonB, screen;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -27,6 +28,7 @@ public class TitleScreen : MonoBehaviour
         buttonB.GetComponent<Rigidbody>().isKinematic = false;
         Invoke("show", 0.5f);
         button.SetActive(false);
+        screen.GetComponent<Animator>().SetTrigger("flus");
 
     }
 
