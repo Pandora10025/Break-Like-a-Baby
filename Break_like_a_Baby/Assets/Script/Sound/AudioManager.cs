@@ -112,6 +112,10 @@ public class AudioManager : MonoBehaviour
             {
                 AudioSource.PlayClipAtPoint(seenSFX, (Vector3)babysitter.transform.position);
             }
+            else if(stateThisFrame == (int)BabySitterAI.BabysitterAIState.PICKUP)
+            {
+                AudioSource.PlayClipAtPoint(caughtSFX, (Vector3)babysitter.transform.position);
+            }
         }
 
         if (stateThisFrame == (int)BabySitterAI.BabysitterAIState.CHASE)
