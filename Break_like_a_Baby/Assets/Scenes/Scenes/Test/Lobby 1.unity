@@ -2304,7 +2304,7 @@ MonoBehaviour:
   - {fileID: 1135984040}
   - {fileID: 322302331}
   - {fileID: 166344275}
-  autoSwitchTime: 60
+  autoSwitchTime: 7
   buttons:
   - {fileID: 89925086}
   - {fileID: 1723987574}

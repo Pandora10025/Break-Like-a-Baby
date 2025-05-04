@@ -40760,7 +40760,7 @@ MonoBehaviour:
   holdingBaby: 0
   statesIntoAnsync: 010000000300000007000000
   currentState: 0
-  currentIdleWaitMinAndMax: {x: 3, y: 10}
+  additionalHearing: 1
   normalIdleWaitMinAndMax: {x: 3, y: 10}
   cribIdleWaitMinAndMax: {x: 20, y: 20}
   patrolPercentEachPatrolMinAndMax: {x: 0.1, y: 1}
@@ -58303,7 +58303,7 @@ PrefabInstance:
       objectReference: {fileID: 1175668662}
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: bTi.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: gameOverScreen
@@ -58311,30 +58311,35 @@ PrefabInstance:
       objectReference: {fileID: 6182368780755059727}
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: 'bTi.Array.data[0]'
-      value: '<b>BREAK</b>: Spam buttons to break items! '
+      value: '<b>MOVE</b>:  Use WASD / Arrow Keys to crawl!'
       objectReference: {fileID: 0}
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: 'bTi.Array.data[1]'
+      value: '<b>BREAK:</b>:  Spam spacebar to break items!'
+      objectReference: {fileID: 0}
+    - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
+      propertyPath: 'bTi.Array.data[2]'
       value: '<b>CHECKLIST</b>: Check your break list with TAB/T, items change every
         game!'
       objectReference: {fileID: 0}
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
-      propertyPath: 'bTi.Array.data[2]'
+      propertyPath: 'bTi.Array.data[3]'
       value: '<b>HIDE</b>: Hide under furniture to avoid the babysitter.'
       objectReference: {fileID: 0}
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
-      propertyPath: 'bTi.Array.data[3]'
+      propertyPath: 'bTi.Array.data[4]'
       value: '<b>WATCH OUT:</b>: Babysitter will check on an item after you break
         it. SPRINT to run away!'
       objectReference: {fileID: 0}
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
-      propertyPath: 'bTi.Array.data[4]'
-      value: '<b>SAVE YOUR TWIN</b>: : If you get caught, your twin will need to
-        BREAK you out of the crib!'
+      propertyPath: 'bTi.Array.data[5]'
+      value: '<b>SAVE YOUR TWIN</b>:  If you get caught, your twin will need to BREAK
+        you out of the crib!'
       objectReference: {fileID: 0}
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
-      propertyPath: 'bTi.Array.data[5]'
-      value: askda klnklm
+      propertyPath: 'bTi.Array.data[6]'
+      value: '<b>SAVE YOUR TWIN</b>:  If you get caught, your twin will need to BREAK
+        you out of the crib!'
       objectReference: {fileID: 0}
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: scoreP.Array.size
