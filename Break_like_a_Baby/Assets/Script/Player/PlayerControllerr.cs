@@ -241,7 +241,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
         {
             // Fetch input data from the input system
             moveInput = inputActions.Player.Move.ReadValue<Vector2>();  // Get the movement direction
-            isSprinting = canSprint && inputActions.Player.Sprint.ReadValue<float>() > 0.5f;  // Check if sprinting
+            isSprinting = (moveInput!= Vector2.zero )&&  canSprint && inputActions.Player.Sprint.ReadValue<float>() > 0.5f;  // Check if sprinting
                                                                                               //isInteracting = inputActions.Player.Interact.ReadValue<float>() > 0f; // Check if interacting
             HandleSprint();
             // Storing previous player angle
