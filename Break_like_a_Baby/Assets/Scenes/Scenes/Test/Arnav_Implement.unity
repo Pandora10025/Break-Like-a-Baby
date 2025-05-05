@@ -58366,7 +58366,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: 'bTi.Array.data[1]'
-      value: '<b>BREAK:</b>:  Spam spacebar to break items!'
+      value: '<b>BREAK</b>:  Spam spacebar to break items!'
       objectReference: {fileID: 0}
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: 'bTi.Array.data[2]'
@@ -58379,7 +58379,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: 'bTi.Array.data[4]'
-      value: '<b>WATCH OUT:</b>: Babysitter will check on an item after you break
+      value: '<b>WATCH OUT</b>: Babysitter will check on an item after you break
         it. SPRINT to run away!'
       objectReference: {fileID: 0}
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
@@ -58423,11 +58423,11 @@ PrefabInstance:
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: 'playerP.Array.data[0]'
       value: 
-      objectReference: {fileID: 21300000, guid: 9f4d343c4646d4544a370dc7e809e9b8, type: 3}
+      objectReference: {fileID: 21300000, guid: 0103efaa5d9fd2e4b9585b4f9bdba811, type: 3}
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: 'playerP.Array.data[1]'
       value: 
-      objectReference: {fileID: 21300000, guid: 0103efaa5d9fd2e4b9585b4f9bdba811, type: 3}
+      objectReference: {fileID: 21300000, guid: ab915d67cee88554aa8cef039eb44736, type: 3}
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: playerNames.Array.size
       value: 2
