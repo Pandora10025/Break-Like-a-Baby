@@ -56,6 +56,7 @@ public class PlayerCatching : MonoBehaviourPun
             
             case playerCatchState.free:
                 playerC.enableMove = true;
+                GetComponent<vigControl>().on = true;
                 GetComponent<Collider>().enabled = true;
                 transform.position = new Vector3(GameManager.instance.respawnPos.position.x, transform.position.y, GameManager.instance.respawnPos.position.z);
                 mySpr.enabled=true;
@@ -65,6 +66,7 @@ public class PlayerCatching : MonoBehaviourPun
             case playerCatchState.caught:
                 //UI Change to be added
                 Debug.Log("Catch");
+                GetComponent<vigControl>().on = false;
                 playerC.enableMove = false;
                 GetComponent<Collider>().enabled = false;
                 //mySpr.sortingOrder = pushedSpriteOrder;
@@ -76,6 +78,7 @@ public class PlayerCatching : MonoBehaviourPun
                 GetComponent<PlayerBreak>().canBreak = false;
                 playerC.enableMove = false;
                 GetComponent<Collider>().enabled = false;
+                GetComponent<vigControl>().on = false;
                 //mySpr.sortingOrder = pushedSpriteOrder;
                 GameManager.instance.playerRoomed();
                 mySpr.enabled = false;
