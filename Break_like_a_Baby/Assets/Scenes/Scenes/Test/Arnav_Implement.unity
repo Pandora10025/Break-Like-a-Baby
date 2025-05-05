@@ -3720,7 +3720,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9f4d343c4646d4544a370dc7e809e9b8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0103efaa5d9fd2e4b9585b4f9bdba811, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -36171,7 +36171,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c06e61ac3d61bcd4e8c470de83b05abc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ab915d67cee88554aa8cef039eb44736, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -58427,7 +58427,7 @@ PrefabInstance:
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: 'playerP.Array.data[1]'
       value: 
-      objectReference: {fileID: 21300000, guid: c06e61ac3d61bcd4e8c470de83b05abc, type: 3}
+      objectReference: {fileID: 21300000, guid: 0103efaa5d9fd2e4b9585b4f9bdba811, type: 3}
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: playerNames.Array.size
       value: 2
