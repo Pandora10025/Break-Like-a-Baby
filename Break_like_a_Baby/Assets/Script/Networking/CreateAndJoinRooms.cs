@@ -9,7 +9,7 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
 {
     public TMP_InputField createInput;
     public TMP_InputField joinInput;
-    public TMP_InputField playerInput;
+    public TMP_InputField playerInput; public TMP_InputField roomInput;
     public TMP_Text statusText;
     [SerializeField]
     string roomJoin;
@@ -34,7 +34,21 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
         UpdateStatus($"Creating room: {roomName}...");
         PhotonNetwork.CreateRoom(roomName);
     }
+    public void JoinOrCreateRoom()
+    {
+        if (string.IsNullOrEmpty(roomInput.text))
+        {
+            UpdateStatus("Room name cannot be empty.");
+            return;
+        }
 
+        string roomName = roomInput.text.ToLower();
+
+        RoomOptions options = new RoomOptions { MaxPlayers = 4 }; 
+        PhotonNetwork.JoinOrCreateRoom(roomName, options, TypedLobby.Default);
+
+        UpdateStatus($"Joining or creating room: {roomName}...");
+    }
     public void JoinRoom()
     {
         if (string.IsNullOrEmpty(joinInput.text))

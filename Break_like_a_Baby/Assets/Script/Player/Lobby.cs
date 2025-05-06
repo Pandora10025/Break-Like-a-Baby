@@ -17,7 +17,7 @@ public class Lobby : MonoBehaviourPunCallbacks
     public RectTransform[] b,b1;
 
     public GameObject ready;
-
+    public TextMeshProUGUI hT;
     void Awake()
     {
         if (Instance == null)
@@ -34,12 +34,18 @@ public class Lobby : MonoBehaviourPunCallbacks
     private void Start()
     {
         ready.SetActive(false);
+        Player masterPlayer = PhotonNetwork.MasterClient;
+        string masterName = masterPlayer.NickName;
+
         if (!PhotonNetwork.IsMasterClient)
         {
+            hT.text = $"Host: {masterName}";
             bSet.SetActive(false);
+            
         }
         else
         {
+            hT.text = $"You are the host ({masterName})";
             SetDifficulty(1);
         }
         //ClearReadyFlag();
