@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Floor
-  m_Shader: {fileID: 4800000, guid: 512218cd4952983409af57059508c8a7, type: 3}
+  m_Name: RockingCrib
+  m_Shader: {fileID: 4800000, guid: 147750b72804496469a7535069b55772, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -39,7 +39,7 @@ Material:
     m_TexEnvs:
     - _BaseMap:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 5, y: 5}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
@@ -68,10 +68,6 @@ Material:
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: c43e4a16c97ac60418283357a1090ba7, type: 3}
-        m_Scale: {x: 20, y: 20}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
@@ -121,15 +117,14 @@ Material:
     - _GlossyReflections: 0
     - _GradientSize: 0.25
     - _Metallic: 0
-    - _NormalStength: 1
     - _OcclusionStrength: 1
-    - _OutlineOpacity: 1
-    - _OutlineSizeMultiplier: 1
+    - _OutlineOpacity: 6e-45
+    - _OutlineSizeMultiplier: 4
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _SampleGI: 0
-    - _ShadowSmoothingSize: 0.03
+    - _ShadowSmoothingSize: 0
     - _Shininess: 0
     - _Smoothness: 0.5
     - _SmoothnessSource: 0
@@ -142,13 +137,19 @@ Material:
     - _TestingOffset: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
+    - _rotX: 0
+    - _rotY: 0.0000000011924881
+    - _rotZ: 0
     - _shadingBands: 4
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.2551175, g: 0.36057398, b: 0.46226418, a: 1}
+    - _Center: {r: -0.47497547, g: -0.47499985, b: -0.47500026, a: 0}
+    - _Color: {r: 0.7075472, g: 0.612751, b: 0.4772606, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
-    - _ShadowColor: {r: 0.21176471, g: 0.22352941, b: 0.22352941, a: 1}
+    - _ForwardAxis: {r: -0.7071062, g: 6e-45, b: 0.7071067, a: 0}
+    - _OutlineColor: {r: 0, g: 6e-45, b: 3e-45, a: 1}
+    - _ShadowColor: {r: 0.12549022, g: 0.20120876, b: 0.35686275, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _UpAxis: {r: 0, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
