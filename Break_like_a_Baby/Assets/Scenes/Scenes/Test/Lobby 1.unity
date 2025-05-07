@@ -5672,7 +5672,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '<b>WATCH OUT:</b>: Babysitter will check on an item after you break it.
+  m_text: '<b>WATCH OUT</b>: Babysitter will check on an item after you break it.
     SPRINT to run away!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a28995502c338f14fad158ced2aefc13, type: 2}
@@ -8617,7 +8617,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '<b>SAVE YOUR TWIN</b>: : If you get caught, your twin will need to BREAK
+  m_text: '<b>SAVE YOUR TWIN</b>:  If you get caught, your twin will need to BREAK
     you out of the crib!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a28995502c338f14fad158ced2aefc13, type: 2}

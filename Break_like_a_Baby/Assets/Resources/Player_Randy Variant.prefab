@@ -879,9 +879,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   volume: {fileID: 0}
-  babysitter: {x: 0, y: 0, z: 0}
   player: {x: 0, y: 0, z: 0}
   on: 0
+  vigOn: 1
 --- !u!4 &5580254327145735850 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2530442976814279169, guid: 991f7f1059923462197c333a60365d1a, type: 3}

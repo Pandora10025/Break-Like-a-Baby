@@ -74,6 +74,7 @@ public class CameraFollow : MonoBehaviour
 
         // Move the camera smoothly to the desired position
         transform.position = Vector3.SmoothDamp(transform.position, desiredPosition, ref velocity, smoothSpeed);
+
     }
 
   
@@ -99,7 +100,7 @@ public class CameraFollow : MonoBehaviour
         // Start from the top-down view
         Quaternion topDownRotation = Quaternion.Euler(90f, 0f, 0f);
 
-        // Apply tilts relative to camera’s local space
+        // Apply tilts relative to camera?s local space
         Quaternion tiltRotation = Quaternion.Euler(tiltAngleX, 0f, 0f) * Quaternion.Euler(0f, 0f, tiltAngleZ);
 
         // Combine them (reversed order)

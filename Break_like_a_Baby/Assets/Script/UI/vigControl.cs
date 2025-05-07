@@ -7,10 +7,12 @@ using Photon.Pun;
 public class vigControl : MonoBehaviour
 {
     [SerializeField] private Volume volume;
-    [SerializeField] private Vector3 babysitter, player;
+    [SerializeField] private Vector3 player;
+    Transform babysitter;
     private Vignette vig;
-    float speed = 2f;
+    float speed = 8f;
      public bool on=true;
+    public bool vigOn = true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -21,18 +23,23 @@ public class vigControl : MonoBehaviour
             volume = g.GetComponent<Volume>();
         }
         volume.profile.components.ForEach(c => Debug.Log(c.GetType().Name)); // displays the volumes components name, for e.g: Fog, HDRISKY, Bloom
-        
+        if (!volume.profile.TryGet(out vig)) // for e.g set vignette intensity to .4f
+            vigOn = false;
 
-        
+        babysitter = GameObject.FindGameObjectWithTag("Babysitter").transform;
+        if (!babysitter) vigOn = false;
+       
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!volume.profile.TryGet(out Vignette vig)) // for e.g set vignette intensity to .4f
+        if (!vigOn)
+        {
             return;
-        float targetIntensity = ((distanceCheck() < 1f) && GetComponent<PhotonView>().IsMine && on) ? 0.4f : 0f;
+        }
+        float targetIntensity = ((distanceCheck() < 2f) && GetComponent<PhotonView>().IsMine && on) ? 0.4f : 0f;
         vig.intensity.value = Mathf.Lerp(vig.intensity.value, targetIntensity, Time.deltaTime * speed);
     }
 
@@ -42,10 +49,9 @@ public class vigControl : MonoBehaviour
     /// <returns></returns>
     private float distanceCheck()
     {
-        babysitter = GameObject.FindGameObjectWithTag("Babysitter").transform.position;
+        Vector3 babysitter = this.babysitter.position;
         player = this.transform.position;
-        float xDiff = babysitter.x - player.x;
-        float yDiff = babysitter.y - player.y;
-        return Mathf.Sqrt(Mathf.Pow(xDiff, 2) + Mathf.Pow(yDiff, 2));
+
+        return Vector3.Distance(babysitter, player); 
     }
 }
