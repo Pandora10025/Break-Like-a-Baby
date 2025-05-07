@@ -26,7 +26,18 @@ public class CameraFollow : MonoBehaviour
 
     private float randomXrange;
     private float randomYrange;
+    public Camera cam;
+    public float baseFOV = 60f;
+    public float maxFOV = 80f;
+    public float fovSmoothSpeed = 5f;
+    public float speedThreshold;
+    public float maxSpeed;
+    Rigidbody rb;
 
+    private void Awake()
+    {
+        cam = GetComponent<Camera>();
+    }
 
     void LateUpdate()
     {
@@ -39,7 +50,14 @@ public class CameraFollow : MonoBehaviour
         {
             pl = FindLocalPlayer();
             if (pl)
+            {
                 player = pl.transform;
+                rb = pl.GetComponent<Rigidbody>();
+                speedThreshold = pl.GetComponent<PlayerControllerr>().moveSpeed;
+                maxSpeed = pl.GetComponent<PlayerControllerr>().sprintSpeed;
+
+            }
+               
             else
                 this.enabled = false;
           
@@ -75,6 +93,21 @@ public class CameraFollow : MonoBehaviour
         // Move the camera smoothly to the desired position
         transform.position = Vector3.SmoothDamp(transform.position, desiredPosition, ref velocity, smoothSpeed);
 
+        if (GetComponent<PhotonView>().IsMine)
+        {
+            float speed = rb.linearVelocity.magnitude;
+
+            float targetFOV = baseFOV;
+
+            if (speed > speedThreshold)
+            {
+               
+                float t = Mathf.InverseLerp(speedThreshold, maxSpeed, speed);
+                targetFOV = Mathf.Lerp(baseFOV, maxFOV, t);
+            }
+
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFOV, Time.deltaTime * fovSmoothSpeed);
+        }
     }
 
   
