@@ -379,9 +379,12 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
         float falloff = Mathf.Pow(t / sprintCoolDown, 2);
         float scaledEmission = trailM * falloff;
 
-      
-        var emission = dustTrail.emission;
-        emission.rateOverTime = scaledEmission;
+        if (dustTrail)
+        {
+            var emission = dustTrail.emission;
+            emission.rateOverTime = scaledEmission;
+
+        }
 
     }
     private void OnTask(InputAction.CallbackContext context)
