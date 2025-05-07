@@ -3,6 +3,8 @@ Shader "Custom/URPToon"
     Properties
     {
         _BaseMap("Base Map", 2D) = "white" {}
+        _NormalMap("Normal Map", 2D) = "bump" {}
+        _NormalStength("Normal stength", Range(0,1)) = 1
        
         _Color("Color", Color) = (1,1,1,1)
         _ShadowColor("ShadowColor", Color) = (1,1,1,1)
@@ -94,12 +96,15 @@ Shader "Custom/URPToon"
           
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/GlobalSamplers.hlsl"
 
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/2D/Include/NormalsRenderingShared.hlsl"
+
 
             struct Attributes
             {
                 float4 positionOS   : POSITION;
                 float2 uv: TEXCOORD0;
                 float3 normal : NORMAL;
+                float4 tangent : TANGENT;
             };
 
 
@@ -113,6 +118,10 @@ Shader "Custom/URPToon"
                 float shadowDarkness : TEXCOORD3;
                 float3 positionWS : TEXCOORD4;
                 float4 positionSC : TEXCOORD5;
+                half3 tangent : TEXCOORD6;
+                half3 bitangent : TEXCOORD7;
+                float2 normalUV: TEXCOORD8;
+
 
             };
 
@@ -121,10 +130,12 @@ Shader "Custom/URPToon"
 
             TEXTURE2D(_BaseMap);
             SAMPLER(sampler_BaseMap); 
+            TEXTURE2D(_NormalMap);
+            SAMPLER(sampler_NormalMap);
             //TEXTURE2D(_CameraDepthTexture);
             //SAMPLER(sampler_DepthMap);
-            SAMPLER(sampler_NormalMap);
-            TEXTURE2D(normTex);
+            //SAMPLER(sampler_NormalMap);
+            //TEXTURE2D(normTex);
 
             float4 _OutlineTexture_TexelSize;
 
@@ -145,7 +156,9 @@ Shader "Custom/URPToon"
             CBUFFER_START(UnityPerMaterial)
             float4 _Color;
             float4 _ShadowColor;
+            float _NormalStength;
             float4 _BaseMap_ST;
+            half4 _NormalMap_ST;
             int _shadingBands;
             float _GradientSize;
             float _TestingOffset;
@@ -373,6 +386,7 @@ Shader "Custom/URPToon"
                 
                 OUT.positionCS = TransformObjectToHClip(IN.positionOS.xyz);
                 OUT.uv = TRANSFORM_TEX(IN.uv, _BaseMap);
+                OUT.normalUV = TRANSFORM_TEX(IN.uv, _NormalMap);
 
                 // Get the VertexPositionInputs for the vertex position  
                 VertexPositionInputs positions = GetVertexPositionInputs(IN.positionOS.xyz);
@@ -387,8 +401,15 @@ Shader "Custom/URPToon"
 
                 OUT.positionWS = positions.positionWS.xyz;
                 
-                //OUT.normal = UnityObjectToWorldNormal(IN.normal);
+                
                 OUT.normal = normalize(mul(IN.normal.xyz, (float3x3)unity_WorldToObject));
+                OUT.tangent = normalize(mul(IN.tangent.xyz, (float3x3)unity_WorldToObject));;
+                OUT.bitangent = cross(OUT.normal, OUT.tangent) * IN.tangent.w;
+                
+
+
+                //OUT.normal = IN.normal;
+                //OUT.normal = normalize(mul(IN.normal.xyz, (float3x3)unity_WorldToObject));
                 //OUT.normal = mul(unity_ObjectToWorld, IN.normal) - IN.positionOS ; //UnityObjectToWorldNormal(IN.normal);
                 //OUT.normal = normalize(OUT.normal);
 
@@ -398,6 +419,7 @@ Shader "Custom/URPToon"
 
 
                 OUT.shadowDarkness = shadowConvolution(positions.positionWS.xyz, OUT.normal, gaussianBlurKernel);
+
 
 
                 return OUT;
@@ -441,6 +463,15 @@ Shader "Custom/URPToon"
 
                 float3 color;
 
+
+                
+                
+                //normal = normalize(normal);
+
+                //float3 normal = NormalsRenderingShared(_NormalMap, tangentSpaceNormal, IN.tangent.xyz, IN.bitangent.xyz, IN.normal.xyz);
+
+
+
                 float3 normal = normalize(IN.normal);
                 
                 Light mainLight = GetMainLight();
@@ -477,8 +508,7 @@ Shader "Custom/URPToon"
                 //float diffusefalloffOffset = round( (ndotl + .5  )  * (_shadingBands-1) )/(_shadingBands-1);
                 float diffusefalloffOffset = floor( ndotl* (_shadingBands) + .5 )/(_shadingBands-1);
 
-
-
+               
                 //float distanceFromNearestEdge = ((ndotl+.5-diffusefalloffOffset) * (_shadingBands-1)+.5);
                 float distanceFromNearestEdge = (ndotl*(_shadingBands)-floor( ndotl*(_shadingBands) +.5 ) +.5 );  //(x*4-floor(x*4+1/2)+1/2)
 
@@ -494,10 +524,63 @@ Shader "Custom/URPToon"
                 float gradientFalloff = lerp( minGradientFalloff , maxGradientFalloff  , percentFromNearestEdge );
                  
 
+
+
+
+
+                //Normal map calculation is down here!
+
+                
+
+                float3 tangentSpaceNormal = UnpackNormal(SAMPLE_TEXTURE2D(_NormalMap, sampler_NormalMap, IN.normalUV));
+                //float3 tangentSpaceNormal = ( (SAMPLE_TEXTURE2D(_NormalMap, sampler_NormalMap, IN.normalUV) ) );
+
+
+                float normalStrength = _NormalStength * _NormalStength * 50;
+
+                //float3 tangentSpaceNormal = UnpackNormal(tex2D(_normalMap, uv));
+                tangentSpaceNormal = normalize(lerp(float3(0, 0, 1), tangentSpaceNormal, normalStrength ));// _normalIntensity));
+                
+                float3x3 tangentToWorld = float3x3 
+                (
+                    IN.tangent.x, IN.bitangent.x, IN.normal.x,
+                    IN.tangent.y, IN.bitangent.y, IN.normal.y,
+                    IN.tangent.z, IN.bitangent.z, IN.normal.z
+                );
+
+
+
+
+                normal = mul(tangentToWorld, tangentSpaceNormal);
+
+
+                
+                float replaceWithNormalLighting = 1-dot( float3( 0,0,1 ) , tangentSpaceNormal );
+
+                float normalBias = normalStrength/100;
+
+                replaceWithNormalLighting = 1-step(replaceWithNormalLighting,normalBias);
+
+                float normalMapFalloff = (dot(normal, lightdirection)+1)/2 * replaceWithNormalLighting; 
+                //float normalMapFalloff = (dot(normal, lightdirection)+1)/2; 
+                //float normalMapFalloff = (dot(normal, lightdirection)); 
+
+                normalMapFalloff *= shadowAmount;
+
+
+
+
+
+
                 //float3 cellColor = 
                 
                 float falloffPlusGradients = (1-gradientMask) * diffusefalloff + gradientMask * gradientFalloff;
                 //float falloffPlusGradients =  gradientMask * gradientFalloff;
+
+                falloffPlusGradients = lerp( falloffPlusGradients, normalMapFalloff, replaceWithNormalLighting  );
+
+                //falloffPlusGradients += normalMapFalloff;
+                //falloffPlusGradients = saturate(falloffPlusGradients);
 
 
                 //float specularfalloff = max(0, dot(normal, halfdirection));
@@ -588,7 +671,11 @@ Shader "Custom/URPToon"
 
 
                 //return float4( coloredOutlines.xyz , 1);
+                
                 return float4( coloredOutlines + color * (1-outlineMask) , 1);
+                
+                //return float4( tangentSpaceNormal.rgb, 1);
+                //return float4( normalMapFalloff.rrr, 1);
 
 
             }
