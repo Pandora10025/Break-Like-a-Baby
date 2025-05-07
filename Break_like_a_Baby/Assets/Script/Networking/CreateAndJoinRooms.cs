@@ -16,6 +16,8 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     bool characterSet;
     [SerializeField]
     RectTransform highlight, buttonA, buttonB;
+    public Sprite[] babySelec;
+    public Image bI;
 
     void Start()
     {
@@ -115,6 +117,7 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
         ExitGames.Client.Photon.Hashtable playerProperties = new ExitGames.Client.Photon.Hashtable();
         playerProperties["CharacterID"] = characterID;
         PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperties);
+        bI.sprite = babySelec[characterID];
         Debug.Log($"CharacterID set to: {characterID} for {PhotonNetwork.LocalPlayer.NickName}");
     }
 
