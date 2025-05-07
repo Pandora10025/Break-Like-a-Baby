@@ -120,6 +120,7 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
         playerProperties["CharacterID"] = characterID;
         PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperties);
         bI.sprite = babySelec[characterID];
+        babyNeck.material = color[characterID];
         Debug.Log($"CharacterID set to: {characterID} for {PhotonNetwork.LocalPlayer.NickName}");
     }
 
@@ -127,7 +128,7 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     {
         SelectCharacter(0);
         highlight.position = buttonA.position;
-        babyNeck.material = color[0];
+        
         
     }
 
@@ -135,7 +136,7 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     {
         SelectCharacter(1);
         highlight.position = buttonB.position;
-        babyNeck.material = color[1];
+
 
     }
 
