@@ -397,7 +397,7 @@ MonoBehaviour:
   m_text: Ray Ochotta
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
-  m_sharedMaterial: {fileID: 6720276249112229488, guid: a28995502c338f14fad158ced2aefc13, type: 2}
+  m_sharedMaterial: {fileID: -4902165777485349643, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2086,7 +2086,7 @@ MonoBehaviour:
   m_text: Dale Zhao
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
-  m_sharedMaterial: {fileID: 6720276249112229488, guid: a28995502c338f14fad158ced2aefc13, type: 2}
+  m_sharedMaterial: {fileID: -4902165777485349643, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9710,7 +9710,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 572, y: -177}
+  m_AnchoredPosition: {x: 546.1, y: -177}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &475185585
@@ -12247,7 +12247,7 @@ MonoBehaviour:
   m_text: ' Programming, Audio'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
-  m_sharedMaterial: {fileID: 6720276249112229488, guid: a28995502c338f14fad158ced2aefc13, type: 2}
+  m_sharedMaterial: {fileID: -4902165777485349643, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -12383,7 +12383,7 @@ MonoBehaviour:
   m_text: 2D Art, Animations, Visuals, Programming
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
-  m_sharedMaterial: {fileID: 6720276249112229488, guid: a28995502c338f14fad158ced2aefc13, type: 2}
+  m_sharedMaterial: {fileID: -4902165777485349643, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -13556,7 +13556,7 @@ MonoBehaviour:
   m_text: Derek Yu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
-  m_sharedMaterial: {fileID: 6720276249112229488, guid: a28995502c338f14fad158ced2aefc13, type: 2}
+  m_sharedMaterial: {fileID: -4902165777485349643, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -20480,7 +20480,7 @@ MonoBehaviour:
   m_text: "Networking and Gameplay \nProgrammer, Visuals"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
-  m_sharedMaterial: {fileID: 6720276249112229488, guid: a28995502c338f14fad158ced2aefc13, type: 2}
+  m_sharedMaterial: {fileID: -4902165777485349643, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -23281,7 +23281,7 @@ MonoBehaviour:
   m_text: Lukas Wedberg
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
-  m_sharedMaterial: {fileID: 6720276249112229488, guid: a28995502c338f14fad158ced2aefc13, type: 2}
+  m_sharedMaterial: {fileID: -4902165777485349643, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -23346,7 +23346,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: -57.259468, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &857535803
@@ -25872,8 +25872,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 5.0699463, y: 4.9, z: 3.9300003}
+  m_LocalRotation: {x: 0.70688146, y: 0.017850237, z: 0.017850237, w: 0.70688146}
+  m_LocalPosition: {x: -8.954346, y: 1.4994245, z: -0.49494553}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -29122,7 +29122,7 @@ MonoBehaviour:
   m_text: Production, UI/UX
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
-  m_sharedMaterial: {fileID: 6720276249112229488, guid: a28995502c338f14fad158ced2aefc13, type: 2}
+  m_sharedMaterial: {fileID: -4902165777485349643, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -31441,7 +31441,7 @@ MonoBehaviour:
   m_text: Programming, Visuals (Shaders)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
-  m_sharedMaterial: {fileID: 6720276249112229488, guid: a28995502c338f14fad158ced2aefc13, type: 2}
+  m_sharedMaterial: {fileID: -4902165777485349643, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -31506,7 +31506,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: -57.259468, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1216730453
@@ -32290,7 +32290,7 @@ MonoBehaviour:
   m_text: Production, Game Design, Audio
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
-  m_sharedMaterial: {fileID: 6720276249112229488, guid: a28995502c338f14fad158ced2aefc13, type: 2}
+  m_sharedMaterial: {fileID: -4902165777485349643, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -32522,7 +32522,7 @@ MonoBehaviour:
   m_text: Randy Manu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
-  m_sharedMaterial: {fileID: 6720276249112229488, guid: a28995502c338f14fad158ced2aefc13, type: 2}
+  m_sharedMaterial: {fileID: -4902165777485349643, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -34628,7 +34628,7 @@ MonoBehaviour:
   m_text: Alesha Pryor
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
-  m_sharedMaterial: {fileID: 6720276249112229488, guid: a28995502c338f14fad158ced2aefc13, type: 2}
+  m_sharedMaterial: {fileID: -4902165777485349643, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -45830,7 +45830,7 @@ MonoBehaviour:
   m_text: Arnav Arora
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
-  m_sharedMaterial: {fileID: 6720276249112229488, guid: a28995502c338f14fad158ced2aefc13, type: 2}
+  m_sharedMaterial: {fileID: -4902165777485349643, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -47796,7 +47796,7 @@ MonoBehaviour:
   m_text: Kimya Taheri
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
-  m_sharedMaterial: {fileID: 6720276249112229488, guid: a28995502c338f14fad158ced2aefc13, type: 2}
+  m_sharedMaterial: {fileID: -4902165777485349643, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -52773,7 +52773,7 @@ MonoBehaviour:
   m_text: 3D Art (3D Modeling), Visuals
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
-  m_sharedMaterial: {fileID: 6720276249112229488, guid: a28995502c338f14fad158ced2aefc13, type: 2}
+  m_sharedMaterial: {fileID: -4902165777485349643, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -55275,7 +55275,7 @@ MonoBehaviour:
   m_text: Game/Level Design, Visuals
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
-  m_sharedMaterial: {fileID: 6720276249112229488, guid: a28995502c338f14fad158ced2aefc13, type: 2}
+  m_sharedMaterial: {fileID: -4902165777485349643, guid: 8bac07f4a30dc4cbd8d4e66c35b2b259, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
