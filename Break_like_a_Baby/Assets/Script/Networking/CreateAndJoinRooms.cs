@@ -17,6 +17,8 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     [SerializeField]
     RectTransform highlight, buttonA, buttonB;
     public Sprite[] babySelec;
+    public Renderer babyNeck;
+    public Material[] color;
     public Image bI;
 
     void Start()
@@ -125,7 +127,7 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     {
         SelectCharacter(0);
         highlight.position = buttonA.position;
-        
+        babyNeck.material = color[0];
         
     }
 
@@ -133,6 +135,7 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     {
         SelectCharacter(1);
         highlight.position = buttonB.position;
+        babyNeck.material = color[1];
 
     }
 
