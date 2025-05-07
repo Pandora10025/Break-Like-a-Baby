@@ -114,6 +114,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     void Start()
     {
+        sprintBar = GameManager.instance.sliderr.transform.GetChild(0).GetComponent<Slider>();
         if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("Difficulty", out object difficultyObj))
         {
             int difficulty = (int)difficultyObj;

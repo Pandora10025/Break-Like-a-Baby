@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     float bCount;
     public string[] bTi;
     int bTii;
+    public GameObject sliderr;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {

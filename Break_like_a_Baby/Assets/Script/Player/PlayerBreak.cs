@@ -37,6 +37,7 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+
         if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("Difficulty", out object difficultyObj))
         {
             int difficulty = (int)difficultyObj;
