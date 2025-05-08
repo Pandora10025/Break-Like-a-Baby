@@ -627,6 +627,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: sprintSpeed
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
       propertyPath: spamInput.m_Name
       value: Spam Input
       objectReference: {fileID: 0}
