@@ -14625,7 +14625,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &608074542
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27934,8 +27934,9 @@ MonoBehaviour:
   rotationSpeed: 2.5
   cam: {fileID: 0}
   baseFOV: 60
-  maxFOV: 80
-  fovSmoothSpeed: 5
+  maxFOV: 67
+  fovSmoothSpeed: 20
+  speedThreshold: 0
   maxSpeed: 10
 --- !u!114 &963194234
 MonoBehaviour:
@@ -60801,7 +60802,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &6182368780755059728
 MonoBehaviour:
   m_ObjectHideFlags: 0
