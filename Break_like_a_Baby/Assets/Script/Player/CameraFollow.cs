@@ -29,7 +29,7 @@ public class CameraFollow : MonoBehaviour
     public Camera cam;
     public float baseFOV = 60f;
     public float maxFOV = 80f;
-    public float fovSmoothSpeed = 5f;
+    public float fovSmoothSpeed = 25f;
     public float speedThreshold;
     public float maxSpeed;
     Rigidbody rb;
@@ -93,7 +93,7 @@ public class CameraFollow : MonoBehaviour
         // Move the camera smoothly to the desired position
         transform.position = Vector3.SmoothDamp(transform.position, desiredPosition, ref velocity, smoothSpeed);
 
-        if (GetComponent<PhotonView>().IsMine)
+        if (pl.GetComponent<PhotonView>().IsMine)
         {
             float speed = rb.linearVelocity.magnitude;
 

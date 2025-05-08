@@ -1227,9 +1227,18 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
     void SetAnim(int i, int b)
     {
         if (b == 1)
-            anim.SetBool(animNames[i], true);
+        {
+            if (!anim.GetBool(animNames[i]))
+                anim.SetBool(animNames[i], true);
+        }
+
+            
         else
+        {
+            if(anim.GetBool(animNames[i]))
             anim.SetBool(animNames[i], false);
+        }
+           
     }
 
     int findInArray(string s)

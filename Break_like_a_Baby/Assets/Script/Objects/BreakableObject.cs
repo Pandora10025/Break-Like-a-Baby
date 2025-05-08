@@ -83,7 +83,10 @@ public class BreakableObject : MonoBehaviourPunCallbacks
 
         breakPar = transform.GetChild(0).GetComponent<ParticleSystem>();
         hitPar = transform.GetChild(1).GetComponent<ParticleSystem>();
-      
+        hitPar.transform.GetChild(0).GetComponent<ParticleSystem>().loop = true;
+        hitPar.transform.GetChild(0).GetComponent<ParticleSystem>().Play();
+
+
 
     }
     void Start()
