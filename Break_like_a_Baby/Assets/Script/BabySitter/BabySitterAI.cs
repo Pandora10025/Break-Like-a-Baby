@@ -33,6 +33,10 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
     public bool holdingBaby = false;
 
+    public bool stationary = true;
+
+    public bool stationaryChangedLastFrame = false;
+
 
 
     public BabysitterAIState[] statesIntoAnsync;
@@ -57,10 +61,13 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
 
     public float boredCountdownMaxTime = 3f;
-    public float boredTimer = 0f;
+    private float boredTimer = 0f;
+    
+    public float hideCountdownMaxTime = 5f;
+    private float hideTimer = 0f;
 
     public float chaseCooldownMaxTime = 3f;
-    public float chaseCooldownTimer = 0f;
+    private float chaseCooldownTimer = 0f;
 
     private float calculatedWaitDelay = 0;
     private float waitTimer = 0;
@@ -99,6 +106,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
     float pickUpDelay = 0.65f;
     bool pickUpDelayOn = false;
+
 
     void Awake()
     {
@@ -197,6 +205,14 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
+        
+
+
+
+        stationary = CheckStopped();
+
+        
+
 
         //Debug.Log(nav.velocity);
         //Code for when we spot a player
@@ -411,10 +427,6 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 }
 
 
-                //if ( !nav.hasPath || !nav.pathPending)
-                //{
-
-                //}
 
 
 
@@ -427,15 +439,70 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
             case BabysitterAIState.CHASE:
 
-                float playerDist = Vector3.Distance(playerWeAreCurrentlyChasing.position, transform.position);
+                //This first if block is for checking if there is another player nearby, that is not who we are currently chasing.
+                if (spottedPlayer)
+                {
+                    if (spottedPlayer != playerWeAreCurrentlyChasing)
+                    {
+                        GameManager.instance.enableChaseUI(false, playerWeAreCurrentlyChasing.GetComponent<PhotonView>().Owner.ActorNumber);
+
+
+                        //currentState = BabysitterAIState.CHASE;
+                        //photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.CHASE);
+
+                        playerWeAreCurrentlyChasing = spottedPlayer;
+
+                        //GameManager.instance.enableChaseUI(true, playerWeAreCurrentlyChasing.GetComponent<PhotonView>().Owner.ActorNumber);
+
+
+                        photonView.RPC("SetTargetPlayer", RpcTarget.AllBuffered, playerWeAreCurrentlyChasing.GetComponent<PhotonView>().ViewID);
+
+
+                        
+
+                    }   
+                }
+
+
+
+                //I was thinking maybe this is where we ought to put the stationary running->standing and standing->running code.
+
+                if (stationary)
+                {
+                    photonView.RPC("SetAnim", RpcTarget.All, findInArray("chasing"), 0);
+
+                }
+                else {
+                    photonView.RPC("SetAnim", RpcTarget.All, findInArray("chasing"), 1);
+
+
+                }
+
+
+
+
+
+
+                    float playerDist = Vector3.Distance(playerWeAreCurrentlyChasing.position, transform.position);
                 //photonView.RPC("SetAnim", RpcTarget.All, findInArray("patrol"), 0);
-                photonView.RPC("SetAnim", RpcTarget.All, findInArray("chasing"), 1);
+                //photonView.RPC("SetAnim", RpcTarget.All, findInArray("chasing"), 1);
                 //SetAnim("patrol", false);
                 //anim.SetBool("patrol", false);
 
                 //SetAnim("chasing", true);
                 //anim.SetBool("chasing", true);
 
+
+
+
+                NavMeshHit navMeshHit;
+
+                bool checkOnMesh = NavMesh.SamplePosition(
+                    playerWeAreCurrentlyChasing.position,
+                    out navMeshHit,
+                    offMeshDistance,
+                    NavMesh.AllAreas
+                    );
 
                 GameManager.instance.enableChaseUI(true, playerWeAreCurrentlyChasing.GetComponent<PhotonView>().Owner.ActorNumber);
 
@@ -450,6 +517,47 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
                     StopMoving();
 
+                }else
+                if (!checkOnMesh)
+                {
+
+                   
+
+
+                    //Then this next if statement is just checking if you've hidden long enough for the babysitter to lose interest and go elsewhere
+                    hideTimer += Time.deltaTime;
+
+                    if (hideTimer > hideCountdownMaxTime) {
+
+
+                       
+                        GameManager.instance.enableChaseUI(false, playerWeAreCurrentlyChasing.GetComponent<PhotonView>().Owner.ActorNumber);
+                        boredTimer = 0;
+
+                        StopMoving();
+
+                        playerWeAreCurrentlyChasing = null;
+
+
+                        photonView.RPC("SetAnim", RpcTarget.All, findInArray("patrol"), 1);
+
+                        photonView.RPC("SetTargetPlayer", RpcTarget.AllBuffered, -1);
+
+                        photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.PREPATROL);
+
+                        hideTimer = 0;
+
+                        
+                        return;
+
+                    }
+                    
+
+
+
+
+
+
                 }
                 else
                 {
@@ -457,15 +565,6 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
                     boredTimer += Time.deltaTime;
 
-
-                    NavMeshHit navMeshHit;
-
-                    bool checkOnMesh = NavMesh.SamplePosition(
-                        playerWeAreCurrentlyChasing.position,
-                        out navMeshHit,
-                        offMeshDistance,
-                        NavMesh.AllAreas
-                        );
 
                     //Debug.Log("ON MESH=" + checkOnMesh);
 
@@ -480,39 +579,26 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                         GameManager.instance.enableChaseUI(false, playerWeAreCurrentlyChasing.GetComponent<PhotonView>().Owner.ActorNumber);
                         boredTimer = 0;
 
+                        hideTimer = 0;
+
                         chaseCooldownTimer = 0;
 
                         StopMoving();
 
 
-                        photonView.RPC("SetAnim", RpcTarget.All, findInArray("patrol"), 1);
+                        
+                        
+                        //Make the babysitter pre-idle!
 
-                        if (!checkOnMesh)
-                        {
-                            //Send the babysitter into pre-patrol!
+                        playerWeAreCurrentlyChasing = null;
+                        photonView.RPC("SetTargetPlayer", RpcTarget.AllBuffered, -1);
 
-                            //Make the babysitter pre-idle!
-
-                            playerWeAreCurrentlyChasing = null;
-                            photonView.RPC("SetTargetPlayer", RpcTarget.AllBuffered, -1);
-
-                            //currentState = BabysitterAIState.PREIDLE;
-                            photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.PREPATROL);
-
-                        }
-                        else
-                        {
-                            //Make the babysitter pre-idle!
-
-                            playerWeAreCurrentlyChasing = null;
-                            photonView.RPC("SetTargetPlayer", RpcTarget.AllBuffered, -1);
-
-                            //currentState = BabysitterAIState.PREIDLE;
-                            photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.PREIDLE);
+                        //currentState = BabysitterAIState.PREIDLE;
+                        photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.PREIDLE);
 
 
 
-                        }
+                        
 
                         return;
 
@@ -626,6 +712,8 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
             case BabysitterAIState.PREPICKUP:
                 //photonView.RPC("SetAnim", RpcTarget.All, findInArray("prepickup"), 1);
+
+                photonView.RPC("SetAnim", RpcTarget.All, findInArray("chasing"), 1);
 
                 //SetAnim("prepick", true);
                 //anim.SetBool("prepickup", true);
@@ -950,6 +1038,26 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
     }
 
 
+
+    public bool CheckStopped()
+    {
+
+        if (!nav.pathPending)
+        {
+            if (nav.remainingDistance <= nav.stoppingDistance)
+            {
+                if (!nav.hasPath || nav.velocity.sqrMagnitude == 0f)
+                {
+
+                    return true;
+
+                } 
+            }
+        }
+
+        return false;
+
+    }
 
 
 
