@@ -232,7 +232,10 @@ Shader "Custom/URPToon"
                     float p9 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(1 *tangentVector + -1 * bitangentVector) * _ShadowSmoothingSize ) );
 
                     //result = abs( (p1+ (2*p2)+p3)-(p7+(2*p8)+p9) )+ abs( (p3+ (2*p6) +p9 )-(p1+ (2*p4) + p7) );
-                    result = (p1 + p2 + p3 + p4 + p5 + p6 + p7 + p8 + p9)/9;
+                    //result = (p1 + p2 + p3 + p4 + p5 + p6 + p7 + p8 + p9)/9;
+                    result = (p1 * 0.0625 + p2 * 0.125 + p3 * 0.0625 
+                            + p4 * 0.1250 + p5 * 0.250 + p6 * 0.1250 
+                            + p7 * 0.0625 + p8 * 0.125 + p9 * 0.0625);
 
 
                     return result;
@@ -378,6 +381,109 @@ Shader "Custom/URPToon"
                     return result;
             }
 
+            float shadowSteppedGaussianConvolution(float3 positionWS, float3 normalWS, float3 tangentWS){
+                    float s = 1;
+                    float l = .3 ;
+
+                    float3 camPos = GetCameraPositionWS();
+
+                    Light mainLight = GetMainLight();
+
+                    float3 lightDirection = mainLight.direction;
+
+
+                    float3 viewDirection = normalize(camPos - positionWS);
+
+                    //Real quick, we need to get the tangent and bitangent that we want to move along, to sample the shadow coords.
+
+                    float3 bitangentVector = cross( normalWS, lightDirection);
+                    float3 tangentVector = cross( normalWS, bitangentVector);
+                    //float3 tangentVector = tangentWS;
+                    
+
+                    //float3 bitangentVector = tangentWS;
+                    //float3 tangentVector = cross( normalWS, bitangentVector);
+                    //float3 tangentVector = cross( normalWS, bitangentVector);
+                    
+
+                   
+
+                    //Down here we attempt convolution, but with shadows!
+
+                    //float2 ts = _MainTex_TexelSize.xy;
+                    float result = 0;
+                
+                    // for(int x = -1; x <= 1; x++) {
+                    //     for(int y = -1; y <= 1; y++) {
+                    //         //float2 offset = float2(x, y) * ts;
+
+                    //         float3 offsetPos = x*tangentVector*_ShadowSmoothingSize + y*bitangentVector * _ShadowSmoothingSize;
+
+                    //         //float3 sample = tex2D(_MainTex, uv + offset);
+                    //         float sample = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS  )); //tex2D(_MainTex, uv + offset);
+                    //         //result += sample * kernel[x+1][y+1];
+                    //         result += sample * kernel[x+1][y+1];
+                    //     }
+                    // }
+
+                    
+                    
+            //         float3x3 gaussianBlurKernel = float3x3 (
+            //     // gaussian
+            //     0.0625, 0.125, 0.0625,
+            //     0.1250, 0.250, 0.1250,
+            //     0.0625, 0.125, 0.0625
+            // );
+
+
+                    // float p1 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(-1 *tangentVector + 1 * bitangentVector) * _ShadowSmoothingSize ) ) * 0.0625;
+                    // float p2 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(0 *tangentVector + 1 * bitangentVector) * _ShadowSmoothingSize  )) * 0.1250;
+                    // float p3 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(1 *tangentVector + 1 * bitangentVector) * _ShadowSmoothingSize ) ) * 0.0625;
+                    // float p4 =  MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(-1 *tangentVector + 0 * bitangentVector) * _ShadowSmoothingSize ) ) * 0.1250 ;
+                    // float p5 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS)) * 0.250;
+                    // float p6 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(1 *tangentVector + 0 * bitangentVector) * _ShadowSmoothingSize ) ) * 0.1250;
+                    // float p7 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(-1 *tangentVector + -1 * bitangentVector) * _ShadowSmoothingSize ) ) * 0.0625;
+                    // float p8 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(0 *tangentVector + -1 * bitangentVector) * _ShadowSmoothingSize  ) ) * 0.1250;
+                    // float p9 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(1 *tangentVector + -1 * bitangentVector) * _ShadowSmoothingSize ) ) * 0.0625;
+                    
+                    float calculatedSmoothingSize = 0.05;
+
+                    float p1 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(-1 *tangentVector + 1 * bitangentVector) * calculatedSmoothingSize ) );
+                    float p2 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(0 *tangentVector + 1 * bitangentVector) * calculatedSmoothingSize  ));
+                    float p3 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(1 *tangentVector + 1 * bitangentVector) * calculatedSmoothingSize ) );
+                    float p4 =  MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(-1 *tangentVector + 0 * bitangentVector) * calculatedSmoothingSize ) );
+                    float p5 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS));
+                    float p6 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(1 *tangentVector + 0 * bitangentVector) * calculatedSmoothingSize ) );
+                    float p7 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(-1 *tangentVector + -1 * bitangentVector) * calculatedSmoothingSize ) );
+                    float p8 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(0 *tangentVector + -1 * bitangentVector) * calculatedSmoothingSize  ) );
+                    float p9 = MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS + normalize(1 *tangentVector + -1 * bitangentVector) * calculatedSmoothingSize ) );
+
+                    p1 = smoothstep(l, s, p1);
+                    p2 = smoothstep(l, s, p2);
+                    p3 = smoothstep(l, s, p3);
+                    p4 = smoothstep(l, s, p4);
+                    p5 = smoothstep(l, s, p5);
+                    p6 = smoothstep(l, s, p6);
+                    p7 = smoothstep(l, s, p7);
+                    p8 = smoothstep(l, s, p8);
+                    p9 = smoothstep(l, s, p9);
+
+                    //result = abs( (p1+ (2*p2)+p3)-(p7+(2*p8)+p9) )+ abs( (p3+ (2*p6) +p9 )-(p1+ (2*p4) + p7) );
+                    //result = (p1 + p2 + p3 + p4 + p5 + p6 + p7 + p8 + p9);
+                    result = (p1 * 0.0625 + p2 * 0.125 + p3 * 0.0625 
+                             + p4 * 0.1250 + p5 * 0.250 + p6 * 0.1250 
+                             + p7 * 0.0625 + p8 * 0.125 + p9 * 0.0625);
+
+
+                    //
+                    //result = step( 0.8 , result);
+
+                    return result;
+                    //return MainLightRealtimeShadow(TransformWorldToShadowCoord( positionWS));
+                    //return GetMainLightShadowFade(positionWS);
+            }
+
+
 
             Varyings vert(Attributes IN)
             {
@@ -490,7 +596,7 @@ Shader "Custom/URPToon"
                 //float3 halfdirection = normalize(viewdirection + lightdirection);
 
                 //half shadowAmount = MainLightRealtimeShadow(IN.shadowCoords);
-                half shadowAmount = shadowGaussianConvolution( IN.positionWS, IN.normal, boxBlurKernel);
+                half shadowAmount = shadowSteppedGaussianConvolution( IN.positionWS, IN.normal, IN.tangent);
 
 
                 float ndotl = (dot(normal, lightdirection)+1)/2;
