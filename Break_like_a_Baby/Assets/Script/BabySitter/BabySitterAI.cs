@@ -145,7 +145,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                     GetComponent<Animator>().SetFloat("PickupSpeed", baseAnimSpeed);
                     cribIdleWaitMinAndMax = new Vector2(1f, 1f);
                     additionalHearing = -1;
-
+                    hideCountdownMaxTime = 2f;
 
 
 
@@ -158,6 +158,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
                     cribIdleWaitMinAndMax = new Vector2(1f, 3f);
                     additionalHearing = 0;
+                    hideCountdownMaxTime = 5f;
 
 
                     break;
@@ -174,6 +175,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                     GetComponent<NavMeshAgent>().angularSpeed = 2000f;
 
                     catchingDistance = 2f;
+                    hideCountdownMaxTime = 12f;
                     break;
             }
         }
@@ -470,9 +472,11 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 if (stationary)
                 {
                     photonView.RPC("SetAnim", RpcTarget.All, findInArray("chasing"), 0);
+                    photonView.RPC("SetAnim", RpcTarget.All, findInArray("looking"), 1);
 
                 }
                 else {
+                    photonView.RPC("SetAnim", RpcTarget.All, findInArray("looking"), 0);
                     photonView.RPC("SetAnim", RpcTarget.All, findInArray("chasing"), 1);
 
 
@@ -713,7 +717,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
             case BabysitterAIState.PREPICKUP:
                 //photonView.RPC("SetAnim", RpcTarget.All, findInArray("prepickup"), 1);
 
-                photonView.RPC("SetAnim", RpcTarget.All, findInArray("chasing"), 1);
+                //photonView.RPC("SetAnim", RpcTarget.All, findInArray("chasing"), 1);
 
                 //SetAnim("prepick", true);
                 //anim.SetBool("prepickup", true);
@@ -1247,6 +1251,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
         //anim.SetBool("patrol", false);
         //anim.SetBool("chasing", false);
         //anim.SetBool("prepickup", false);
+        //photonView.RPC("SetAnim", RpcTarget.All, findInArray("chasing"), 1);
         pickUpDelayOn = true;
         photonView.RPC("SetAnim", RpcTarget.All, findInArray("pickup"), 1);
 

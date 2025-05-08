@@ -41051,6 +41051,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cribTest: 0
   holdingBaby: 0
+  stationary: 1
+  stationaryChangedLastFrame: 0
   statesIntoAnsync: 010000000300000007000000
   currentState: 0
   additionalHearing: 1
@@ -41060,9 +41062,8 @@ MonoBehaviour:
   deathCountdownMaxTime: 0.3
   deathTimer: 0
   boredCountdownMaxTime: 3
-  boredTimer: 0
+  hideCountdownMaxTime: 5
   chaseCooldownMaxTime: 3
-  chaseCooldownTimer: 0
   patrolPoints:
   - {fileID: 1052710319}
   - {fileID: 530666668}
@@ -41091,6 +41092,7 @@ MonoBehaviour:
   - patrol
   - pickup
   - chasing
+  - looking
 --- !u!195 &1461944891
 NavMeshAgent:
   m_ObjectHideFlags: 0
