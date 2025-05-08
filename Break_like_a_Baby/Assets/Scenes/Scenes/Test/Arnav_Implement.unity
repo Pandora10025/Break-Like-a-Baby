@@ -27934,7 +27934,7 @@ MonoBehaviour:
   rotationSpeed: 2.5
   cam: {fileID: 0}
   baseFOV: 60
-  maxFOV: 67
+  maxFOV: 65
   fovSmoothSpeed: 20
   speedThreshold: 0
   maxSpeed: 10
