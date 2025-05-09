@@ -233,7 +233,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
         if (spottedPlayer != playerWeAreCurrentlyChasing)
         {
-            deathTimer = deathCountdownMaxTime;
+            //deathTimer = deathCountdownMaxTime;
         }
 
 
@@ -327,6 +327,11 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 //currentState = BabysitterAIState.PATROL;
                 photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.PATROL);
 
+                photonView.RPC("SetAnim", RpcTarget.All, findInArray("looking"), 0);
+
+                photonView.RPC("SetAnim", RpcTarget.All, findInArray("patrol"), 1);
+
+
                 boredTimer = 0;
 
                 break;
@@ -376,7 +381,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                                 //We're going another point!
 
                                 calculatedPatrolPointsToVisit--;
-                                photonView.RPC("SetAnim", RpcTarget.All, findInArray("patrol"), 1);
+                                //photonView.RPC("SetAnim", RpcTarget.All, findInArray("patrol"), 1);
                                 //SetAnim("patrol", true);
                                 //anim.SetBool("patrol", true);
 
@@ -468,12 +473,16 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
 
                 //I was thinking maybe this is where we ought to put the stationary running->standing and standing->running code.
+                photonView.RPC("SetAnim", RpcTarget.All, findInArray("pickup"), 0);
+                photonView.RPC("SetAnim", RpcTarget.All, findInArray("patrol"), 0);
+
 
                 if (stationary)
                 {
                     photonView.RPC("SetAnim", RpcTarget.All, findInArray("chasing"), 0);
                     photonView.RPC("SetAnim", RpcTarget.All, findInArray("looking"), 1);
 
+                    
                 }
                 else {
                     photonView.RPC("SetAnim", RpcTarget.All, findInArray("looking"), 0);
@@ -487,7 +496,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
 
 
-                    float playerDist = Vector3.Distance(playerWeAreCurrentlyChasing.position, transform.position);
+                float playerDist = Vector3.Distance(playerWeAreCurrentlyChasing.position, transform.position);
                 //photonView.RPC("SetAnim", RpcTarget.All, findInArray("patrol"), 0);
                 //photonView.RPC("SetAnim", RpcTarget.All, findInArray("chasing"), 1);
                 //SetAnim("patrol", false);
@@ -543,8 +552,8 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                         playerWeAreCurrentlyChasing = null;
 
 
-                        photonView.RPC("SetAnim", RpcTarget.All, findInArray("patrol"), 1);
 
+                        
                         photonView.RPC("SetTargetPlayer", RpcTarget.AllBuffered, -1);
 
                         photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.PREPATROL);
@@ -725,6 +734,12 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                 //currentState = BabysitterAIState.PICKUP;
 
                 photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.PICKUP);
+
+                photonView.RPC("SetAnim", RpcTarget.All, findInArray("looking"), 0);
+                photonView.RPC("SetAnim", RpcTarget.All, findInArray("chasing"), 1);
+
+                photonView.RPC("SetAnim", RpcTarget.All, findInArray("pickup"), 0);
+
 
                 break;
 
