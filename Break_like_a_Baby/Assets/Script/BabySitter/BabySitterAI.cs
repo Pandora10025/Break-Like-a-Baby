@@ -937,7 +937,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
     public void PhotonSetDestination(Vector3 destination) {
 
-        if(true)//(PhotonNetwork.IsMasterClient)
+        if(PhotonNetwork.IsMasterClient)
         {
             if (nav)
             {
