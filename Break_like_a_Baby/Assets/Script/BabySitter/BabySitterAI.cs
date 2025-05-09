@@ -207,8 +207,9 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        
 
+        if (!PhotonNetwork.IsMasterClient)
+            return;
 
 
         stationary = CheckStopped();
@@ -219,8 +220,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
         //Debug.Log(nav.velocity);
         //Code for when we spot a player
 
-        if (!PhotonNetwork.IsMasterClient)
-            return;
+        
 
 
         if (chaseCooldownTimer < chaseCooldownMaxTime)
@@ -404,7 +404,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
 
 
-                                nav.SetDestination(patrolPoints[(closestIndex + 1) % patrolPoints.Count].position);
+                                PhotonSetDestination(patrolPoints[(closestIndex + 1) % patrolPoints.Count].position);
 
 
                             }
@@ -679,7 +679,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                     }
                     else
                     {
-                        //nav.SetDestination(playerWeAreCurrentlyChasing.position);
+                        //PhotonSetDestination(playerWeAreCurrentlyChasing.position);
 
 
 
@@ -696,7 +696,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                             estimatedFuturePos = playerWeAreCurrentlyChasing.position + babysitterToPlayerVector.normalized * moveSpeed;
                         }
 
-                        nav.SetDestination(estimatedFuturePos);
+                        PhotonSetDestination(estimatedFuturePos);
 
 
 
@@ -897,7 +897,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
 
         if (compatibleState)
         {
-            nav.SetDestination(destination);
+            PhotonSetDestination(destination);
 
 
             photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.PATHFIND);
@@ -923,7 +923,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
     public void StopMoving()
     {
 
-        nav.SetDestination(transform.position);
+        PhotonSetDestination(transform.position);
 
 
         //nav.isStopped = true;
@@ -934,6 +934,23 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
         //anim.SetBool("chasing", false);
         photonView.RPC("SetAnim", RpcTarget.All, findInArray("chasing"), 0);
     }
+
+    public void PhotonSetDestination(Vector3 destination) {
+
+        if(true)//(PhotonNetwork.IsMasterClient)
+        {
+            if (nav)
+            {
+                nav.SetDestination(destination);
+
+            }
+        }
+
+        
+
+
+    }
+
 
 
     void RandomAmountOfPointsToPatrol()
