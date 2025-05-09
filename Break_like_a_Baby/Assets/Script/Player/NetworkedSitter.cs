@@ -19,6 +19,11 @@ public class NetworkedSitter : MonoBehaviourPun, IPunObservable
     public float positionLerpSpeed = 10f;
     public float rotationLerpSpeed = 20f;
 
+    void Awake()
+    {
+        PhotonNetwork.SendRate = 100;          // Default is 50, lower reduces network lag
+        PhotonNetwork.SerializationRate = 100;
+    }
     void FixedUpdate()
     {
         if (!photonView.IsMine)
