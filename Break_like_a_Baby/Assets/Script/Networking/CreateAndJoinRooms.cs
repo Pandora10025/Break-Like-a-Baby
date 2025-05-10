@@ -4,6 +4,9 @@ using TMPro;
 using Photon.Pun;
 using ExitGames.Client.Photon;
 using Photon.Realtime;
+using UnityEngine.UIElements;
+using Unity.VisualScripting;
+using UnityEditor;
 
 public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
 {
@@ -118,17 +121,43 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
         Debug.Log($"CharacterID set to: {characterID} for {PhotonNetwork.LocalPlayer.NickName}");
     }
 
-    public void characterA()
+    public void characterA()//yellow
     {
         SelectCharacter(0);
+        //change cursor here
+        var cursor = new UnityEngine.UIElements.Cursor();
+        //having path trouble
+        cursor.texture = Resources.Load<Texture2D>('Assets/Art/BuildIcons/cursorYellow');
+        cursor.hotspot = new Vector2(0, cursor.texture.height);
+
+        //for software (web)
+        UnityEngine.Cursor.SetCursor(cursor.texture, cursor.hotspot, CursorMode.Auto);
+
+        //for windows, mac, linux
+        PlayerSettings.defaultCursor = cursor.texture;
+        Debug.Log("red");
+
+
         highlight.position = buttonA.position;
         
         
     }
 
-    public void characterB()
+    public void characterB()//red
     {
         SelectCharacter(1);
+        //change cursor here
+        var cursor = new UnityEngine.UIElements.Cursor();
+        cursor.texture = Resources.Load<Texture2D>($"Assets/Art/BuildIcons/cursorRed");
+        cursor.hotspot = new Vector2(0, cursor.texture.height);
+
+        //for software (web)
+        UnityEngine.Cursor.SetCursor(cursor.texture, cursor.hotspot, CursorMode.Auto);
+
+        //for windows, mac, linux
+        PlayerSettings.defaultCursor = cursor.texture;
+        Debug.Log("red");
+
         highlight.position = buttonB.position;
 
     }
