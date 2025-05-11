@@ -121,7 +121,7 @@ Material:
     - _GlossyReflections: 0
     - _GradientSize: 0.25
     - _Metallic: 0
-    - _NormalStength: 1
+    - _NormalStength: 0.714
     - _OcclusionStrength: 1
     - _OutlineOpacity: 1
     - _OutlineSizeMultiplier: 1

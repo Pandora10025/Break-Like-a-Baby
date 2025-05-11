@@ -18817,7 +18817,7 @@ PrefabInstance:
     - target: {fileID: 3699295531117829134, guid: 08c77766a0faa4bc7bd7d6eba0315c7b, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 8dcdb7a9ecc145c45814e2cb5c1dcf5b, type: 2}
+      objectReference: {fileID: 2100000, guid: 077ee21190a588e419b9c8b87542e1fe, type: 2}
     - target: {fileID: 5394693769120690257, guid: 08c77766a0faa4bc7bd7d6eba0315c7b, type: 3}
       propertyPath: m_Layer
       value: 10
@@ -21801,11 +21801,7 @@ MonoBehaviour:
   footstepSource: {fileID: 1597029603}
   tileFX: []
   woodFX: []
-  footStep1SFX: {fileID: 8300000, guid: 90c0f3f4672ffbb4ea0e988e34b8a533, type: 3}
-  footStep2SFX: {fileID: 8300000, guid: eccdc8b1fc5619e46838d10471ad7772, type: 3}
-  footStep3SFX: {fileID: 8300000, guid: 45d35eeade7dec74ca273b33d63c97b3, type: 3}
-  footStep4SFX: {fileID: 8300000, guid: 7f16a55f5e4887745a6ea81268eeb466, type: 3}
-  footStep5SFX: {fileID: 0}
+  footStepSFX: []
 --- !u!1001 &1466490271
 PrefabInstance:
   m_ObjectHideFlags: 0
