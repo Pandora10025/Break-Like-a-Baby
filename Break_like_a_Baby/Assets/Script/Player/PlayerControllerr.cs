@@ -87,7 +87,9 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public Slider sprintBar;
     public float minEmiss=15f;
     bool clDown = true;
+    public Color upSprint, dSprint;
 
+    public Color[] sprintCol;
     
     void Awake()
     {
@@ -300,10 +302,24 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
         //Check if player is sprinting
         if(isSprinting)
         {
-           
+
             // Drain the current sprin time
-            if(clDown)
-            currentSprintTime -=sprintDrainRate * Time.deltaTime;
+            if (clDown)
+            {
+                currentSprintTime -= sprintDrainRate * Time.deltaTime;
+                if (photonView.IsMine)
+                {
+                    if (!sprintBar.gameObject.active || (sprintBar.fillRect.gameObject.GetComponent<Image>().color == sprintCol[colorId]))
+                    {
+                        sprintBar.gameObject.SetActive(true);
+                        sprintBar.fillRect.gameObject.GetComponent<Image>().color = dSprint;
+                        sprintBar.minValue = 0;
+                        sprintBar.maxValue = currentSprintTime;
+                    }
+                    sprintBar.value = currentSprintTime;
+                }
+            }
+           
             photonView.RPC("trailSpeed", RpcTarget.AllBuffered, currentSprintTime);
             // If it is completely drained, 
             if (currentSprintTime <= 0f)
@@ -329,15 +345,16 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
                 canSprint = false;
                 if (photonView.IsMine)
                 {
-                    if (!sprintBar.gameObject.active)
+                    if (!sprintBar.gameObject.active || (sprintBar.fillRect.gameObject.GetComponent<Image>().color == dSprint))
                     {
                         sprintBar.gameObject.SetActive(true);
+                        sprintBar.fillRect.gameObject.GetComponent<Image>().color = sprintCol[colorId];
                         sprintBar.minValue = currentSprintTime;
                     }
-                      
+                    sprintBar.value = currentSprintTime;
                 }
                 currentSprintTime += sprintRecoveryRate * Time.deltaTime;
-                sprintBar.value = currentSprintTime;
+                
                 if (currentSprintTime >= sprintCoolDown)
                 {
                     sprintOff();

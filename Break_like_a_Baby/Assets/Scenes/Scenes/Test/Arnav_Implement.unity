@@ -59038,7 +59038,7 @@ PrefabInstance:
       objectReference: {fileID: 1175668662}
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: bTi.Array.size
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: gameOverScreen
@@ -59073,8 +59073,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: 'bTi.Array.data[6]'
-      value: '<b>SAVE YOUR TWIN</b>:  If you get caught, your twin will need to BREAK
-        you out of the crib!'
+      value: '<b>SPRINT IS LIMITED</b>: Wait for the bar to refill before you can
+        use it again. Use it wisely!'
       objectReference: {fileID: 0}
     - target: {fileID: 9001542386223744027, guid: 496f9c559d5c8dd48b6de7b3e221059c, type: 3}
       propertyPath: scoreP.Array.size
