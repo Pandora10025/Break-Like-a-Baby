@@ -191,6 +191,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             //currentState = BabysitterAIState.PREIDLE;
+            holdingBaby = false;
             photonView.RPC("changeState", RpcTarget.AllBuffered, (int)BabysitterAIState.PREIDLE);
         }
 
@@ -199,7 +200,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
         deathTimer = deathCountdownMaxTime;
 
         currentIdleWaitMinAndMax = normalIdleWaitMinAndMax;
-
+        
         //chaseCooldownTimer = chaseCooldownMaxTime;
 
     }
@@ -839,7 +840,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                                 //AND THEN THIS IS WHERE WE DROP THE BABY!!!
                                 Debug.Log("found crib");
 
-                                holdingBaby = false;
+                               
 
                                 //UNCOMMENT ALL THIS STUFF TOO!!!
 
@@ -858,7 +859,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
                                 //anim.SetBool("pickup", false);
                                 photonView.RPC("drop", RpcTarget.AllBuffered);
 
-
+                                holdingBaby = false;
 
                             }
 
@@ -1208,14 +1209,15 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
         //PathfindToPos(GameObject.FindGameObjectWithTag("Crib").transform.position);
 
         Debug.Log("Crib:" + GameManager.instance.crib.transform.parent.position);
-        holdingBaby = true;
+        //holdingBaby = true;
     }
 
     // Call this function with an animtion event on the craddle animation
     public void showOrb()
     {
+        Debug.Log(currentState);
         // If the baby sitter is finding her way to the crib
-        if (currentState == BabysitterAIState.PATHFIND)
+        //if (currentState == BabysitterAIState.PATHFIND)
             babyOrbActive(true);
     }
     private IEnumerator displayOrb()
@@ -1293,6 +1295,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
         //anim.SetBool("chasing", false);
         //anim.SetBool("prepickup", false);
         //photonView.RPC("SetAnim", RpcTarget.All, findInArray("chasing"), 1);
+        holdingBaby = true;
         pickUpDelayOn = true;
         photonView.RPC("SetAnim", RpcTarget.All, findInArray("pickup"), 1);
 
@@ -1303,7 +1306,11 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(pickUpDelay);
 
         // Pathfind to crib
+        if(GameManager.instance.crib)
         PathfindToPos(GameManager.instance.crib.placePos.position);
+        else
+            PathfindToPos(GameObject.FindGameObjectWithTag("Crib").GetComponent<Crib>().placePos.position);
+        
         pickUpDelayOn = false;
         // Optionally set state
         //currentState = BabysitterAIState.PATHFIND;
