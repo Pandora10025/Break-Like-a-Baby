@@ -111804,63 +111804,63 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: showOrb
+    functionName: PlayFootStep
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.23333333
-    functionName: PlayFootStep1
+    functionName: PlayFootStep
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.5
-    functionName: PlayFootStep2
+    functionName: PlayFootStep
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.8333333
-    functionName: PlayFootStep3
+    functionName: PlayFootStep
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 1.1333333
-    functionName: PlayFootStep1
+    functionName: PlayFootStep
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 1.4333333
-    functionName: PlayFootStep2
+    functionName: PlayFootStep
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 1.8
-    functionName: PlayFootStep3
+    functionName: PlayFootStep
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 2.0333333
-    functionName: PlayFootStep1
+    functionName: PlayFootStep
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 2.4
-    functionName: PlayFootStep2
+    functionName: PlayFootStep
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

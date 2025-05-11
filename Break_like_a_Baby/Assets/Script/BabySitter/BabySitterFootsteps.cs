@@ -7,15 +7,12 @@ public class BabySitterFootsteps : MonoBehaviour
     [SerializeField] private AudioSource footstepSource;
 
     [Header("Footsteps")]
-    public List<AudioClip> tileFX;
-    public List<AudioClip> woodFX;
+    [SerializeField] private List<AudioClip> tileFX;
+    [SerializeField] private List<AudioClip> woodFX;
 
     [Header("Audio Clip")]
-    public AudioClip footStep1SFX;
-    public AudioClip footStep2SFX;
-    public AudioClip footStep3SFX;
-    public AudioClip footStep4SFX;
-    public AudioClip footStep5SFX;
+    [SerializeField] private List<AudioClip> footStepSFX = new List<AudioClip>();
+    private int lastDrawnNum = 0, currDrawnNum = 0;
 
     enum Terrain
     {
@@ -25,27 +22,18 @@ public class BabySitterFootsteps : MonoBehaviour
 
     private void Update()
     {
-        footstepSource.volume = Random.Range(0.2f, 0.8f);
-        footstepSource.pitch = Random.Range(0.8f, 1.3f);
+        /*footstepSource.volume = Random.Range(0.2f, 0.8f);
+        footstepSource.pitch = Random.Range(0.8f, 1.3f);*/
     }
 
-    public void PlayFootStep1()
+    public void PlayFootStep()
     {
-        footstepSource.PlayOneShot(footStep1SFX);
-    }
+        do
+        {
+            currDrawnNum = (int)Random.Range(0, footStepSFX.Count);
+        } while (currDrawnNum == lastDrawnNum);
 
-    public void PlayFootStep2()
-    {
-        footstepSource.PlayOneShot(footStep2SFX);
-    }
-
-    public void PlayFootStep3()
-    {
-        footstepSource.PlayOneShot(footStep3SFX);
-    }
-
-    public void PlayFootStep4()
-    {
-        footstepSource.PlayOneShot(footStep4SFX);
+        footstepSource.PlayOneShot(footStepSFX[currDrawnNum]);
+        lastDrawnNum = currDrawnNum;
     }
 }
