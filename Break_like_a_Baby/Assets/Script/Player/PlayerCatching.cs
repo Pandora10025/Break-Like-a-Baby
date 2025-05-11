@@ -73,6 +73,7 @@ public class PlayerCatching : MonoBehaviourPun
                 mySpr.enabled = false;
                 GameManager.instance.caughtPlayerOverlay(photonView.ViewID);
                 catchCount++;
+                playerC.sprintOff();
                 break;
             case playerCatchState.roomed:
                 GetComponent<PlayerBreak>().canBreak = false;

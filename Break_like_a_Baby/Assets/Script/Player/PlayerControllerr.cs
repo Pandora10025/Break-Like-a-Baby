@@ -322,6 +322,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
         }
         else
         {
+            
           
             if (currentSprintTime < sprintCoolDown)
             {
@@ -339,13 +340,7 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
                 sprintBar.value = currentSprintTime;
                 if (currentSprintTime >= sprintCoolDown)
                 {
-                    if (photonView.IsMine)
-                    {
-                        if (sprintBar.gameObject.active)
-                            sprintBar.gameObject.SetActive(false);
-                    }
-                    currentSprintTime = sprintCoolDown;
-                    canSprint = true;
+                    sprintOff();
                 }
             }
             if (dustTrail.isPlaying)
@@ -357,6 +352,17 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
            
         
     }
+    }
+
+    public void sprintOff()
+    {
+        if (photonView.IsMine)
+        {
+            if (sprintBar.gameObject.active)
+                sprintBar.gameObject.SetActive(false);
+        }
+        currentSprintTime = sprintCoolDown;
+        canSprint = true;
     }
 
     [PunRPC]

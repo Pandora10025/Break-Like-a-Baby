@@ -152,8 +152,35 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void GameOver(bool won)
     {
-        if(!gameOver)
-        photonView.RPC("GameOverRPC", RpcTarget.AllBuffered, won);
+        if (gameOver)
+            return;
+        if (!PhotonNetwork.IsMasterClient) return;
+
+        PlayerBreak[] allPbreaks = Object.FindObjectsOfType<PlayerBreak>();
+        int len = Mathf.Min(2, allPbreaks.Length);
+
+        int[] breakCounts = new int[len];
+        int[] catchCounts = new int[len];
+        int[] cribCounts = new int[len];
+        string[] brokenLists = new string[len];
+        string[] names = new string[len];
+        int[] colorIds = new int[len];
+        int[] viewIds = new int[len];
+
+        for (int i = 0; i < len; i++)
+        {
+            breakCounts[i] = allPbreaks[i].breakCount;
+            catchCounts[i] = allPbreaks[i].GetComponent<PlayerCatching>().catchCount;
+            cribCounts[i] = allPbreaks[i].cribCount;
+            brokenLists[i] = allPbreaks[i].brokenList;
+            names[i] = allPbreaks[i].photonView.Owner.NickName;
+            colorIds[i] = allPbreaks[i].GetComponent<PlayerControllerr>().colorId;
+            viewIds[i] = allPbreaks[i].viewId;
+        }
+
+        photonView.RPC("GameOverRPC", RpcTarget.All, won, breakCounts, catchCounts, cribCounts, brokenLists, names, colorIds, viewIds, timerUItext, (int)totalTime);
+       
+
     }
     public void toggleGOverlay(bool t)
     {
@@ -178,71 +205,55 @@ public class GameManager : MonoBehaviourPunCallbacks
 
   
     [PunRPC]
-    void GameOverRPC(bool won)
+    void GameOverRPC(bool won, int[] breakCounts, int[] catchCounts, int[] cribCounts, string[] brokenLists, string[] names, int[] colorIds, int[] viewIds, string timerU, int t)
     {
         gameOver = true;
         gameOverScreen.SetActive(true);
-        PlayerBreak[] allPbreaks = Object.FindObjectsOfType<PlayerBreak>();
-        //string stats = "";
 
         int score = 0;
-        for (int i = 0; i < (int)Mathf.Min(allPbreaks.Length,2); i++)
-        {
-            
-            PhotonView playerPhotonView = PhotonView.Find(allPbreaks[i].viewId);
 
-            playerNames[i].text = allPbreaks[i].photonView.Owner.NickName;
-            itemsBrokenC[i].text = allPbreaks[i].breakCount.ToString();
-            
-            itemsBrokenList[i].text = allPbreaks[i].brokenList.Substring(0, Mathf.Max(allPbreaks[i].brokenList.Length - 2, 0));
-            breakoutBonus[i].text = allPbreaks[i].cribCount.ToString();
-            timesCaught[i].text = allPbreaks[i].GetComponent<PlayerCatching>().catchCount.ToString();
-            scoreP[i].sprite = playerP[allPbreaks[i].GetComponent<PlayerControllerr>().colorId];
+        for (int i = 0; i < breakCounts.Length; i++)
+        {
+            playerNames[i].text = names[i];
+            itemsBrokenC[i].text = breakCounts[i].ToString();
+            itemsBrokenList[i].text = brokenLists[i].Substring(0, Mathf.Max(brokenLists[i].Length - 2, 0));
+            breakoutBonus[i].text = cribCounts[i].ToString();
+            timesCaught[i].text = catchCounts[i].ToString();
+            scoreP[i].sprite = playerP[colorIds[i]];
             scoreP[i].color = Color.white;
-            score = score + allPbreaks[i].breakCount*10-(allPbreaks[i].GetComponent<PlayerCatching>().catchCount*10)+ (allPbreaks[i].cribCount*20) + (int)(totalTime* (won?1:-1));
-            //stats = stats + playerPhotonView.Owner.NickName+ " Broke " + allPbreaks[i].breakCount +" items: " + allPbreaks[i].brokenList.Substring(0, Mathf.Max(allPbreaks[i].brokenList.Length-2,0)) + ". Got Caught "+ allPbreaks[i].GetComponent<PlayerCatching>().catchCount + " times, and broke the crib " + allPbreaks[i].cribCount +" times."+"\n\n";
+
+            score += breakCounts[i] * 10 - (catchCounts[i] * 10) + (cribCounts[i] * 20) + (int)(t * (won ? 1 : -1));
         }
+
         string diff = "";
         if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("Difficulty", out object difficultyObj))
         {
             int difficulty = (int)difficultyObj;
-
-            switch (difficulty)
+            diff = difficulty switch
             {
-                case 0:
-                    diff = "Easy";
-                    break;
-                case 1:
-                    Debug.Log("Normal Mode");
-                    diff = "Normal";
-                    break;
-                case 2:
-                    Debug.Log("Hard Mode");
-                    diff = "Cry";
-                    break;
-            }
+                0 => "Easy",
+                1 => "Normal",
+                2 => "Cry",
+                _ => "Unknown"
+            };
         }
+
         diff += " ";
         wLevel.text = diff + wLevel.text;
         lLevel.text = diff + lLevel.text;
-        timeBonus[0].text = "Time Bonus: " + "[" + timerUItext + "]";
+
+        timeBonus[0].text = "Time Bonus: " + "[" + timerU + "]";
         timeBonus[0].color = won ? brokenT[0].color : timesCaught[0].color;
+
         brokenT[0].text = "Items Broken: " + (ObjectManager.instance.numOfStartObjects - ObjectManager.instance.numOfActiveObjects) + "/" + ObjectManager.instance.numOfStartObjects;
-        //stats = "With " + timerUItext + " remaining: \n" + stats;
         totalS.text = "Total Score:\t" + score;
-        //gameOverScreen.GetComponent<GameOver>().setScore(stats);
-        //gameOverScreen.GetComponent<GameOver>().GameSet(won);
+
         if (won)
-        {
             gameOverScreen.GetComponent<GameOver>().gameWon();
-        }
         else
-        {
             gameOverScreen.GetComponent<GameOver>().gameLost();
-        }
-        Debug.Log("Game Over RPC: " + won);
 
-
+        Debug.Log("Game Over RPC executed: " + won);
     }
 
     public void ToggleText(bool b)
