@@ -309,10 +309,10 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
                 currentSprintTime -= sprintDrainRate * Time.deltaTime;
                 if (photonView.IsMine)
                 {
-                    if (!sprintBar.gameObject.active || (sprintBar.fillRect.gameObject.GetComponent<Image>().color == sprintCol[colorId]))
+                    if (!sprintBar.gameObject.active || (sprintBar.fillRect.gameObject.GetComponent<Image>().color == dSprint ))
                     {
                         sprintBar.gameObject.SetActive(true);
-                        sprintBar.fillRect.gameObject.GetComponent<Image>().color = dSprint;
+                        sprintBar.fillRect.gameObject.GetComponent<Image>().color = sprintCol[colorId];
                         sprintBar.minValue = 0;
                         sprintBar.maxValue = currentSprintTime;
                     }
@@ -345,10 +345,10 @@ public class PlayerControllerr : MonoBehaviourPunCallbacks, IInRoomCallbacks
                 canSprint = false;
                 if (photonView.IsMine)
                 {
-                    if (!sprintBar.gameObject.active || (sprintBar.fillRect.gameObject.GetComponent<Image>().color == dSprint))
+                    if (!sprintBar.gameObject.active || (sprintBar.fillRect.gameObject.GetComponent<Image>().color == sprintCol[colorId]))
                     {
                         sprintBar.gameObject.SetActive(true);
-                        sprintBar.fillRect.gameObject.GetComponent<Image>().color = sprintCol[colorId];
+                        sprintBar.fillRect.gameObject.GetComponent<Image>().color = dSprint;
                         sprintBar.minValue = currentSprintTime;
                     }
                     sprintBar.value = currentSprintTime;
