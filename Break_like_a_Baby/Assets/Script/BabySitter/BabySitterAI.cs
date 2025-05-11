@@ -1201,7 +1201,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
     void pickUp()
     {
         // Toggle off all previous animations
-
+        holdingBaby = true;
         playerWeAreCurrentlyChasing.gameObject.GetComponent<PlayerCatching>().changeState(PlayerCatching.playerCatchState.caught);
         GameManager.instance.playerCaught = playerWeAreCurrentlyChasing.gameObject;
         //StartCoroutine(displayOrb());
@@ -1217,8 +1217,9 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
     {
         Debug.Log(currentState);
         // If the baby sitter is finding her way to the crib
-        //if (currentState == BabysitterAIState.PATHFIND)
+        if (currentState == BabysitterAIState.PICKUP && holdingBaby)
             babyOrbActive(true);
+        else babyOrbActive(false);
     }
     private IEnumerator displayOrb()
     {
@@ -1230,6 +1231,7 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
     [PunRPC]
     void drop()
     {
+        holdingBaby = false;
         //anim.SetBool("pickup", false);
         playerWeAreCurrentlyChasing.gameObject.GetComponent<PlayerCatching>().changeState(PlayerCatching.playerCatchState.roomed);
         babyOrbActive(false);
