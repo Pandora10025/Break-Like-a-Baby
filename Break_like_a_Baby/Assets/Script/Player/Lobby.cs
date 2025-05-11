@@ -116,6 +116,7 @@ public class Lobby : MonoBehaviourPunCallbacks
 
     public void SetReady()
     {
+        bSet.SetActive(false);
         ready.SetActive(true);
         ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable
         {
