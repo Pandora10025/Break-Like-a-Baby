@@ -619,12 +619,44 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4303716930247438860}
     - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: dSprint.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: dSprint.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: dSprint.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: dSprint.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
       propertyPath: sprintBar
       value: 
       objectReference: {fileID: 2095004716661089822}
     - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
       propertyPath: enableMove
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: upSprint.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: upSprint.b
+      value: 0.6724368
+      objectReference: {fileID: 0}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: upSprint.g
+      value: 0.6874338
+      objectReference: {fileID: 0}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: upSprint.r
+      value: 0.6886792
       objectReference: {fileID: 0}
     - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
       propertyPath: sprintSpeed
@@ -643,8 +675,44 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: sprintCol.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
       propertyPath: shadowColors.Array.size
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: sprintCol.Array.data[0].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: sprintCol.Array.data[0].b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: sprintCol.Array.data[0].g
+      value: 0.8454825
+      objectReference: {fileID: 0}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: sprintCol.Array.data[0].r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: sprintCol.Array.data[1].a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: sprintCol.Array.data[1].b
+      value: 0.2759146
+      objectReference: {fileID: 0}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: sprintCol.Array.data[1].g
+      value: 0.24056602
+      objectReference: {fileID: 0}
+    - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
+      propertyPath: sprintCol.Array.data[1].r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4656131876525964043, guid: 991f7f1059923462197c333a60365d1a, type: 3}
       propertyPath: shadowColors.Array.data[0].a
