@@ -1216,8 +1216,9 @@ public class BabySitterAI : MonoBehaviourPunCallbacks
     public void showOrb()
     {
         Debug.Log(currentState);
+        Debug.Log(holdingBaby);
         // If the baby sitter is finding her way to the crib
-        if (currentState == BabysitterAIState.PICKUP && holdingBaby)
+        if ((currentState == BabysitterAIState.PICKUP || currentState == BabysitterAIState.PATHFIND) && holdingBaby)
             babyOrbActive(true);
         else babyOrbActive(false);
     }
