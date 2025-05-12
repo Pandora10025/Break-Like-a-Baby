@@ -35,7 +35,7 @@ public class ObjectManager : MonoBehaviourPun
     private void Awake()
     {
         instance = this;
-        CarrySoundOver.instance.StopMusic();
+        //CarrySoundOver.instance.StopMusic();
        
         if (!PhotonNetwork.IsMasterClient)
         {

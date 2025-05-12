@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CarrySoundOver : MonoBehaviour
 {
@@ -8,22 +9,39 @@ public class CarrySoundOver : MonoBehaviour
     private AudioSource aud;
     private void Awake()
     {
-        Debug.Log(numOfInstance);
-        instance = this;
-        aud = GetComponent<AudioSource>();
-        DontDestroyOnLoad(this.gameObject);
-        DontDestroyOnLoad(this);
+      
         
     }
 
     private void Start()
     {
-        if (numOfInstance == 1)
+        name = name + numOfInstance.ToString();
+
+        if (numOfInstance >= 1)
         {
+
+            //numOfInstance -= 1;
             Destroy(this.gameObject);
             Destroy(this);
+
         }
-        numOfInstance++;
+        else {
+            Debug.Log(numOfInstance);
+            instance = this;
+            aud = GetComponent<AudioSource>();
+            DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(this);
+
+
+            numOfInstance++;
+
+            SceneManager.sceneLoaded += OnLevelFinishedLoading;
+
+
+        }
+
+
+
     }
 
     public void PlayMusic()
@@ -37,6 +55,33 @@ public class CarrySoundOver : MonoBehaviour
         if(aud)
         aud.Stop();
     }
+
+
+
+
+
+    void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("Level Loaded");
+        Debug.Log(scene.name);
+        Debug.Log(mode);
+
+        if (scene.name == "Arnav_Implement")
+        {
+            Debug.Log("STOP THE MUSIC");
+
+            StopMusic();
+
+        }
+        else { 
+            PlayMusic();
+        }
+
+
+
+
+    }
+
 
 
 
