@@ -22,7 +22,7 @@ public class CursorChanger : MonoBehaviour
             cursor.texture = instance.yellow; 
         }
 
-        cursor.hotspot = new Vector2(0, cursor.texture.height);
+        //cursor.hotspot = new Vector2(0, cursor.texture.height);
 
         //for software (web)
         UnityEngine.Cursor.SetCursor(cursor.texture, cursor.hotspot, CursorMode.Auto);
