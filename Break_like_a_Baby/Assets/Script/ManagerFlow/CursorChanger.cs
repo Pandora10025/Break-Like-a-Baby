@@ -5,6 +5,7 @@ public class CursorChanger : MonoBehaviour
 {
     public static CursorChanger instance;
     [SerializeField] private Texture2D red, yellow;
+    [SerializeField] private int cursorSize = 1024;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -37,7 +38,7 @@ public class CursorChanger : MonoBehaviour
 
     private Texture2D changeSize(Texture2D cursorTexture)
     {
-        int newResolution = (Screen.currentResolution.width/3840) * 1024;
+        int newResolution = (Screen.currentResolution.width/3840) * cursorSize;
         cursorTexture.Reinitialize(newResolution, newResolution);
         return cursorTexture;
     }
