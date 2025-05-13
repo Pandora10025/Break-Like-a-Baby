@@ -122,10 +122,12 @@ public class AudioManager : MonoBehaviour
         {//enums are default static
             //fade this in later
             musics[(int)instrument.drums].volume = 1;
+            musics[(int)instrument.middle].volume = 1;
         }
         else
         {
             musics[(int)instrument.drums].volume = 0;
+            musics[(int)instrument.middle].volume = 0.5f;
         }
 
         stateLastFrame = (int)babysitter.GetComponent<BabySitterAI>().currentState;

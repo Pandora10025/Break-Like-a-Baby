@@ -11114,6 +11114,12 @@ MonoBehaviour:
   clips:
   - {fileID: 8300000, guid: c8b0250e58dc7f24bbbf0d527acc847a, type: 3}
   - {fileID: 8300000, guid: bbc1c919bf9d0a5449a567d6e1bdc2f6, type: 3}
+  - {fileID: 8300000, guid: 74d5585f0901cde4ab16f548a730dc81, type: 3}
+  - {fileID: 8300000, guid: eea97587908f1b347af13d5ac02acee9, type: 3}
+  - {fileID: 8300000, guid: 784c12727c77d2741a7285a2440db421, type: 3}
+  - {fileID: 8300000, guid: 8fa81bd438ce6d24484480706c113c11, type: 3}
+  - {fileID: 8300000, guid: 970c63b651e836e4ebf0ee01adfceecd, type: 3}
+  - {fileID: 8300000, guid: 96433139bf0f357469b6fc1c4268ceec, type: 3}
   aud: {fileID: 757174587}
 --- !u!81 &757174589
 AudioListener:
