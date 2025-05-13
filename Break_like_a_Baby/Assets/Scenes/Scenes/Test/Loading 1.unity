@@ -808,6 +808,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   red: {fileID: 2800000, guid: 991913a7a4b5a0946b0c9a7aa6894d7b, type: 3}
   yellow: {fileID: 2800000, guid: 9cab8be409bfbc942849b7eb2d908171, type: 3}
+  redS:
+  - {fileID: 2800000, guid: f8ff97a91aa4e4a2ba64657df41172d5, type: 3}
+  - {fileID: 2800000, guid: 1b6dbdb582fec4840a6e5a4e7c2c5b51, type: 3}
+  - {fileID: 2800000, guid: 08f9b98b133f34f11a1cab7c51cfe437, type: 3}
+  yellowS:
+  - {fileID: 2800000, guid: 98bcc9517093c40a38f2416002a191d4, type: 3}
+  - {fileID: 2800000, guid: 0a3b7024502834e0bb96153dd934d2c4, type: 3}
+  - {fileID: 2800000, guid: d10f7bc245e9c48c993258e7a8cf538c, type: 3}
 --- !u!1 &521255068
 GameObject:
   m_ObjectHideFlags: 0
