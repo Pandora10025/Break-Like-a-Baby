@@ -4,6 +4,9 @@ using TMPro;
 using Photon.Pun;
 using ExitGames.Client.Photon;
 using Photon.Realtime;
+using UnityEngine.UIElements;
+using Unity.VisualScripting;
+using UnityEditor;
 
 public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
 {
@@ -124,17 +127,19 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
         Debug.Log($"CharacterID set to: {characterID} for {PhotonNetwork.LocalPlayer.NickName}");
     }
 
-    public void characterA()
+    public void characterA()//yellow
     {
         SelectCharacter(0);
+
         highlight.position = buttonA.position;
         
         
     }
 
-    public void characterB()
+    public void characterB()//red
     {
         SelectCharacter(1);
+
         highlight.position = buttonB.position;
 
 
