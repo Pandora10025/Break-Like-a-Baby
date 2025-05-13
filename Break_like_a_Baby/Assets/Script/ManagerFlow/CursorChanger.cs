@@ -11,15 +11,19 @@ public class CursorChanger : MonoBehaviour
         instance = this;
     }
 
-    // Update is called once per frame
-   public static void changeCursor(bool isRed)
+    private void Update()
     {
+    }
+    // Update is called once per frame
+    public static void changeCursor(bool isRed)
+    {
+        
         //change cursor here
         var cursor = new UnityEngine.UIElements.Cursor();
         if (isRed) { 
-            cursor.texture = instance.red; 
+            cursor.texture = instance.changeSize(instance.red); 
         } else {  
-            cursor.texture = instance.yellow; 
+            cursor.texture = instance.changeSize(instance.yellow); 
         }
 
         //cursor.hotspot = new Vector2(0, cursor.texture.height);
@@ -29,5 +33,12 @@ public class CursorChanger : MonoBehaviour
 
         //for windows, mac, linux
         PlayerSettings.defaultCursor = cursor.texture;
+    }
+
+    private Texture2D changeSize(Texture2D cursorTexture)
+    {
+        int newResolution = (Screen.currentResolution.width/3840) * 1024;
+        cursorTexture.Reinitialize(newResolution, newResolution);
+        return cursorTexture;
     }
 }
