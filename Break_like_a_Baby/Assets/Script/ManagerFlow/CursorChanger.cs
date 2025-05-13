@@ -1,10 +1,10 @@
 using UnityEditor;
 using UnityEngine;
 
-public class CursorChange : MonoBehaviour
+public class CursorChanger : MonoBehaviour
 {
-    public static CursorChange instance;
-    [SerializeField] private static Texture2D red, yellow;
+    public static CursorChanger instance;
+    [SerializeField] private Texture2D red, yellow;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,9 +17,9 @@ public class CursorChange : MonoBehaviour
         //change cursor here
         var cursor = new UnityEngine.UIElements.Cursor();
         if (isRed) { 
-            cursor.texture = red; 
+            cursor.texture = instance.red; 
         } else {  
-            cursor.texture = yellow; 
+            cursor.texture = instance.yellow; 
         }
 
         cursor.hotspot = new Vector2(0, cursor.texture.height);

@@ -22,7 +22,7 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     public Sprite[] babySelec;
     public Renderer babyNeck;
     public Material[] color;
-    public Image bI;
+    public UnityEngine.UI.Image bI;
 
     void Start()
     {
@@ -130,7 +130,7 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     public void characterA()//yellow
     {
         SelectCharacter(0);
-
+        CursorChanger.changeCursor(false);
         highlight.position = buttonA.position;
         
         
@@ -139,7 +139,7 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     public void characterB()//red
     {
         SelectCharacter(1);
-
+        CursorChanger.changeCursor(true);
         highlight.position = buttonB.position;
 
 
