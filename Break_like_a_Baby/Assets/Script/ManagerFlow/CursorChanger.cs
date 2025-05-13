@@ -5,7 +5,7 @@ public class CursorChanger : MonoBehaviour
 {
     public static CursorChanger instance;
     [SerializeField] private Texture2D red, yellow;
-    [SerializeField] private int cursorSize = 1024;
+    [SerializeField] private float cursorScale = 1024;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -30,7 +30,7 @@ public class CursorChanger : MonoBehaviour
         //cursor.hotspot = new Vector2(0, cursor.texture.height);
 
         //for software (web)
-        UnityEngine.Cursor.SetCursor(cursor.texture, cursor.hotspot, CursorMode.Auto);
+        UnityEngine.Cursor.SetCursor(cursor.texture, cursor.hotspot, CursorMode.ForceSoftware);
 
         //for windows, mac, linux
         PlayerSettings.defaultCursor = cursor.texture;
@@ -38,7 +38,7 @@ public class CursorChanger : MonoBehaviour
 
     private Texture2D changeSize(Texture2D cursorTexture)
     {
-        int newResolution = (Screen.currentResolution.width/3840) * cursorSize;
+        int newResolution = (int) ((Screen.currentResolution.width) * cursorScale);
         cursorTexture.Reinitialize(newResolution, newResolution);
         return cursorTexture;
     }

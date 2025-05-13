@@ -9926,6 +9926,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   red: {fileID: 2800000, guid: 991913a7a4b5a0946b0c9a7aa6894d7b, type: 3}
   yellow: {fileID: 2800000, guid: 9cab8be409bfbc942849b7eb2d908171, type: 3}
+  cursorScale: 1024
 --- !u!4 &1385129075
 Transform:
   m_ObjectHideFlags: 0
