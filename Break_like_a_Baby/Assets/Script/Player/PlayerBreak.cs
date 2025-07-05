@@ -76,12 +76,13 @@ public class PlayerBreak : MonoBehaviourPunCallbacks
         //sound stuff
         if (inRange && (Input.GetKeyDown(KeyCode.Space)))
         {
-            AudioManager.instance.PlaySFX(onSpace, transform.position);
+            
+            AudioManager.PlayClipAtPoint(onSpace, transform.position, 1f, Random.Range(0.9f, 1.1f));
             Debug.Log("Space");
         }
         if(inRange && (Input.GetKeyDown(KeyCode.Space)) && playerControl.isSpamTriggered())
         {
-            AudioManager.instance.PlaySFX(onSpam, transform.position);
+            AudioManager.PlayClipAtPoint(onSpam, transform.position, 1f, Random.Range(0.9f, 1.1f));
             Debug.Log("Spam");
         }
 

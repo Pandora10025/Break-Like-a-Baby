@@ -211,4 +211,24 @@ public class AudioManager : MonoBehaviour
         music.Stop();
     }*/
 
+    /// <summary>
+    /// Overload of the static definition PlayCLipAtPoint belonging to teh class AudioClip.
+    /// This version should be used exclusively for pitch shifting on the PlayerBreak script
+    /// </summary>
+    /// <param name="clip"></param>
+    /// <param name="position"></param>
+    /// <param name="volume"></param>
+    public static void PlayClipAtPoint(AudioClip clip, Vector3 position, [UnityEngine.Internal.DefaultValue("1.0F")] float volume, float pitch)
+    {
+        GameObject gameObject = new GameObject("One shot audio");
+        gameObject.transform.position = position;
+        AudioSource audioSource = (AudioSource)gameObject.AddComponent(typeof(AudioSource));
+        audioSource.clip = clip;
+        audioSource.spatialBlend = 1f;
+        audioSource.volume = volume;
+        audioSource.pitch = pitch;
+        audioSource.Play();
+        Object.Destroy(gameObject, clip.length * ((Time.timeScale < 0.01f) ? 0.01f : Time.timeScale));
+    }
+
 }
